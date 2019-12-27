@@ -1,10 +1,16 @@
 # tutorial-rails-rest-api
 
-Required below README
----------------------
-- database setting Gem https://github.com/x1wins/docker-postgres-rails
-- jwt for user authenticate Gem https://github.com/x1wins/jwt-rails
-- model serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
+Required below Articles and TODO
+--------------------------------
+- [x] generate porject ```rails new [Project Name] --api -T -d postgresql```
+- [x] database setting Gem https://github.com/x1wins/docker-postgres-rails
+- [x] jwt for user authenticate Gem https://github.com/x1wins/jwt-rails
+- [x] Post scaffold
+- [x] Comment scaffold
+- [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
+- [ ] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
+- [ ] swager https://github.com/rswag/rswag
+- [ ] pagnation https://github.com/ddnexus/pagy
 
 How what to do
 --------------
@@ -112,12 +118,3 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             curl -X POST -i http://localhost:3000/comments -d '{"comment": {"body":"sample body for comment", "post_id": 2}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY"
         ```
-Todo
----------
-- [x] generate porject ```rails new [Project Name] --api -T -d postgresql```
-- [x] Post scaffold
-- [x] Comment scaffold
-- [x] Model Serializer
-- [ ] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
-- [ ] swager https://github.com/rswag/rswag
-- [ ] pagnation https://github.com/ddnexus/pagy
