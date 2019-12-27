@@ -112,3 +112,12 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             curl -X POST -i http://localhost:3000/comments -d '{"comment": {"body":"sample body for comment", "post_id": 2}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY"
         ```
+Todo
+---------
+- [x] generate porject ```rails new [Project Name] --api -T -d postgresql```
+- [x] Post scaffold
+- [x] Comment scaffold
+- [x] Model Serializer
+- [ ] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
+- [ ] swager https://github.com/rswag/rswag
+- [ ] pagnation https://github.com/ddnexus/pagy
