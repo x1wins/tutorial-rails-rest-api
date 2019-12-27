@@ -2,15 +2,15 @@
 
 TODO
 ----
-- [x] generate porject ```rails new [Project Name] --api -T -d postgresql```
-- [x] database setting Gem https://github.com/x1wins/docker-postgres-rails
-- [x] jwt for user authenticate Gem https://github.com/x1wins/jwt-rails
+- [x] Generate porject ```rails new [Project Name] --api -T -d postgresql```
+- [x] Database setting Gem https://github.com/x1wins/docker-postgres-rails
+- [x] JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 - [ ] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
-- [ ] swager https://github.com/rswag/rswag
-- [ ] pagnation https://github.com/ddnexus/pagy
+- [ ] Swager https://github.com/rswag/rswag
+- [ ] Pagnation https://github.com/ddnexus/pagy
 
 How what to do
 --------------
