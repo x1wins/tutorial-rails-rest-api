@@ -1,8 +1,8 @@
 # tutorial-rails-rest-api
 Required below README
-- https://github.com/x1wins/docker-postgres-rails
-- https://github.com/x1wins/jwt-rails
-- https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
+- database setting Gem https://github.com/x1wins/docker-postgres-rails
+- jwt for user authenticate Gem https://github.com/x1wins/jwt-rails
+- model serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 
 1. Gemfile
     ```bash
