@@ -1,7 +1,7 @@
 # tutorial-rails-rest-api
 
-Required below Articles and TODO
---------------------------------
+TODO
+----
 - [x] generate porject ```rails new [Project Name] --api -T -d postgresql```
 - [x] database setting Gem https://github.com/x1wins/docker-postgres-rails
 - [x] jwt for user authenticate Gem https://github.com/x1wins/jwt-rails
