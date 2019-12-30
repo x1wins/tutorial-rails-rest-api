@@ -32,15 +32,21 @@ RSpec.describe PostsController, type: :controller do
   let(:user){
     create(:user)
   }
-  # let(:user){
-  #   User.create(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
-  # }
+
+  let(:post){
+    create(:post)
+  }
+
+  let(:posts) {
+    create_list(:post, 20)
+  }
+
   let(:valid_attributes) {
-    Post.new(body: "sample body")
+    {body: "sample body", user_id: user.id}
   }
 
   let(:invalid_attributes) {
-    Post.new()
+    {body: "", user_id: user.id}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -51,22 +57,20 @@ RSpec.describe PostsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       authenticated_header(request, user)
-
       get :index, params: {}
       expect(response).to be_successful
-
-      # expect(response).to eq(user.id)
     end
   end
 
-  # describe "GET #show" do
-  #   it "returns a success response" do
-  #     post = Post.create! valid_attributes
-  #     get :show, params: {id: post.to_param}, session: valid_session
-  #     expect(response).to be_successful
-  #   end
-  # end
-  #
+  describe "GET #show" do
+    it "returns a success response" do
+      post = Post.create! valid_attributes
+      authenticated_header(request, user)
+      get :show, params: {id: post.to_param}
+      expect(response).to be_successful
+    end
+  end
+
   # describe "POST #create" do
   #   context "with valid params" do
   #     it "creates a new Post" do
