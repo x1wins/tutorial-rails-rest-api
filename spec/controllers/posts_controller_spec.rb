@@ -33,13 +33,13 @@ RSpec.describe PostsController, type: :controller do
     create(:user)
   }
 
-  let(:post){
-    create(:post)
-  }
+  # let(:post){
+  #   create(:post)
+  # }
 
-  let(:posts) {
-    create_list(:post, 20)
-  }
+  # let(:posts) {
+  #   create_list(:post, 20)
+  # }
 
   let(:valid_attributes) {
     {body: "sample body", user_id: user.id}
@@ -71,33 +71,34 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  # describe "POST #create" do
-  #   context "with valid params" do
-  #     it "creates a new Post" do
-  #       expect {
-  #         post :create, params: {post: valid_attributes}, session: valid_session
-  #       }.to change(Post, :count).by(1)
-  #     end
-  #
-  #     it "renders a JSON response with the new post" do
-  #
-  #       post :create, params: {post: valid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:created)
-  #       expect(response.content_type).to eq('application/json')
-  #       expect(response.location).to eq(post_url(Post.last))
-  #     end
-  #   end
-  #
-  #   context "with invalid params" do
-  #     it "renders a JSON response with errors for the new post" do
-  #
-  #       post :create, params: {post: invalid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:unprocessable_entity)
-  #       expect(response.content_type).to eq('application/json')
-  #     end
-  #   end
-  # end
-  #
+  describe "POST #create" do
+    context "with valid params" do
+      it "creates a new Post" do
+        authenticated_header(request, user)
+        expect {
+          post :create, params: {post: valid_attributes}, session: valid_session
+        }.to change(Post, :count).by(1)
+      end
+
+      it "renders a JSON response with the new post" do
+        authenticated_header(request, user)
+        post :create, params: {post: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:created)
+        expect(response.content_type).to include('application/json')
+        expect(response.location).to eq(post_url(Post.last))
+      end
+    end
+
+    context "with invalid params" do
+      it "renders a JSON response with errors for the new post" do
+        authenticated_header(request, user)
+        post :create, params: {post: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+  end
+
   # describe "PUT #update" do
   #   context "with valid params" do
   #     let(:new_attributes) {
