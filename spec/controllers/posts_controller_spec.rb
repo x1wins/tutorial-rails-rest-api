@@ -131,6 +131,19 @@ RSpec.describe PostsController, type: :controller do
         expect(response.content_type).to include('application/json')
       end
     end
+
+    context "with invalid Authorize" do
+      let(:another_user){
+        create(:user)
+      }
+      it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
+        post = Post.create! valid_attributes
+        authenticated_header(user: another_user, request: request)
+        put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
+      end
+    end
   end
 
   describe "DELETE #destroy" do
