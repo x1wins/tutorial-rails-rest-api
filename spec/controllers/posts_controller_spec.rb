@@ -37,9 +37,9 @@ RSpec.describe PostsController, type: :controller do
   #   create(:post)
   # }
 
-  # let(:posts) {
-  #   create_list(:post, 20)
-  # }
+  let(:posts) {
+    create_list(:post, 20)
+  }
 
   let(:valid_attributes) {
     {body: "sample body", user_id: user.id}
@@ -57,7 +57,7 @@ RSpec.describe PostsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       authenticated_header(request, user)
-      get :index, params: {}
+      get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe PostsController, type: :controller do
     it "returns a success response" do
       post = Post.create! valid_attributes
       authenticated_header(request, user)
-      get :show, params: {id: post.to_param}
+      get :show, params: {id: post.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
