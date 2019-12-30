@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-before_action :authorize_request
+    before_action :authorize_request
     before_action :set_post, only: [:show, :update, :destroy]
     before_action only: [:edit, :update, :destroy] do
       is_owner_object @post ##your object
