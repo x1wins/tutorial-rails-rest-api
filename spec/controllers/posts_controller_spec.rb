@@ -30,12 +30,15 @@ RSpec.describe PostsController, type: :controller do
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
   let(:user){
-    User.create(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
+    FactoryGirl.create(:user)
   }
+  # let(:user){
+  #   User.create(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
+  # }
   let(:valid_attributes) {
     Post.new(body: "sample body")
   }
-  
+
   let(:invalid_attributes) {
     Post.new()
   }
@@ -48,9 +51,11 @@ RSpec.describe PostsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       authenticated_header(request, user)
-      expect(8).to eq(user.id)
+
       get :index, params: {}
       expect(response).to be_successful
+
+      # expect(response).to eq(user.id)
     end
   end
 
