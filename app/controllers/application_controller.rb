@@ -20,7 +20,7 @@ class ApplicationController < ActionController::API
   end
 
   def is_owner user_id
-    unless user_id == current_user.id
+    unless user_id == @current_user.id
       render json: nil, status: :forbidden
       return
     end
