@@ -46,14 +46,10 @@ gem 'docker-postgres-rails', '~> 0.0.1'
 gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers'
-gem 'faker', '~> 1.9.1', group: [:development, :test]
 
-# Gemfile
-gem 'rswag-api'
-gem 'rswag-ui'
-
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'rswag-specs'
+group :test do
+  gem 'rspec-rails', '~> 3.5'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
-
