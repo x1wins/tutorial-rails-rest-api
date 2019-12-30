@@ -24,19 +24,20 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe PostsController, type: :controller do
+  include ApiHelper
 
   # This should return the minimal set of attributes required to create a valid
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
   let(:user){
-    User.save(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
+    User.create(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
   }
   let(:valid_attributes) {
-    Post.new()
+    Post.new(body: "sample body")
   }
   
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    Post.new()
   }
 
   # This should return the minimal set of values that should be in the session
@@ -46,87 +47,88 @@ RSpec.describe PostsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      post = Post.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      authenticated_header(request, user)
+      expect(8).to eq(user.id)
+      get :index, params: {}
       expect(response).to be_successful
     end
   end
 
-  describe "GET #show" do
-    it "returns a success response" do
-      post = Post.create! valid_attributes
-      get :show, params: {id: post.to_param}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Post" do
-        expect {
-          post :create, params: {post: valid_attributes}, session: valid_session
-        }.to change(Post, :count).by(1)
-      end
-
-      it "renders a JSON response with the new post" do
-
-        post :create, params: {post: valid_attributes}, session: valid_session
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(post_url(Post.last))
-      end
-    end
-
-    context "with invalid params" do
-      it "renders a JSON response with errors for the new post" do
-
-        post :create, params: {post: invalid_attributes}, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested post" do
-        post = Post.create! valid_attributes
-        put :update, params: {id: post.to_param, post: new_attributes}, session: valid_session
-        post.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the post" do
-        post = Post.create! valid_attributes
-
-        put :update, params: {id: post.to_param, post: valid_attributes}, session: valid_session
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-
-    context "with invalid params" do
-      it "renders a JSON response with errors for the post" do
-        post = Post.create! valid_attributes
-
-        put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested post" do
-      post = Post.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: post.to_param}, session: valid_session
-      }.to change(Post, :count).by(-1)
-    end
-  end
+  # describe "GET #show" do
+  #   it "returns a success response" do
+  #     post = Post.create! valid_attributes
+  #     get :show, params: {id: post.to_param}, session: valid_session
+  #     expect(response).to be_successful
+  #   end
+  # end
+  #
+  # describe "POST #create" do
+  #   context "with valid params" do
+  #     it "creates a new Post" do
+  #       expect {
+  #         post :create, params: {post: valid_attributes}, session: valid_session
+  #       }.to change(Post, :count).by(1)
+  #     end
+  #
+  #     it "renders a JSON response with the new post" do
+  #
+  #       post :create, params: {post: valid_attributes}, session: valid_session
+  #       expect(response).to have_http_status(:created)
+  #       expect(response.content_type).to eq('application/json')
+  #       expect(response.location).to eq(post_url(Post.last))
+  #     end
+  #   end
+  #
+  #   context "with invalid params" do
+  #     it "renders a JSON response with errors for the new post" do
+  #
+  #       post :create, params: {post: invalid_attributes}, session: valid_session
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response.content_type).to eq('application/json')
+  #     end
+  #   end
+  # end
+  #
+  # describe "PUT #update" do
+  #   context "with valid params" do
+  #     let(:new_attributes) {
+  #       skip("Add a hash of attributes valid for your model")
+  #     }
+  #
+  #     it "updates the requested post" do
+  #       post = Post.create! valid_attributes
+  #       put :update, params: {id: post.to_param, post: new_attributes}, session: valid_session
+  #       post.reload
+  #       skip("Add assertions for updated state")
+  #     end
+  #
+  #     it "renders a JSON response with the post" do
+  #       post = Post.create! valid_attributes
+  #
+  #       put :update, params: {id: post.to_param, post: valid_attributes}, session: valid_session
+  #       expect(response).to have_http_status(:ok)
+  #       expect(response.content_type).to eq('application/json')
+  #     end
+  #   end
+  #
+  #   context "with invalid params" do
+  #     it "renders a JSON response with errors for the post" do
+  #       post = Post.create! valid_attributes
+  #
+  #       put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response.content_type).to eq('application/json')
+  #     end
+  #   end
+  # end
+  #
+  # describe "DELETE #destroy" do
+  #   it "destroys the requested post" do
+  #     post = Post.create! valid_attributes
+  #     expect {
+  #       delete :destroy, params: {id: post.to_param}, session: valid_session
+  #     }.to change(Post, :count).by(-1)
+  #   end
+  # end
 
 end
