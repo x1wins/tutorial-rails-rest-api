@@ -56,7 +56,7 @@ RSpec.describe PostsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      authenticated_header(request, user)
+      authenticated_header(request: request, user: user)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -65,7 +65,7 @@ RSpec.describe PostsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       post = Post.create! valid_attributes
-      authenticated_header(request, user)
+      authenticated_header(request: request, user: user)
       get :show, params: {id: post.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -74,14 +74,14 @@ RSpec.describe PostsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Post" do
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         expect {
           post :create, params: {post: valid_attributes}, session: valid_session
         }.to change(Post, :count).by(1)
       end
 
       it "renders a JSON response with the new post" do
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         post :create, params: {post: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
@@ -91,7 +91,7 @@ RSpec.describe PostsController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new post" do
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         post :create, params: {post: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
@@ -107,7 +107,7 @@ RSpec.describe PostsController, type: :controller do
 
       it "updates the requested post" do
         post = Post.create! valid_attributes
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         put :update, params: {id: post.to_param, post: new_attributes}, session: valid_session
         post.reload
         expect(post.body).to eq(new_attributes[:body])
@@ -115,7 +115,7 @@ RSpec.describe PostsController, type: :controller do
 
       it "renders a JSON response with the post" do
         post = Post.create! valid_attributes
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         put :update, params: {id: post.to_param, post: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to include('application/json')
@@ -125,7 +125,7 @@ RSpec.describe PostsController, type: :controller do
     context "with invalid params" do
       it "renders a JSON response with errors for the post" do
         post = Post.create! valid_attributes
-        authenticated_header(request, user)
+        authenticated_header(user: user, request: request)
         put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
@@ -136,7 +136,7 @@ RSpec.describe PostsController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested post" do
       post = Post.create! valid_attributes
-      authenticated_header(request, user)
+      authenticated_header(user: user, request: request)
       expect {
         delete :destroy, params: {id: post.to_param}, session: valid_session
       }.to change(Post, :count).by(-1)
