@@ -30,7 +30,7 @@ RSpec.describe PostsController, type: :controller do
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
   let(:user){
-    FactoryGirl.create(:user)
+    create(:user)
   }
   # let(:user){
   #   User.create(name: "hello", username:"aaaa", email:"xasqq1@naver.com", password: "ahahqq1234")
