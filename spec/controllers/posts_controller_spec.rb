@@ -33,7 +33,7 @@ RSpec.describe PostsController, type: :controller do
     create(:user)
   }
 
-  # let(:post){
+  # let(:post1){
   #   create(:post)
   # }
 
