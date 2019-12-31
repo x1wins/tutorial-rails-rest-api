@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :comment do
     body  { Faker::Hacker.say_something_smart }
-    user  { create(:user) }
-    post  { create(:post) }
+    user_id  { user.id }
+    post_id  { post.id }
   end
 end

@@ -34,8 +34,15 @@ RSpec.describe CommentsController, type: :controller do
     create(:post)
   }
 
+  let(:comments) {
+    create_list(:comment, 20)
+  }
+
+  # let(:valid_attributes) {
+  #   {body: "sample body", user: user, post: post}
+  # }
   let(:valid_attributes) {
-    attributes_for(:comment, post: post)
+    {body: "sample body", user_id: user.id, post_id: post.id}
   }
 
   let(:invalid_attributes) {
@@ -64,7 +71,6 @@ RSpec.describe CommentsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Comment" do
-        authenticated_header(request: request, user: user)
         expect {
           post :create, params: {comment: valid_attributes}, session: valid_session
         }.to change(Comment, :count).by(1)
