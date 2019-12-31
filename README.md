@@ -239,6 +239,10 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                   end
             ``` 
         3. Controllers
+            if you don't have spec controller, request <br/> you can get scaffold code
+            ```ruby
+               rails generate rspec:scaffold post
+            ```
             ```ruby
                # spec/controllers/posts_controller_spec.rb
                require 'rails_helper'
