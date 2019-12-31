@@ -8,7 +8,7 @@ TODO
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
-- [ ] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
+- [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [ ] Swager https://github.com/rswag/rswag
 - [ ] Pagnation https://github.com/ddnexus/pagy
 
@@ -120,72 +120,73 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```
 
 7. Unit Testing with Rspec
-    1. Gemfile
-        ```ruby
-            group :test do
-              gem 'rspec-rails', '~> 3.5'
-              gem 'database_cleaner'
-              gem 'factory_girl_rails'
-              gem 'faker'
-            end
-        ```
-    2. Config for spec/support path
-        Add this code for class in spec/support
-        ```ruby
-           # spec/rails_helper.rb
-           Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-        ``` 
-    3. spec/support/*
-        ```bash
-            $ mkdir spec/support/
-            $ touch spec/support/api_helper.rb
-            $ touch spec/support/database_cleaner.rb
-            $ touch spec/support/factory_girl.rb
-        ```
-        ```ruby
-            # spec/support/api_helper.rb
-            module ApiHelper
-              def authenticated_header(options)
-                user = options[:user]
-                token = JsonWebToken.encode(user_id: user.id)
-                if options[:user] and options[:request]
-                  request = options[:request]
-                  request.headers.merge!('Authorization': "Bearer #{token}")
-                else
-                  {"Authorization" => "Bearer #{token}"}
+    1. Config
+        1. Gemfile
+            ```ruby
+                group :test do
+                  gem 'rspec-rails', '~> 3.5'
+                  gem 'database_cleaner'
+                  gem 'factory_girl_rails'
+                  gem 'faker'
                 end
-              end
-            end
-     
-            # spec/support/database_cleaner.rb
-            RSpec.configure do |config|
-              config.before(:suite) do
-                DatabaseCleaner.clean_with(:truncation)
-              end
-            
-              config.before(:each) do
-                DatabaseCleaner.strategy = :transaction
-              end
-            
-              config.before(:each, :js => true) do
-                DatabaseCleaner.strategy = :truncation
-              end
-            
-              config.before(:each) do
-                DatabaseCleaner.start
-              end
-            
-              config.after(:each) do
-                DatabaseCleaner.clean
-              end
-            end
-
-             # spec/support/factory_girl.rb
-             RSpec.configure do |config|
-               config.include FactoryGirl::Syntax::Methods
-             end
-        ```
-    4. Spec code
+            ```
+        2. Config for spec/support path
+            Add this code for class in spec/support
+            ```ruby
+               # spec/rails_helper.rb
+               Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+            ``` 
+        3. spec/support/*
+            ```bash
+                $ mkdir spec/support/
+                $ touch spec/support/api_helper.rb
+                $ touch spec/support/database_cleaner.rb
+                $ touch spec/support/factory_girl.rb
+            ```
+            ```ruby
+                # spec/support/api_helper.rb
+                module ApiHelper
+                  def authenticated_header(options)
+                    user = options[:user]
+                    token = JsonWebToken.encode(user_id: user.id)
+                    if options[:user] and options[:request]
+                      request = options[:request]
+                      request.headers.merge!('Authorization': "Bearer #{token}")
+                    else
+                      {"Authorization" => "Bearer #{token}"}
+                    end
+                  end
+                end
+         
+                # spec/support/database_cleaner.rb
+                RSpec.configure do |config|
+                  config.before(:suite) do
+                    DatabaseCleaner.clean_with(:truncation)
+                  end
+                
+                  config.before(:each) do
+                    DatabaseCleaner.strategy = :transaction
+                  end
+                
+                  config.before(:each, :js => true) do
+                    DatabaseCleaner.strategy = :truncation
+                  end
+                
+                  config.before(:each) do
+                    DatabaseCleaner.start
+                  end
+                
+                  config.after(:each) do
+                    DatabaseCleaner.clean
+                  end
+                end
+    
+                 # spec/support/factory_girl.rb
+                 RSpec.configure do |config|
+                   config.include FactoryGirl::Syntax::Methods
+                 end
+            ```
+    2. RSpec code
         1. Factories
             ```ruby
                  # spec/factories/user.rb
@@ -383,46 +384,46 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                end
     
             ```
-        4. Run RSpec
-            ```ruby
-                 $ bundle exec rspec --format documentation
-                 DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions. (called from <top (required)> at /Users/rhee/project/sample-post-api/config/application.rb:20)
-                 
-                 PostsController
-                   GET #index
-                     returns a success response
-                   GET #show
-                     returns a success response
-                   POST #create
-                     with valid params
-                       creates a new Post
-                       renders a JSON response with the new post
-                     with invalid params
-                       renders a JSON response with errors for the new post
-                   PUT #update
-                     with valid params
-                       updates the requested post
-                       renders a JSON response with the post
-                     with invalid params
-                       renders a JSON response with errors for the post
-                     with invalid Authorize
-                       renders a JSON response with errors (http code 403, Forbidden) for the post
-                   DELETE #destroy
-                     destroys the requested post
-                 
-                 Posts
-                   GET /posts
-                     works! (now write some real specs)
-                 
-                 PostsController
-                   routing
-                     routes to #index
-                     routes to #show
-                     routes to #create
-                     routes to #update via PUT
-                     routes to #update via PATCH
-                     routes to #destroy
-                 
-                 Finished in 0.91634 seconds (files took 1.42 seconds to load)
-                 17 examples, 0 failures
-            ```
+    3. Run
+        ```ruby
+             $ bundle exec rspec --format documentation
+             DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions. (called from <top (required)> at /Users/rhee/project/sample-post-api/config/application.rb:20)
+             
+             PostsController
+               GET #index
+                 returns a success response
+               GET #show
+                 returns a success response
+               POST #create
+                 with valid params
+                   creates a new Post
+                   renders a JSON response with the new post
+                 with invalid params
+                   renders a JSON response with errors for the new post
+               PUT #update
+                 with valid params
+                   updates the requested post
+                   renders a JSON response with the post
+                 with invalid params
+                   renders a JSON response with errors for the post
+                 with invalid Authorize
+                   renders a JSON response with errors (http code 403, Forbidden) for the post
+               DELETE #destroy
+                 destroys the requested post
+             
+             Posts
+               GET /posts
+                 works! (now write some real specs)
+             
+             PostsController
+               routing
+                 routes to #index
+                 routes to #show
+                 routes to #create
+                 routes to #update via PUT
+                 routes to #update via PATCH
+                 routes to #destroy
+             
+             Finished in 0.91634 seconds (files took 1.42 seconds to load)
+             17 examples, 0 failures
+        ```
