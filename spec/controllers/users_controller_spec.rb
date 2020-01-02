@@ -93,7 +93,7 @@ RSpec.describe UsersController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        {name: "updatedname", username: valid_attributes[:username], email: valid_attributes[:email], password: "password1111", password_confirmation: "password1111"}
+        {name: "updatedname", username: valid_attributes[:username], email: "update@changwoo.net", password: "password1111", password_confirmation: "password1111"}
       }
 
       it "updates the requested user" do
@@ -103,7 +103,8 @@ RSpec.describe UsersController, type: :controller do
         put :update, params: {_username: user.username, user: new_attributes}, session: valid_session
         user.reload
         expect(user.name).to eq(new_attributes[:name])
-        # expect(user.password).to eq(new_attributes[:password])
+        expect(user.email).to eq(new_attributes[:email])
+        expect(user.authenticate(new_attributes[:password])).to eq(user)
       end
 
       it "renders a JSON response with the user" do
