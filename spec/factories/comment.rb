@@ -1,7 +1,8 @@
 # spec/factories/user.rb
 FactoryGirl.define do
-  factory :post do
+  factory :comment do
     body  { Faker::Hacker.say_something_smart }
-    user  { create(:user) }
+    user_id  { user.id }
+    post_id  { post.id }
   end
 end
