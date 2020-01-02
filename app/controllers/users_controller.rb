@@ -29,9 +29,10 @@ class UsersController < ApplicationController
 
   # PUT /users/{username}
   def update
-    unless @user.update(user_params)
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
