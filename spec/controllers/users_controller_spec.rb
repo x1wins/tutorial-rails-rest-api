@@ -90,46 +90,53 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
-  #
-  #     it "updates the requested user" do
-  #       user = User.create! valid_attributes
-  #       put :update, params: {id: user.to_param, user: new_attributes}, session: valid_session
-  #       user.reload
-  #       skip("Add assertions for updated state")
-  #     end
-  #
-  #     it "renders a JSON response with the user" do
-  #       user = User.create! valid_attributes
-  #
-  #       put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:ok)
-  #       expect(response.content_type).to eq('application/json')
-  #     end
-  #   end
-  #
-  #   context "with invalid params" do
-  #     it "renders a JSON response with errors for the user" do
-  #       user = User.create! valid_attributes
-  #
-  #       put :update, params: {id: user.to_param, user: invalid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:unprocessable_entity)
-  #       expect(response.content_type).to eq('application/json')
-  #     end
-  #   end
-  # end
-  #
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested user" do
-  #     user = User.create! valid_attributes
-  #     expect {
-  #       delete :destroy, params: {id: user.to_param}, session: valid_session
-  #     }.to change(User, :count).by(-1)
-  #   end
-  # end
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) {
+        {name: "updatedname", username: valid_attributes[:username], email: valid_attributes[:email], password: "password1111", password_confirmation: "password1111"}
+      }
+
+      it "updates the requested user" do
+        user = User.create! valid_attributes
+        authenticated_header(request: request, user: user)
+
+        put :update, params: {_username: user.username, user: new_attributes}, session: valid_session
+        user.reload
+        expect(user.name).to eq(new_attributes[:name])
+        # expect(user.password).to eq(new_attributes[:password])
+      end
+
+      it "renders a JSON response with the user" do
+        user = User.create! valid_attributes
+        authenticated_header(request: request, user: user)
+
+        put :update, params: {_username: user.username, user: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context "with invalid params" do
+      it "renders a JSON response with errors for the user" do
+        user = User.create! valid_attributes
+        authenticated_header(request: request, user: user)
+
+        put :update, params: {_username: user.username, user: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested user" do
+      user = User.create! valid_attributes
+      authenticated_header(user: user, request: request)
+      
+      expect {
+        delete :destroy, params: {_username: user.username}, session: valid_session
+      }.to change(User, :count).by(-1)
+    end
+  end
 
 end
