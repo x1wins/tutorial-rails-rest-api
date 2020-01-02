@@ -386,6 +386,7 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
             ```
     3. Run
         ```ruby
+             $ rake db:test:prepare
              $ bundle exec rspec --format documentation
              DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions. (called from <top (required)> at /Users/rhee/project/sample-post-api/config/application.rb:20)
              
