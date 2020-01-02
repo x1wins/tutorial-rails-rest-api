@@ -33,9 +33,12 @@ RSpec.describe PostsController, type: :controller do
     create(:user)
   }
 
-  # let(:post1){
-  #   create(:post)
-  # }
+  # if you use name of "post", this will be make below error messages.
+  # ArgumentError: wrong number of arguments (given 2, expected 0)
+  # https://stackoverflow.com/a/53862066/1399891
+  let(:post1){
+    create(:post)
+  }
 
   let(:posts) {
     create_list(:post, 20)

@@ -30,8 +30,12 @@ RSpec.describe CommentsController, type: :controller do
     create(:user)
   }
 
-  let(:post){
+  let(:first_post){
     create(:post)
+  }
+
+  let(:comment) {
+    create(:comment)
   }
 
   let(:comments) {
@@ -42,11 +46,11 @@ RSpec.describe CommentsController, type: :controller do
   #   {body: "sample body", user: user, post: post}
   # }
   let(:valid_attributes) {
-    {body: "sample body", user_id: user.id, post_id: post.id}
+    {body: "sample body", user_id: user.id, post_id: first_post.id}
   }
 
   let(:invalid_attributes) {
-    {body: "", post_id: post.id}
+    {body: "", post_id: first_post.id}
   }
 
   let(:valid_session) { {} }
@@ -71,70 +75,90 @@ RSpec.describe CommentsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Comment" do
+        authenticated_header(user: user, request: request)
         expect {
           post :create, params: {comment: valid_attributes}, session: valid_session
         }.to change(Comment, :count).by(1)
       end
 
-      # it "renders a JSON response with the new comment" do
-      #   authenticated_header(request: request, user: user)
-      #   post :create, params: {comment: valid_attributes}, session: valid_session
-      #   expect(response).to have_http_status(:created)
-      #   expect(response.content_type).to include('application/json')
-      #   expect(response.location).to eq(comment_url(Comment.last))
-      # end
+      it "renders a JSON response with the new comment" do
+        authenticated_header(request: request, user: user)
+        post :create, params: {comment: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:created)
+        expect(response.content_type).to include('application/json')
+        expect(response.location).to eq(comment_url(Comment.last))
+      end
     end
 
-    # context "with invalid params" do
-    #   it "renders a JSON response with errors for the new comment" do
-    #     authenticated_header(request: request, user: user1)
-    #     post :create, params: {comment: invalid_attributes}, session: valid_session
-    #     expect(response).to have_http_status(:unprocessable_entity)
-    #     expect(response.content_type).to include('application/json')
-    #   end
-    # end
+    context "with invalid params" do
+      it "renders a JSON response with errors for the new comment" do
+        authenticated_header(request: request, user: user)
+        post :create, params: {comment: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to include('application/json')
+      end
+    end
   end
 
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
-  #
-  #     it "updates the requested comment" do
-  #       comment = Comment.create! valid_attributes
-  #       put :update, params: {id: comment.to_param, comment: new_attributes}, session: valid_session
-  #       comment.reload
-  #       skip("Add assertions for updated state")
-  #     end
-  #
-  #     it "renders a JSON response with the comment" do
-  #       comment = Comment.create! valid_attributes
-  #
-  #       put :update, params: {id: comment.to_param, comment: valid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:ok)
-  #       expect(response.content_type).to include('application/json')
-  #     end
-  #   end
-  #
-  #   context "with invalid params" do
-  #     it "renders a JSON response with errors for the comment" do
-  #       comment = Comment.create! valid_attributes
-  #
-  #       put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
-  #       expect(response).to have_http_status(:unprocessable_entity)
-  #       expect(response.content_type).to include('application/json')
-  #     end
-  #   end
-  # end
-  #
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested comment" do
-  #     comment = Comment.create! valid_attributes
-  #     expect {
-  #       delete :destroy, params: {id: comment.to_param}, session: valid_session
-  #     }.to change(Comment, :count).by(-1)
-  #   end
-  # end
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) {
+        {body: "updated sample body", user_id: user.id}
+      }
+
+      it "updates the requested comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: new_attributes}, session: valid_session
+        comment.reload
+        expect(comment.body).to eq(new_attributes[:body])
+      end
+
+      it "renders a JSON response with the comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context "with invalid params" do
+      it "renders a JSON response with errors for the comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context "with invalid Authorize" do
+      let(:another_user){
+        create(:user)
+      }
+      it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
+        authenticated_header(user: another_user, request: request)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested comment" do
+      authenticated_header(request: request, user: user)
+      comment = Comment.create! valid_attributes
+      expect {
+        delete :destroy, params: {id: comment.to_param}, session: valid_session
+      }.to change(Comment, :count).by(-1)
+    end
+  end
 
 end
