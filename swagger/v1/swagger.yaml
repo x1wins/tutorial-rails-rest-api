@@ -106,6 +106,15 @@ paths:
         '200':
           description: successful
   "/users":
+    get:
+      summary: list users
+      tags:
+      - User
+      consumes:
+      - application/json
+      responses:
+        '200':
+          description: successful
     post:
       summary: create user
       tags:
@@ -113,7 +122,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - name: user
+      - name: body
         in: body
         schema:
           type: object
@@ -137,3 +146,20 @@ paths:
       responses:
         '201':
           description: successful
+  "/users/{_username}":
+    get:
+      summary: show user
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: _username
+        in: path
+        type: string
+        required: true
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
