@@ -1,17 +1,76 @@
-require 'rails_helper'
+require 'swagger_helper'
 
-RSpec.describe "Posts", type: :request do
-  include ApiHelper
+RSpec.describe 'posts', type: :request do
 
-  let(:user){
-    create(:user)
-  }
+  path '/posts' do
 
-  describe "GET /posts" do
-    it "works! (now write some real specs)" do
-      headers = authenticated_header(user: user)
-      get posts_path, headers: headers
-      expect(response).to have_http_status(200)
+    get('list posts') do
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    post('create post') do
+      response(200, 'successful') do
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+  end
+
+  path '/posts/{id}' do
+    # You'll want to customize the parameter types...
+    parameter name: 'id', in: :path, type: :string, description: 'id'
+
+    get('show post') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    patch('update post') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    put('update post') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+
+    delete('delete post') do
+      response(200, 'successful') do
+        let(:id) { '123' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
     end
   end
 end
