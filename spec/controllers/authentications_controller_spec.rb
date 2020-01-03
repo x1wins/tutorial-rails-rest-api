@@ -23,107 +23,58 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe AuthenticationsController, type: :controller do
+RSpec.describe AuthenticationController, type: :controller do
+  include ApiHelper
 
-  # This should return the minimal set of attributes required to create a valid
-  # Authentication. As you add validations to Authentication, be sure to
-  # adjust the attributes here as well.
+  let(:user){
+    create(:user)
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {email: user.email, password: user.password }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {email: "", password: "" }
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # AuthenticationsController. Be sure to keep this updated too.
+  let(:invalid_attributes_password) {
+    {email: user.email, password: "wrong_password" }
+  }
+
+  let(:invalid_attributes_email) {
+    {email: "wrong_email", password: user.password }
+  }
+
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "returns a success response" do
-      authentication = Authentication.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET #show" do
-    it "returns a success response" do
-      authentication = Authentication.create! valid_attributes
-      get :show, params: {id: authentication.to_param}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Authentication" do
-        expect {
-          post :create, params: {authentication: valid_attributes}, session: valid_session
-        }.to change(Authentication, :count).by(1)
-      end
-
-      it "renders a JSON response with the new authentication" do
-
-        post :create, params: {authentication: valid_attributes}, session: valid_session
-        expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(authentication_url(Authentication.last))
+  describe "POST #login" do
+    context "with valid email, password" do
+      it "Login Success" do
+        post :login, params: valid_attributes, session: valid_session
+        expect(response).to be_successful
+        expect(response.content_type).to include('application/json')
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the new authentication" do
-
-        post :create, params: {authentication: invalid_attributes}, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+      it "Login Fails" do
+        post :login, params: invalid_attributes, session: valid_session
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.content_type).to include('application/json')
+      end
+      it "Login Fails with wrong email" do
+        post :login, params: invalid_attributes_email, session: valid_session
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.content_type).to include('application/json')
+      end
+      it "Login Fails with wrong password" do
+        post :login, params: invalid_attributes_password, session: valid_session
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.content_type).to include('application/json')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested authentication" do
-        authentication = Authentication.create! valid_attributes
-        put :update, params: {id: authentication.to_param, authentication: new_attributes}, session: valid_session
-        authentication.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the authentication" do
-        authentication = Authentication.create! valid_attributes
-
-        put :update, params: {id: authentication.to_param, authentication: valid_attributes}, session: valid_session
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-
-    context "with invalid params" do
-      it "renders a JSON response with errors for the authentication" do
-        authentication = Authentication.create! valid_attributes
-
-        put :update, params: {id: authentication.to_param, authentication: invalid_attributes}, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested authentication" do
-      authentication = Authentication.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: authentication.to_param}, session: valid_session
-      }.to change(Authentication, :count).by(-1)
-    end
-  end
 
 end
