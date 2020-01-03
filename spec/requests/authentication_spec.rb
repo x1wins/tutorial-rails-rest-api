@@ -5,11 +5,24 @@ RSpec.describe 'authentication', type: :request do
   path '/auth/login' do
 
     post('login authentication') do
-      response(200, 'successful') do
+      tags 'auth'
+      consumes 'application/json'
+      parameter name: :auth, in: :query, schema: {
+          type: :object,
+          properties: {
+              email: { type: :string },
+              password: { type: :string }
+          },
+          required: [ 'email', 'password' ]
+      }
 
-        after do |example|
-          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-        end
+      response(200, 'successful') do
+        let(:auth) { { email: 'hello@changwoo.org', password: 'hello1234' } }
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
+        let(:auth) { { email: 'hello@changwoo.org', password: 'aaaa' } }
         run_test!
       end
     end

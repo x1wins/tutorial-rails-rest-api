@@ -7,9 +7,28 @@ paths:
   "/auth/login":
     post:
       summary: login authentication
+      tags:
+      - auth
+      consumes:
+      - application/json
+      parameters:
+      - name: auth
+        in: query
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          required:
+          - email
+          - password
       responses:
         '200':
           description: successful
+        '401':
+          description: unauthorized
   "/comments":
     get:
       summary: list comments
