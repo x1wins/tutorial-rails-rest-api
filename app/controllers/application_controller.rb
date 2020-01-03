@@ -1,11 +1,15 @@
 require 'json_web_token'
 
 class ApplicationController < ActionController::API
-  rescue_from (ActiveRecord::RecordNotFound) { not_found }
+  rescue_from (ActiveRecord::RecordNotFound) { |exception| handle_not_found(exception.message) }
 
   def not_found
-    path = params[:a]
-    render json: { error: "/#{path} Page Not Found" }, status: :not_found
+    message = "/#{params[:a]} Page Not Found"
+    handle_not_found message
+  end
+
+  def handle_not_found message
+    render json: { error: "#{message}" }, status: :not_found
   end
 
   def authorize_request
