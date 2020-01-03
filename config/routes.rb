@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Rswag::Api::Engine => '/api-docs'
   resources :comments
   resources :posts
   post '/auth/login', to: 'authentication#login'
