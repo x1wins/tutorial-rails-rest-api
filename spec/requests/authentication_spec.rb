@@ -16,7 +16,7 @@ RSpec.describe 'authentication', type: :request do
           required: [ 'email', 'password' ]
       }
 
-      response(200, 'successful') do
+      response(200, 'ok') do
         let(:auth) { { email: 'hello@changwoo.org', password: 'hello1234' } }
         run_test!
       end
