@@ -1,13 +1,11 @@
 require 'swagger_helper'
 
-RSpec.describe 'authentication', type: :request do
-
+RSpec.describe 'Authentication API' do
   path '/auth/login' do
-
     post('login authentication') do
-      tags 'auth'
+      tags 'Authentication'
       consumes 'application/json'
-      parameter name: :auth, in: :query, schema: {
+      parameter name: :body, in: :query, description: 'Params for Authentication', schema: {
           type: :object,
           properties: {
               email: { type: :string },
@@ -15,9 +13,13 @@ RSpec.describe 'authentication', type: :request do
           },
           required: [ 'email', 'password' ]
       }
+      produces 'application/json'
 
       response(200, 'ok') do
-        let(:auth) { { email: 'hello@changwoo.org', password: 'hello1234' } }
+        let(:user){
+          create(:user)
+        }
+        let(:body) { {auth: { email: user.email, password: user.password } } }
         run_test!
       end
 

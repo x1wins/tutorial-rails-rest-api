@@ -8,12 +8,13 @@ paths:
     post:
       summary: login authentication
       tags:
-      - auth
+      - Authentication
       consumes:
       - application/json
       parameters:
-      - name: auth
+      - name: body
         in: query
+        description: Params for Authentication
         schema:
           type: object
           properties:
@@ -24,6 +25,8 @@ paths:
           required:
           - email
           - password
+      produces:
+      - application/json
       responses:
         '200':
           description: ok
@@ -124,6 +127,7 @@ paths:
       parameters:
       - name: body
         in: body
+        description: User Object Parameter
         schema:
           type: object
           properties:
@@ -143,6 +147,8 @@ paths:
           - email
           - password
           - password_confirmation
+      produces:
+      - application/json
       responses:
         '201':
           description: successful
@@ -151,14 +157,12 @@ paths:
       summary: show user
       tags:
       - User
-      produces:
-      - application/json
       consumes:
       - application/json
       parameters:
       - name: _username
         in: path
-        description: default helloworld
+        description: helloworld
         schema:
           type: string
           properties:
@@ -167,6 +171,8 @@ paths:
           required:
           - _username
         required: true
+      produces:
+      - application/json
       responses:
         '200':
           description: successful

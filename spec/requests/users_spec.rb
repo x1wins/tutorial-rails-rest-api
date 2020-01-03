@@ -1,8 +1,8 @@
 require 'swagger_helper'
 
 RSpec.describe 'Users API' do
-  path '/users' do
 
+  path '/users' do
     get('list users') do
       tags 'User'
       consumes 'application/json'
@@ -18,7 +18,7 @@ RSpec.describe 'Users API' do
     post('create user') do
       tags 'User'
       consumes 'application/json'
-      parameter name: :body, in: :body, schema: {
+      parameter name: :body, in: :body, description: 'User Object Parameter', schema: {
           type: :object,
             properties: {
                   name: { type: :string },
@@ -29,6 +29,10 @@ RSpec.describe 'Users API' do
 
             },
             required: [ 'name', 'username', 'email', 'password', 'password_confirmation' ]
+      }
+      produces 'application/json'
+      let(:body) {
+        {user: {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"}}
       }
 
       response(201, 'successful') do
@@ -43,15 +47,15 @@ RSpec.describe 'Users API' do
   path '/users/{_username}' do
     get('show user') do
       tags 'User'
-      produces 'application/json'
       consumes 'application/json'
-      parameter name: :_username, in: :path, description: 'default helloworld', schema: {
+      parameter name: :_username, in: :path, description: 'helloworld', schema: {
           type: :string,
           properties: {
               _username: { type: :string }
           },
           required: ['_username']
       }
+      produces 'application/json'
       let(:_username) { "helloworld" }
       response(200, 'successful') do
         let(:user){
