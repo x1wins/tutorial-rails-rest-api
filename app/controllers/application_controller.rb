@@ -1,7 +1,7 @@
 require 'json_web_token'
 
 class ApplicationController < ActionController::API
-  rescue_from (ActiveRecord::RecordNotFound) { |exception| not_found }
+  rescue_from (ActiveRecord::RecordNotFound) { not_found }
 
   def not_found
     path = params[:a]
