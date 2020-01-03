@@ -4,6 +4,50 @@ info:
   title: API V1
   version: v1
 paths:
+  "/auth/login":
+    post:
+      summary: login authentication
+      responses:
+        '200':
+          description: successful
+  "/comments":
+    get:
+      summary: list comments
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create comment
+      responses:
+        '200':
+          description: successful
+  "/comments/{id}":
+    parameters:
+    - name: id
+      in: path
+      type: string
+      description: id
+      required: true
+    get:
+      summary: show comment
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update comment
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete comment
+      responses:
+        '200':
+          description: successful
   "/posts":
     get:
       summary: list posts
@@ -39,6 +83,44 @@ paths:
           description: successful
     delete:
       summary: delete post
+      responses:
+        '200':
+          description: successful
+  "/users":
+    get:
+      summary: list users
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create user
+      responses:
+        '200':
+          description: successful
+  "/users/{_username}":
+    parameters:
+    - name: _username
+      in: path
+      type: string
+      description: _username
+      required: true
+    get:
+      summary: show user
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
       responses:
         '200':
           description: successful
