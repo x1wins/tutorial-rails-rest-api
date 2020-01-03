@@ -10,7 +10,7 @@ TODO
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
-- [ ] Swager https://github.com/drewish/rspec-rails-swagger
+- [ ] Swagger https://github.com/drewish/rspec-rails-swagger
 - [ ] Pagnation https://github.com/ddnexus/pagy
 
 How what to do
