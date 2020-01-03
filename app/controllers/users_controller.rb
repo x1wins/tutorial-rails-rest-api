@@ -8,12 +8,12 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: @users, status: :ok
+    render json: @users
   end
 
   # GET /users/{username}
   def show
-    render json: @user, status: :ok
+    render json: @user
   end
 
   # POST /users
