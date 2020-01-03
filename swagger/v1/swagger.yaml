@@ -1,0 +1,44 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/posts":
+    get:
+      summary: list posts
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create post
+      responses:
+        '200':
+          description: successful
+  "/posts/{id}":
+    parameters:
+    - name: id
+      in: path
+      type: string
+      description: id
+      required: true
+    get:
+      summary: show post
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update post
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update post
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete post
+      responses:
+        '200':
+          description: successful
