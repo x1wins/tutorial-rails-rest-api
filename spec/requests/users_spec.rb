@@ -43,8 +43,17 @@ RSpec.describe 'Users API' do
   path '/users/{_username}' do
     get('show user') do
       tags 'User'
+      produces 'application/json'
       consumes 'application/json'
-      parameter name: :_username, :in => :path, :type => :string
+      # parameter name: :_username, in: :path, type: :string
+      parameter name: :_username, in: :path, schema: {
+          type: :string,
+          properties: {
+              _username: { type: :string }
+          },
+          required: ['_username']
+      }
+      let(:_username) { "helloworld" }
       response(200, 'successful') do
         let(:user){
           create(:user)

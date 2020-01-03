@@ -151,12 +151,20 @@ paths:
       summary: show user
       tags:
       - User
+      produces:
+      - application/json
       consumes:
       - application/json
       parameters:
       - name: _username
         in: path
-        type: string
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
         required: true
       responses:
         '200':
