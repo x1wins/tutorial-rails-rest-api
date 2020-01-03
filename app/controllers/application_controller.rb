@@ -3,7 +3,8 @@ require 'json_web_token'
 class ApplicationController < ActionController::API
 
   def not_found
-    render json: { error: 'not_found' }
+    path = params[:a]
+    render json: { error: "/#{path} Page Not Found" }, status: :not_found
   end
 
   def authorize_request
