@@ -45,8 +45,7 @@ RSpec.describe 'Users API' do
       tags 'User'
       produces 'application/json'
       consumes 'application/json'
-      # parameter name: :_username, in: :path, type: :string
-      parameter name: :_username, in: :path, schema: {
+      parameter name: :_username, in: :path, description: 'default helloworld', schema: {
           type: :string,
           properties: {
               _username: { type: :string }

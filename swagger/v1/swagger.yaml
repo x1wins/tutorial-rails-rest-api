@@ -158,6 +158,7 @@ paths:
       parameters:
       - name: _username
         in: path
+        description: default helloworld
         schema:
           type: string
           properties:
