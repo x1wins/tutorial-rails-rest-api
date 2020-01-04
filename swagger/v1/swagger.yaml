@@ -113,68 +113,14 @@ paths:
       summary: list users
       tags:
       - User
-      consumes:
-      - application/json
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create user
-      tags:
-      - User
+      security:
+      - Bearer: []
       consumes:
       - application/json
       parameters:
-      - name: body
-        in: body
-        description: User Object Parameter
-        schema:
-          type: object
-          properties:
-            name:
-              type: string
-            username:
-              type: string
-            email:
-              type: string
-            password:
-              type: string
-            password_confirmation:
-              type: string
-          required:
-          - name
-          - username
-          - email
-          - password
-          - password_confirmation
-      produces:
-      - application/json
-      responses:
-        '201':
-          description: successful
-  "/users/{_username}":
-    get:
-      summary: show user
-      tags:
-      - User
-      consumes:
-      - application/json
-      parameters:
-      - name: _username
-        in: path
-        description: helloworld
-        schema:
-          type: string
-          properties:
-            _username:
-              type: string
-          required:
-          - _username
-        required: true
-      produces:
-      - application/json
+      - name: Authorization
+        in: header
+        type: string
       responses:
         '200':
           description: successful
-        '404':
-          description: not found

@@ -29,3 +29,5 @@ RSpec.configure do |config|
   # Defaults to json. Accepts ':json' and ':yaml'.
   config.swagger_format = :yaml
 end
+
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
