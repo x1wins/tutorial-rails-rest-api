@@ -9,7 +9,13 @@ RSpec.describe 'Users API' do
       tags 'User'
       security [Bearer: []]
       consumes 'application/json'
-      parameter name: 'Authorization', :in => :header, :type => :string
+      parameter name: 'Authorization', in: :header, type: :string,  description: 'JWT token for Authorization', schema: {
+          type: :string,
+          properties: {
+              Authorization: { type: :string }
+          },
+          required: ['Authorization']
+      }
       let(:user){
         create(:user)
       }
