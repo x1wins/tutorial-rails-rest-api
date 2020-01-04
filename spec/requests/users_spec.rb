@@ -1,5 +1,4 @@
 require 'swagger_helper'
-# require 'json_web_token'
 
 RSpec.describe 'Users API' do
   include ApiHelper
@@ -14,7 +13,6 @@ RSpec.describe 'Users API' do
       let(:user){
         create(:user)
       }
-      # let(:Authorization) { JsonWebToken.encode(user_id: user.id) }
       let(:Authorization) { authenticated_header(user: user) }
 
       response(200, 'successful') do

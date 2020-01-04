@@ -30,4 +30,3 @@ RSpec.configure do |config|
   config.swagger_format = :yaml
 end
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
