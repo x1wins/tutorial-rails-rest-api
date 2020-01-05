@@ -36,35 +36,27 @@ RSpec.describe 'Users API' do
     post('create user') do
       tags 'User'
       consumes 'application/json'
-      # parameter name: 'Content-Type', in: :header, type: :string,  required: true, description: 'application/json'
-      parameter name: :params, in: :body, description: 'User Object Parameter', schema: {
+      parameter name: :user, in: :body, schema: {
           type: :object,
           properties: {
-              user: {
-                  type: :object,
-                  properties: {
-                      name: { type: :string },
-                      username: { type: :string },
-                      email: { type: :string },
-                      password: { type: :string },
-                      password_confirmation: { type: :string }
-                  }
-              }, required: ['name', 'username', 'email', 'password', 'password_confirmation']
-          }, required: ['user']
+              name: { type: :string },
+              username: { type: :string },
+              email: { type: :string },
+              password: { type: :string },
+              password_confirmation: { type: :string }
+          }
       },  required: true
-      produces 'application/json'
-      # let('Content-Type') { 'application/json' }
-      let(:user){
+
+      let(:build_user){
         build(:user)
       }
-
       response(201, 'User created') do
-        let(:params) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        let(:user) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
         run_test!
       end
 
       response(422, 'Unprocessable Entity') do
-        let(:params) { {user: {name: user.name, username:"", email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        let(:user) { {user: {name: build_user.name, username:"", email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
         run_test!
       end
     end
