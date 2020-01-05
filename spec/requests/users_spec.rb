@@ -52,14 +52,18 @@ RSpec.describe 'Users API' do
               }
           }
       }
-      # -H "accept: application/json" -H "Content-Type: application/json"
-      # let('Accept') { 'application/json' }
-      # let('Content-Type') { 'application/json' }
+      let('Content-Type') { 'application/json' }
+      let(:user){
+        build(:user)
+      }
+
       response(201, 'User created') do
-        let(:user){
-          build(:user)
-        }
         let(:body) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        run_test!
+      end
+
+      response(422, 'Unprocessable Entity') do
+        let(:body) { {user: {name: user.name, username:"", email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
         run_test!
       end
     end
