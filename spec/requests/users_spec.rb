@@ -33,29 +33,36 @@ RSpec.describe 'Users API' do
       end
     end
 
-    # post('create user') do
-    #   tags 'User'
-    #   produces 'application/json'
-    #   parameter name: :body, in: :user, description: 'User Object Parameter', schema: {
-    #       type: :object,
-    #       properties: {
-    #           name: { type: :string },
-    #           username: { type: :string },
-    #           email: { type: :string },
-    #           password: { type: :string },
-    #           password_confirmation: { type: :string }
-    #       },
-    #       required: [ 'name', 'username', 'email', 'password', 'password_confirmation' ]
-    #   }
-    #
-    #
-    #   # -H "accept: application/json" -H "Content-Type: application/json"
-    #   let(:'Accept') { 'application/json' }
-    #   let(:user) { {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"} }
-    #   response(201, 'User created') do
-    #     run_test!
-    #   end
-    # end
+    post('create user') do
+      tags 'User'
+      produces 'application/json'
+      parameter name: 'Content-Type', in: :header, type: :string,  required: true, description: 'application/json'
+      parameter name: :body, in: :body, description: 'User Object Parameter', schema: {
+          type: :object,
+          properties: {
+              user: {
+                  type: :object,
+                  properties: {
+                      name: { type: :string },
+                      username: { type: :string },
+                      email: { type: :string },
+                      password: { type: :string },
+                      password_confirmation: { type: :string }
+                  },
+              }
+          }
+      }
+      # -H "accept: application/json" -H "Content-Type: application/json"
+      # let('Accept') { 'application/json' }
+      # let('Content-Type') { 'application/json' }
+      response(201, 'User created') do
+        let(:user){
+          build(:user)
+        }
+        let(:body) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        run_test!
+      end
+    end
   end
 
   # path '/users/{_username}' do
