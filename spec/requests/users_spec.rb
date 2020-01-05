@@ -8,7 +8,7 @@ RSpec.describe 'Users API' do
     get('list users') do
       tags 'User'
       security [Bearer: []]
-      consumes 'application/json'
+      produces 'application/json'
       parameter name: :Authorization, in: :header, type: :string,  required: true, schema: {
           type: :string,
           properties: {
@@ -35,33 +35,25 @@ RSpec.describe 'Users API' do
 
     # post('create user') do
     #   tags 'User'
-    #   consumes 'application/json'
-    #   parameter name: :body, in: :body, description: 'User Object Parameter', schema: {
+    #   produces 'application/json'
+    #   parameter name: :body, in: :user, description: 'User Object Parameter', schema: {
     #       type: :object,
     #       properties: {
-    #           user: {
-    #               type: :object,
-    #               properties: {
-    #                   name: { type: :string },
-    #                   username: { type: :string },
-    #                   email: { type: :string },
-    #                   password: { type: :string },
-    #                   password_confirmation: { type: :string }
-    #               },
-    #               required: [ 'name', 'username', 'email', 'password', 'password_confirmation' ]
-    #           }
+    #           name: { type: :string },
+    #           username: { type: :string },
+    #           email: { type: :string },
+    #           password: { type: :string },
+    #           password_confirmation: { type: :string }
     #       },
-    #       required: ['user']
+    #       required: [ 'name', 'username', 'email', 'password', 'password_confirmation' ]
     #   }
-    #   produces 'application/json'
+    #
     #
     #   # -H "accept: application/json" -H "Content-Type: application/json"
     #   let(:'Accept') { 'application/json' }
-    #
-    #   let(:body) { { user: {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"} } }
+    #   let(:user) { {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"} }
     #   response(201, 'User created') do
-    #     let(:body) { { user: {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"} } }
-    #       run_test!
+    #     run_test!
     #   end
     # end
   end
