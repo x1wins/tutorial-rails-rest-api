@@ -8,13 +8,14 @@ RSpec.describe 'Users API' do
     get('list users') do
       tags 'User'
       security [Bearer: []]
-      produces 'application/json'
+      consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string,  required: true, schema: {
           type: :string,
           properties: {
               Authorization: { type: :string }
           }
       }, description: 'JWT token for Authorization'
+      produces 'application/json'
 
       response(200, 'successful') do
         let(:user){
@@ -36,27 +37,36 @@ RSpec.describe 'Users API' do
     post('create user') do
       tags 'User'
       consumes 'application/json'
-      parameter name: :user, in: :body, schema: {
+      parameter name: :body, in: :body, required: true, schema: {
           type: :object,
           properties: {
-              name: { type: :string },
-              username: { type: :string },
-              email: { type: :string },
-              password: { type: :string },
-              password_confirmation: { type: :string }
+              user: {
+                  type: :object,
+                  properties: {
+                      name: { type: :string },
+                      username: { type: :string },
+                      email: { type: :string },
+                      password: { type: :string },
+                      password_confirmation: { type: :string }
+                  }
+              }
           }
-      },  required: true
+      }
+      produces 'application/json'
 
       let(:build_user){
         build(:user)
       }
       response(201, 'User created') do
-        let(:user) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
+        let(:body) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
         run_test!
       end
 
       response(422, 'Unprocessable Entity') do
-        let(:user) { {user: {name: build_user.name, username:"", email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
+        let(:body) { {user: {name: build_user.name, username:"", email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
         run_test!
       end
     end
