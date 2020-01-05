@@ -12,10 +12,4 @@ module ApiHelper
       "Bearer #{token}"
     end
   end
-
-
-  def authenticated_header2(user)
-    token = JsonWebToken.encode(user_id: user.id)
-    "Bearer #{token}"
-  end
 end
