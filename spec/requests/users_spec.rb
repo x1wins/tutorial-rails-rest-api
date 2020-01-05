@@ -35,9 +35,9 @@ RSpec.describe 'Users API' do
 
     post('create user') do
       tags 'User'
-      produces 'application/json'
-      parameter name: 'Content-Type', in: :header, type: :string,  required: true, description: 'application/json'
-      parameter name: :body, in: :body, description: 'User Object Parameter', schema: {
+      consumes 'application/json'
+      # parameter name: 'Content-Type', in: :header, type: :string,  required: true, description: 'application/json'
+      parameter name: :params, in: :body, description: 'User Object Parameter', schema: {
           type: :object,
           properties: {
               user: {
@@ -48,22 +48,23 @@ RSpec.describe 'Users API' do
                       email: { type: :string },
                       password: { type: :string },
                       password_confirmation: { type: :string }
-                  },
-              }
-          }
-      }
-      let('Content-Type') { 'application/json' }
+                  }
+              }, required: ['name', 'username', 'email', 'password', 'password_confirmation']
+          }, required: ['user']
+      },  required: true
+      produces 'application/json'
+      # let('Content-Type') { 'application/json' }
       let(:user){
         build(:user)
       }
 
       response(201, 'User created') do
-        let(:body) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        let(:params) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
         run_test!
       end
 
       response(422, 'Unprocessable Entity') do
-        let(:body) { {user: {name: user.name, username:"", email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
+        let(:params) { {user: {name: user.name, username:"", email: user.email, password: user.password, password_confirmation: user.password_confirmation} } }
         run_test!
       end
     end
