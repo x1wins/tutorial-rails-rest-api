@@ -9,22 +9,26 @@ RSpec.describe 'Users API' do
       tags 'User'
       security [Bearer: []]
       consumes 'application/json'
-      parameter name: 'Authorization', in: :header, type: :string,  description: 'JWT token for Authorization', schema: {
+      parameter name: :Authorization, in: :header, type: :string,  required: true, schema: {
           type: :string,
           properties: {
               Authorization: { type: :string }
-          },
-          required: ['Authorization']
-      }
-      let(:user){
-        create(:user)
-      }
-      let(:Authorization) { authenticated_header(user: user) }
+          }
+      }, description: 'JWT token for Authorization'
 
       response(200, 'successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
         end
+        run_test!
+      end
+
+      response(401, 'unauthorized') do
+        let(:Authorization) { "invalid token" }
         run_test!
       end
     end
