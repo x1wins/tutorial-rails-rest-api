@@ -1,5 +1,5 @@
 # spec/factories/user.rb
-FactoryGirl.define do
+FactoryBot.define do
   factory :comment do
     body  { Faker::Hacker.say_something_smart }
     user_id  { user.id }

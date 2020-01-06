@@ -127,7 +127,7 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                 group :test do
                   gem 'rspec-rails', '~> 3.5'
                   gem 'database_cleaner'
-                  gem 'factory_girl_rails'
+                  gem 'factory_bot_rails'
                   gem 'faker'
                 end
             ```
@@ -142,7 +142,7 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                 $ mkdir spec/support/
                 $ touch spec/support/api_helper.rb
                 $ touch spec/support/database_cleaner.rb
-                $ touch spec/support/factory_girl.rb
+                $ touch spec/support/factory_bot.rb
             ```
             ```ruby
                 # spec/support/api_helper.rb
@@ -182,23 +182,23 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                   end
                 end
     
-                 # spec/support/factory_girl.rb
+                 # spec/support/factory_bot.rb
                  RSpec.configure do |config|
-                   config.include FactoryGirl::Syntax::Methods
+                   config.include FactoryBot::Syntax::Methods
                  end
             ```
     2. RSpec code
         1. Factories
             ```ruby
                  # spec/factories/user.rb
-                 FactoryGirl.define do
+                 FactoryBot.define do
                    factory :post do
                      body  { Faker::Hacker.say_something_smart }
                      user  { :user }
                    end
                  end
                  # spec/factories/user.rb
-                 FactoryGirl.define do
+                 FactoryBot.define do
                    factory :user do
                      name    { Faker::Name.name }
                      username    { name }
@@ -389,7 +389,6 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```ruby
              $ rake db:test:prepare
              $ bundle exec rspec --format documentation
-                DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions.
 
                 AuthenticationController
                   POST #login
