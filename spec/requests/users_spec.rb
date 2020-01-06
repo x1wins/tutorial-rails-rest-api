@@ -58,9 +58,33 @@ RSpec.describe 'Users API' do
         build(:user)
       }
       response(201, 'User created') do
+        schema type: :object,
+               properties: {
+                   status: { type: :string },
+                   error: { type: :string }
+               }
+        schema type: :object,
+            properties: {
+                user: {
+                    type: :object,
+                    properties: {
+                        name: { type: :string },
+                        username: { type: :string },
+                        email: { type: :string },
+                        password: { type: :string },
+                        password_confirmation: { type: :string }
+                    }
+                }
+            }
         let(:body) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        it do
+          data = JSON.parse(response.body)
+          p data
+          expect(data.class).to be(Hash)
+          expect(response.status).to eq(201)
         end
         run_test!
       end
