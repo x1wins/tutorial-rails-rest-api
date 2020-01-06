@@ -1,8 +1,10 @@
-1. [Config](#config)    
-2. [RSpec code](#rspec-code)
-3. [Run](#run)
+## Unit Testing with Rspec
 
-#### Config
+* [Config](#config)    
+* [RSpec code](#rspec-code)
+* [Run](#run)
+
+### Config
 1. Gemfile
     ```ruby
         group :test do
@@ -69,7 +71,7 @@
          end
     ```
         
-#### RSpec code
+### RSpec code
 1. Factories
     ```ruby
          # spec/factories/user.rb
@@ -268,7 +270,7 @@
 
     ```
         
-#### Run
+### Run
     ```ruby
          $ rake db:test:prepare
          $ bundle exec rspec --format documentation
