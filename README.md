@@ -4,7 +4,8 @@ TODO
 ----
 - [x] Generate porject ```rails new [Project Name] --api -T -d postgresql```
 - [x] Database setting Gem https://github.com/x1wins/docker-postgres-rails
-- [x] JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
+- [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
+- [ ] Category scaffold
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
@@ -388,43 +389,116 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```ruby
              $ rake db:test:prepare
              $ bundle exec rspec --format documentation
-             DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions. (called from <top (required)> at /Users/rhee/project/sample-post-api/config/application.rb:20)
-             
-             PostsController
-               GET #index
-                 returns a success response
-               GET #show
-                 returns a success response
-               POST #create
-                 with valid params
-                   creates a new Post
-                   renders a JSON response with the new post
-                 with invalid params
-                   renders a JSON response with errors for the new post
-               PUT #update
-                 with valid params
-                   updates the requested post
-                   renders a JSON response with the post
-                 with invalid params
-                   renders a JSON response with errors for the post
-                 with invalid Authorize
-                   renders a JSON response with errors (http code 403, Forbidden) for the post
-               DELETE #destroy
-                 destroys the requested post
-             
-             Posts
-               GET /posts
-                 works! (now write some real specs)
-             
-             PostsController
-               routing
-                 routes to #index
-                 routes to #show
-                 routes to #create
-                 routes to #update via PUT
-                 routes to #update via PATCH
-                 routes to #destroy
-             
-             Finished in 0.91634 seconds (files took 1.42 seconds to load)
-             17 examples, 0 failures
+                DEPRECATION WARNING: The factory_girl gem is deprecated. Please upgrade to factory_bot. See https://github.com/thoughtbot/factory_bot/blob/v4.9.0/UPGRADE_FROM_FACTORY_GIRL.md for further instructions.
+
+                AuthenticationController
+                  POST #login
+                    with valid email, password
+                      Login Success
+                    with invalid params
+                      Login Fails
+                      Login Fails with wrong email
+                      Login Fails with wrong password
+
+                CommentsController
+                  GET #index
+                    returns a success response
+                  GET #show
+                    returns a success response
+                  POST #create
+                    with valid params
+                      creates a new Comment
+                      renders a JSON response with the new comment
+                    with invalid params
+                      renders a JSON response with errors for the new comment
+                  PUT #update
+                    with valid params
+                      updates the requested comment
+                      renders a JSON response with the comment
+                    with invalid params
+                      renders a JSON response with errors for the comment
+                    with invalid Authorize
+                      renders a JSON response with errors (http code 403, Forbidden) for the post
+                  DELETE #destroy
+                    destroys the requested comment
+
+                PostsController
+                  GET #index
+                    returns a success response
+                  GET #show
+                    returns a success response
+                  POST #create
+                    with valid params
+                      creates a new Post
+                      renders a JSON response with the new post
+                    with invalid params
+                      renders a JSON response with errors for the new post
+                  PUT #update
+                    with valid params
+                      updates the requested post
+                      renders a JSON response with the post
+                    with invalid params
+                      renders a JSON response with errors for the post
+                    with invalid Authorize
+                      renders a JSON response with errors (http code 403, Forbidden) for the post
+                  DELETE #destroy
+                    destroys the requested post
+
+                UsersController
+                  GET #index
+                    returns a success response
+                  GET #show
+                    returns a success response
+                  POST #create
+                    with valid params
+                      creates a new User
+                      renders a JSON response with the new user
+                    with invalid params
+                      renders a JSON response with errors for the new user
+                  PUT #update
+                    with valid params
+                      updates the requested user
+                      renders a JSON response with the user
+                    with invalid params
+                      renders a JSON response with errors for the user
+                  DELETE #destroy
+                    destroys the requested user
+
+                Posts
+                  GET /posts
+                    works! (now write some real specs)
+
+                AuthenticationController
+                  routing
+                    routes to #login
+
+                CommentsController
+                  routing
+                    routes to #index
+                    routes to #show
+                    routes to #create
+                    routes to #update via PUT
+                    routes to #update via PATCH
+                    routes to #destroy
+
+                PostsController
+                  routing
+                    routes to #index
+                    routes to #show
+                    routes to #create
+                    routes to #update via PUT
+                    routes to #update via PATCH
+                    routes to #destroy
+
+                UsersController
+                  routing
+                    routes to #index
+                    routes to #show
+                    routes to #create
+                    routes to #update via PUT
+                    routes to #update via PATCH
+                    routes to #destroy
+
+                Finished in 1.76 seconds (files took 1.65 seconds to load)
+                53 examples, 0 failures
         ```
