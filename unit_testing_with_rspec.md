@@ -5,7 +5,9 @@
 * [Run](#run)
 
 ### Config
+
 1. Gemfile
+
     ```ruby
         group :test do
           gem 'rspec-rails', '~> 3.5'
@@ -14,19 +16,25 @@
           gem 'faker'
         end
     ```
+    
 2. Config for spec/support path
+
     > Add this code for class in spec/support
+    
     ```ruby
        # spec/rails_helper.rb
        Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
     ``` 
+    
 3. spec/support/*
+
     ```bash
         $ mkdir spec/support/
         $ touch spec/support/api_helper.rb
         $ touch spec/support/database_cleaner.rb
         $ touch spec/support/factory_bot.rb
     ```
+    
     ```ruby
         # spec/support/api_helper.rb
         module ApiHelper
@@ -72,7 +80,9 @@
     ```
         
 ### RSpec code
+
 1. Factories
+
     ```ruby
          # spec/factories/user.rb
          FactoryBot.define do
@@ -91,7 +101,9 @@
            end
          end
     ```
+    
 2. Requests
+
     ```ruby
           # spec/requests/posts_spec.rb
           require "rails_helper"
@@ -124,11 +136,15 @@
             end
           end
     ``` 
+    
 3. Controllers
+    
     > if you don't have spec controller, request <br/> you can get scaffold code
+    
     ```ruby
        rails generate rspec:scaffold post
     ```
+    
     ```ruby
        # spec/controllers/posts_controller_spec.rb
        require 'rails_helper'
@@ -271,10 +287,20 @@
     ```
         
 ### Run
-    ```ruby
-         $ rake db:test:prepare
-         $ bundle exec rspec --format documentation
+
+1. database initialize
     
+    ```bash
+         $ rake db:test:prepare
+    ```
+
+2. bundle exec rspec
+    
+    ```bash
+         $ bundle exec rspec --format documentation
+    ```
+    
+    ```ruby
             AuthenticationController
               POST #login
                 with valid email, password
