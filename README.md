@@ -123,10 +123,14 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
 7. [Unit Testing with Rspec](/unit_testing_with_rspec.md)
 
 8. rswag
-    1. Generate documentation
-    
-        > this command ```rake rswag ``` will generate swag documentation. then you can connect to ``` http://localhost:3000/api-docs/index.html ```
 
-    2. testing
+    1. testing
     
         ``` bundle exec rspec spec/requests/users_spec.rb --format documentation ```
+    2. Generate documentation
+    
+        > this command ```rake rswag ``` will generate swag documentation. then you can connect to ``` http://localhost:3000/api-docs/index.html ```
+        
+        ![swagger_screencapture](/localhost-3000-api-docs-index-html.png)
+
+        
