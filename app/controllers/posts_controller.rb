@@ -7,7 +7,8 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.published.by_date
+    keyword = params[:keyword]
+    @posts = Post.search(keyword).published.by_date
     render json: @posts
   end
 
