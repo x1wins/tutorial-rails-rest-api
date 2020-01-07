@@ -21,13 +21,11 @@ RSpec.configure do |config|
       },
       paths: {},
       securityDefinitions: {
-          basic: {
-              type: :basic
-          },
-          apiKey: {
+          Bearer: {
+              description: "Generate JWT",
               type: :apiKey,
-              name: 'api_key',
-              in: :query
+              name: :Authorization,
+              in: :header
           }
       }
     }
