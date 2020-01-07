@@ -7,8 +7,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
-
+    @posts = Post.published.by_date
     render json: @posts
   end
 
