@@ -5,14 +5,14 @@ RSpec.describe 'Authentication API' do
     post('login authentication') do
       tags 'Authentication'
       consumes 'application/json'
-      parameter name: :email, in: :query, type: :string, required: true, schema: {
+      parameter name: :email, in: :query, type: :string, required: true, default: 'hello@changwoo.org', schema: {
           type: :string,
           properties: {
               email: { type: :string }
           }
       }, description: 'Email for Login'
 
-      parameter name: :password, in: :query, type: :string, required: true, schema: {
+      parameter name: :password, in: :query, type: :string, required: true, default: 'hello1234', schema: {
           type: :string,
           properties: {
               password: { type: :string }

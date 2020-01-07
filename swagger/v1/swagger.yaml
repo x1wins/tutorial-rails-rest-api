@@ -16,6 +16,7 @@ paths:
         in: query
         type: string
         required: true
+        default: hello@changwoo.org
         schema:
           type: string
           properties:
@@ -26,6 +27,7 @@ paths:
         in: query
         type: string
         required: true
+        default: hello1234
         schema:
           type: string
           properties:
