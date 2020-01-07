@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'comments', type: :request do
+RSpec.describe 'Comments API', type: :request do
   include ApiHelper
 
   path '/comments' do
@@ -12,7 +12,7 @@ RSpec.describe 'comments', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -54,7 +54,7 @@ RSpec.describe 'comments', type: :request do
           }
       }
       produces 'application/json'
-      response(201, 'successful') do
+      response(201, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -174,7 +174,7 @@ RSpec.describe 'comments', type: :request do
           }
       }
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:comment){
           create(:comment)
         }
@@ -219,7 +219,7 @@ RSpec.describe 'comments', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
       produces 'application/json'
-      response(204, 'successful') do
+      response(204, 'Successful') do
         let(:comment){
           create(:comment)
         }

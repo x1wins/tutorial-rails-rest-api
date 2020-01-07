@@ -36,9 +36,9 @@ paths:
         description: Password for Login
       responses:
         '200':
-          description: ok
+          description: Ok
         '401':
-          description: unauthorized
+          description: Unauthorized
   "/comments":
     get:
       summary: list comments
@@ -63,7 +63,7 @@ paths:
       - application/json
       responses:
         '200':
-          description: successful
+          description: Successful
         '401':
           description: Unauthorized
     post:
@@ -96,7 +96,7 @@ paths:
       - application/json
       responses:
         '201':
-          description: successful
+          description: Successful
         '401':
           description: Unauthorized
         '422':
@@ -162,7 +162,7 @@ paths:
       - application/json
       responses:
         '200':
-          description: successful
+          description: Successful
         '403':
           description: Forbidden Unathorized
     delete:
@@ -187,7 +187,7 @@ paths:
       - application/json
       responses:
         '204':
-          description: successful
+          description: Successful
         '403':
           description: Forbidden Unathorized
   "/posts":
@@ -214,7 +214,7 @@ paths:
       - application/json
       responses:
         '200':
-          description: successful
+          description: Successful
         '401':
           description: Unauthorized
     post:
@@ -245,7 +245,7 @@ paths:
       - application/json
       responses:
         '201':
-          description: successful
+          description: Successful
         '401':
           description: Unauthorized
         '422':
@@ -311,7 +311,7 @@ paths:
       - application/json
       responses:
         '200':
-          description: successful
+          description: Successful
         '403':
           description: Forbidden Unathorized
     delete:
@@ -336,7 +336,7 @@ paths:
       - application/json
       responses:
         '204':
-          description: successful
+          description: Successful
         '403':
           description: Forbidden Unathorized
   "/users":
