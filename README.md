@@ -130,3 +130,30 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
     2. testing
     
         ``` bundle exec rspec spec/requests/users_spec.rb --format documentation ```
+        
+9. add published
+    1. alter column
+
+        ```bash
+           $ rails generate migration ChangePublishedDefaultToComments published:boolean
+        ```
+        ```ruby
+            class ChangePublishedDefaultToComments < ActiveRecord::Migration[6.0]
+              def change
+                change_column :comments, :published, :boolean, default: true
+              end
+            end
+        ```
+        
+    2. Add published = true condition for has_many In Model Serializer
+
+        ```ruby
+            class PostSerializer < ActiveModel::Serializer
+              attributes :id, :body
+              has_one :user
+              has_many :comments
+              def comments
+                object.comments.where(published: true).order('created_at DESC, id DESC')
+              end
+            end
+        ```
