@@ -9,12 +9,6 @@ RSpec.describe 'Users API' do
       tags 'User'
       security [Bearer: []]
       consumes 'application/json'
-      parameter name: :Authorization, in: :header, type: :string,  required: true, schema: {
-          type: :string,
-          properties: {
-              Authorization: { type: :string }
-          }
-      }, description: 'JWT token for Authorization'
       produces 'application/json'
 
       response(200, 'successful') do
