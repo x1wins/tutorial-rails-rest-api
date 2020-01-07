@@ -1,0 +1,235 @@
+---
+swagger: '2.0'
+info:
+  title: API V1
+  version: v1
+paths:
+  "/auth/login":
+    post:
+      summary: login authentication
+      tags:
+      - Authentication
+      consumes:
+      - application/json
+      parameters:
+      - name: email
+        in: query
+        type: string
+        required: true
+        default: hello@changwoo.org
+        schema:
+          type: string
+          properties:
+            email:
+              type: string
+        description: Email for Login
+      - name: password
+        in: query
+        type: string
+        required: true
+        default: hello1234
+        schema:
+          type: string
+          properties:
+            password:
+              type: string
+        description: Password for Login
+      responses:
+        '200':
+          description: ok
+        '401':
+          description: unauthorized
+  "/users":
+    get:
+      summary: list users
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: page
+        in: query
+        type: string
+        required: true
+        default: '1'
+        description: Page number
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful
+        '401':
+          description: unauthorized
+    post:
+      summary: create user
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: User created
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  password_confirmation:
+                    type: string
+        '422':
+          description: Unprocessable Entity
+  "/users/{_username}":
+    get:
+      summary: show user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+    put:
+      summary: update user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      produces:
+      - application/json
+      responses:
+        '204':
+          description: successful
+securityDefinitions:
+  Bearer:
+    description: Generate JWT
+    type: apiKey
+    name: Authorization
+    in: header

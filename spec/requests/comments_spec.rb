@@ -1,10 +1,10 @@
 # require 'swagger_helper'
 #
-# RSpec.describe 'posts', type: :request do
+# RSpec.describe 'comments', type: :request do
 #
-#   path '/posts' do
+#   path '/comments' do
 #
-#     get('list posts') do
+#     get('list comments') do
 #       response(200, 'successful') do
 #
 #         after do |example|
@@ -14,7 +14,7 @@
 #       end
 #     end
 #
-#     post('create post') do
+#     post('create comment') do
 #       response(200, 'successful') do
 #
 #         after do |example|
@@ -25,11 +25,11 @@
 #     end
 #   end
 #
-#   path '/posts/{id}' do
+#   path '/comments/{id}' do
 #     # You'll want to customize the parameter types...
 #     parameter name: 'id', in: :path, type: :string, description: 'id'
 #
-#     get('show post') do
+#     get('show comment') do
 #       response(200, 'successful') do
 #         let(:id) { '123' }
 #
@@ -40,7 +40,7 @@
 #       end
 #     end
 #
-#     patch('update post') do
+#     patch('update comment') do
 #       response(200, 'successful') do
 #         let(:id) { '123' }
 #
@@ -51,7 +51,7 @@
 #       end
 #     end
 #
-#     put('update post') do
+#     put('update comment') do
 #       response(200, 'successful') do
 #         let(:id) { '123' }
 #
@@ -62,7 +62,7 @@
 #       end
 #     end
 #
-#     delete('delete post') do
+#     delete('delete comment') do
 #       response(200, 'successful') do
 #         let(:id) { '123' }
 #

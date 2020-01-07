@@ -1,4 +1,6 @@
 # spec/support/api_helper.rb
+require 'json_web_token'
+
 module ApiHelper
   def authenticated_header(options)
     user = options[:user]
@@ -7,7 +9,7 @@ module ApiHelper
       request = options[:request]
       request.headers.merge!('Authorization': "Bearer #{token}")
     else
-      {"Authorization" => "Bearer #{token}"}
+      "Bearer #{token}"
     end
   end
 end

@@ -47,9 +47,17 @@ gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers'
 
-group :test do
+group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
+end
+
+# https://github.com/rswag/rswag
+gem 'rswag-api'
+gem 'rswag-ui'
+
+group :development, :test do
+  gem 'rswag-specs'
 end
