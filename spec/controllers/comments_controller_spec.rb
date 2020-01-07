@@ -157,7 +157,7 @@ RSpec.describe CommentsController, type: :controller do
       comment = Comment.create! valid_attributes
       expect {
         delete :destroy, params: {id: comment.to_param}, session: valid_session
-      }.to change(Comment, :count).by(-1)
+      }.to change(Comment.published, :count).by(-1)
     end
   end
 

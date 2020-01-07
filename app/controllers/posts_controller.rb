@@ -38,7 +38,8 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
-    @post.destroy
+    @post.published = false
+    @post.save
   end
 
   private

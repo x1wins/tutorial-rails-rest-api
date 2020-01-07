@@ -155,7 +155,7 @@ RSpec.describe PostsController, type: :controller do
       authenticated_header(user: user, request: request)
       expect {
         delete :destroy, params: {id: post.to_param}, session: valid_session
-      }.to change(Post, :count).by(-1)
+      }.to change(Post.published, :count).by(-1)
     end
   end
 
