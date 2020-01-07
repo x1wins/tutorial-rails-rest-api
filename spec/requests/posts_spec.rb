@@ -24,6 +24,16 @@ RSpec.describe 'posts', type: :request do
         end
         run_test!
       end
+
+      response(401, 'Unauthorized') do
+        let(:Authorization) { "Bearer invalid token" }
+        let(:page) { '1' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
     end
 
     post('create post') do
@@ -47,11 +57,37 @@ RSpec.describe 'posts', type: :request do
         let(:user){
           create(:user)
         }
-        let(:Authorization) { authenticated_header(user: user) }
         let(:build_post){
           build(:post)
         }
+        let(:Authorization) { authenticated_header(user: user) }
         let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(401, 'Unauthorized') do
+        let(:build_post){
+          build(:post)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(422, 'Unprocessable Entity') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:body) { {post: {body: ""} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -70,7 +106,7 @@ RSpec.describe 'posts', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -79,6 +115,35 @@ RSpec.describe 'posts', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(401, 'Unauthorized') do
+        let(:post){
+          create(:post)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(404, 'Not Found') do
+        let(:user){
+          create(:user)
+        }
+        let(:invalid_post_id){
+          1
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:id) { invalid_post_id }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -121,6 +186,26 @@ RSpec.describe 'posts', type: :request do
         end
         run_test!
       end
+
+      response(403, 'Forbidden Unathorized') do
+        let(:post){
+          create(:post)
+        }
+        let(:build_post){
+          build(:post)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:id) { post.id }
+        let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
     end
 
     delete('delete post') do
@@ -137,6 +222,22 @@ RSpec.describe 'posts', type: :request do
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
 
+        run_test!
+      end
+
+      response(403, 'Forbidden Unathorized') do
+        let(:post){
+          create(:post)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
         run_test!
       end
     end
