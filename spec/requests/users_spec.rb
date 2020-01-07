@@ -13,7 +13,7 @@ RSpec.describe 'Users API' do
       parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
       produces 'application/json'
 
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -25,7 +25,7 @@ RSpec.describe 'Users API' do
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(401, 'Unauthorized') do
         let(:Authorization) { "invalid token" }
         let(:page) { '1' }
         run_test!
@@ -55,25 +55,8 @@ RSpec.describe 'Users API' do
       let(:build_user){
         build(:user)
       }
+
       response(201, 'User created') do
-        schema type: :object,
-               properties: {
-                   status: { type: :string },
-                   error: { type: :string }
-               }
-        schema type: :object,
-            properties: {
-                user: {
-                    type: :object,
-                    properties: {
-                        name: { type: :string },
-                        username: { type: :string },
-                        email: { type: :string },
-                        password: { type: :string },
-                        password_confirmation: { type: :string }
-                    }
-                }
-            }
         let(:body) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -110,7 +93,7 @@ RSpec.describe 'Users API' do
       produces 'application/json'
       let(:_username) { "helloworld" }
 
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -119,7 +102,36 @@ RSpec.describe 'Users API' do
         run_test!
       end
 
-      response(404, 'not found') do
+      response(401, 'Unauthorized') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:_username) { user.username }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(403, 'Forbidden Unathorized') do
+        let(:another_user){
+          create(:user)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { another_user.username }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(404, 'Not Found') do
         let(:user){
           create(:user)
         }
@@ -128,6 +140,7 @@ RSpec.describe 'Users API' do
         run_test!
       end
     end
+
     put('update user') do
       tags 'User'
       security [Bearer: []]
@@ -156,13 +169,42 @@ RSpec.describe 'Users API' do
           }
       }
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:_username) { user.username }
         let(:body) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(401, 'Unauthorized') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:_username) { user.username }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(403, 'Forbidden Unathorized') do
+        let(:another_user){
+          create(:user)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { another_user.username }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -184,12 +226,41 @@ RSpec.describe 'Users API' do
       }
       produces 'application/json'
 
-      response(204, 'successful') do
+      response(204, 'Successful') do
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:_username) { user.username }
+        run_test!
+      end
+
+      response(401, 'Unauthorized') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:_username) { user.username }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(403, 'Forbidden Unathorized') do
+        let(:another_user){
+          create(:user)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { another_user.username }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
         run_test!
       end
     end
