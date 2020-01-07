@@ -7,8 +7,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
-
+    @posts = Post.published.by_date
     render json: @posts
   end
 
@@ -39,13 +38,14 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
-    @post.destroy
+    @post.published = false
+    @post.save
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.published.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

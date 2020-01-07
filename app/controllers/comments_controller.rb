@@ -39,7 +39,8 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1
   def destroy
-    @comment.destroy
+    @comment.published = false
+    @comment.save
   end
 
   private
