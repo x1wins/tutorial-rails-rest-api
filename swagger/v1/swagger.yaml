@@ -1,5 +1,5 @@
 ---
-openapi: 3.0.1
+swagger: '2.0'
 info:
   title: API V1
   version: v1
@@ -12,102 +12,31 @@ paths:
       consumes:
       - application/json
       parameters:
-      - name: body
+      - name: email
         in: query
-        description: Params for Authentication
+        type: string
+        required: true
         schema:
-          type: object
+          type: string
           properties:
             email:
               type: string
+        description: Email for Login
+      - name: password
+        in: query
+        type: string
+        required: true
+        schema:
+          type: string
+          properties:
             password:
               type: string
-          required:
-          - email
-          - password
-      produces:
-      - application/json
+        description: Password for Login
       responses:
         '200':
           description: ok
         '401':
           description: unauthorized
-  "/comments":
-    get:
-      summary: list comments
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create comment
-      responses:
-        '200':
-          description: successful
-  "/comments/{id}":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show comment
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update comment
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update comment
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete comment
-      responses:
-        '200':
-          description: successful
-  "/posts":
-    get:
-      summary: list posts
-      responses:
-        '200':
-          description: successful
-    post:
-      summary: create post
-      responses:
-        '200':
-          description: successful
-  "/posts/{id}":
-    parameters:
-    - name: id
-      in: path
-      type: string
-      description: id
-      required: true
-    get:
-      summary: show post
-      responses:
-        '200':
-          description: successful
-    patch:
-      summary: update post
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update post
-      responses:
-        '200':
-          description: successful
-    delete:
-      summary: delete post
-      responses:
-        '200':
-          description: successful
   "/users":
     get:
       summary: list users
@@ -117,10 +46,65 @@ paths:
       - Bearer: []
       consumes:
       - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
+      produces:
+      - application/json
       responses:
         '200':
           description: successful
+        '401':
+          description: unauthorized
+    post:
+      summary: create user
+      tags:
+      - User
+      consumes:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: User created
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                  password_confirmation:
+                    type: string
+        '422':
+          description: Unprocessable Entity
+securityDefinitions:
+  Bearer:
+    description: Generate JWT
+    type: apiKey
+    name: Authorization
+    in: header
