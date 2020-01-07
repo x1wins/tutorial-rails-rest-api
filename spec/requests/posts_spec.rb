@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'posts', type: :request do
+RSpec.describe 'Posts API', type: :request do
   include ApiHelper
 
   path '/posts' do
@@ -12,7 +12,7 @@ RSpec.describe 'posts', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -53,7 +53,7 @@ RSpec.describe 'posts', type: :request do
           }
       }
       produces 'application/json'
-      response(201, 'successful') do
+      response(201, 'Successful') do
         let(:user){
           create(:user)
         }
@@ -170,7 +170,7 @@ RSpec.describe 'posts', type: :request do
           }
       }
       produces 'application/json'
-      response(200, 'successful') do
+      response(200, 'Successful') do
         let(:post){
           create(:post)
         }
@@ -215,7 +215,7 @@ RSpec.describe 'posts', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
       produces 'application/json'
-      response(204, 'successful') do
+      response(204, 'Successful') do
         let(:post){
           create(:post)
         }

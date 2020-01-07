@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Users API' do
+RSpec.describe 'Users API', type: :request do
   include ApiHelper
 
   path '/users' do

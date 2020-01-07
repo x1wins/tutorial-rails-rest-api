@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Authentication API' do
+RSpec.describe 'Authentication API', type: :request do
   path '/auth/login' do
     post('login authentication') do
       tags 'Authentication'
@@ -19,7 +19,7 @@ RSpec.describe 'Authentication API' do
           }
       }, description: 'Password for Login'
 
-      response(200, 'ok') do
+      response(200, 'Ok') do
         let(:user){
           create(:user)
         }
@@ -28,7 +28,7 @@ RSpec.describe 'Authentication API' do
         run_test!
       end
 
-      response(401, 'unauthorized') do
+      response(401, 'Unauthorized') do
         let(:email) { 'hello@changwoo.org' }
         let(:password) { 'aaaa' }
         run_test!
