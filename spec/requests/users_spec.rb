@@ -10,6 +10,7 @@ RSpec.describe 'Users API' do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
       produces 'application/json'
 
       response(200, 'successful') do
@@ -17,6 +18,7 @@ RSpec.describe 'Users API' do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:page) { '1' }
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
         end
@@ -25,6 +27,7 @@ RSpec.describe 'Users API' do
 
       response(401, 'unauthorized') do
         let(:Authorization) { "invalid token" }
+        let(:page) { '1' }
         run_test!
       end
     end
@@ -91,64 +94,105 @@ RSpec.describe 'Users API' do
     end
   end
 
-  # path '/users/{_username}' do
-  #   get('show user') do
-  #     tags 'User'
-  #     consumes 'application/json'
-  #     parameter name: :_username, in: :path, description: 'helloworld', schema: {
-  #         type: :string,
-  #         properties: {
-  #             _username: { type: :string }
-  #         },
-  #         required: ['_username']
-  #     }
-  #     produces 'application/json'
-  #     let(:_username) { "helloworld" }
-  #     response(200, 'successful') do
-  #       let(:user){
-  #         create(:user)
-  #       }
-  #       let(:_username) { user.username }
-  #       run_test!
-  #     end
-  #
-  #     response(404, 'not found') do
-  #       let(:_username) { "hello" }
-  #       run_test!
-  #     end
-  #   end
+  path '/users/{_username}' do
+    get('show user') do
+      tags 'User'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: :_username, in: :path, description: 'username', default: 'helloworld', schema: {
+          type: :string,
+          properties: {
+              _username: { type: :string }
+          },
+          required: ['_username']
+      }
+      produces 'application/json'
+      let(:_username) { "helloworld" }
 
-  #   patch('update user') do
-  #     response(200, 'successful') do
-  #       let(:_username) { '123' }
-  #
-  #       after do |example|
-  #         example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-  #       end
-  #       run_test!
-  #     end
-  #   end
-  #
-  #   put('update user') do
-  #     response(200, 'successful') do
-  #       let(:_username) { '123' }
-  #
-  #       after do |example|
-  #         example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-  #       end
-  #       run_test!
-  #     end
-  #   end
-  #
-  #   delete('delete user') do
-  #     response(200, 'successful') do
-  #       let(:_username) { '123' }
-  #
-  #       after do |example|
-  #         example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-  #       end
-  #       run_test!
-  #     end
-  #   end
-  # end
+      response(200, 'successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { user.username }
+        run_test!
+      end
+
+      response(404, 'not found') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { "hello" }
+        run_test!
+      end
+    end
+    put('update user') do
+      tags 'User'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: :_username, in: :path, description: 'username', default: 'helloworld', schema: {
+          type: :string,
+          properties: {
+              _username: { type: :string }
+          },
+          required: ['_username']
+      }
+      parameter name: :body, in: :body, required: true, schema: {
+          type: :object,
+          properties: {
+              user: {
+                  type: :object,
+                  properties: {
+                      name: { type: :string },
+                      username: { type: :string },
+                      email: { type: :string },
+                      password: { type: :string },
+                      password_confirmation: { type: :string }
+                  }
+              }
+          }
+      }
+      produces 'application/json'
+      response(200, 'successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { user.username }
+        let(:body) { {user: {name: user.name, username:user.username, email: user.email, password: user.password, password_confirmation: user.password} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+    end
+    delete('delete user') do
+      tags 'User'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: :_username, in: :path, description: 'username', default: 'helloworld', schema: {
+          type: :string,
+          properties: {
+              _username: { type: :string }
+          },
+          required: ['_username']
+      }
+      produces 'application/json'
+
+      response(204, 'successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:_username) { user.username }
+        run_test!
+      end
+    end
+  end
+
 end

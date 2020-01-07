@@ -46,6 +46,17 @@ paths:
       - Bearer: []
       consumes:
       - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: page
+        in: query
+        type: string
+        required: true
+        default: '1'
+        description: Page number
       produces:
       - application/json
       responses:
@@ -102,6 +113,118 @@ paths:
                     type: string
         '422':
           description: Unprocessable Entity
+  "/users/{_username}":
+    get:
+      summary: show user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: not found
+    put:
+      summary: update user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
+      tags:
+      - User
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: _username
+        in: path
+        description: username
+        default: helloworld
+        schema:
+          type: string
+          properties:
+            _username:
+              type: string
+          required:
+          - _username
+        required: true
+      produces:
+      - application/json
+      responses:
+        '204':
+          description: successful
 securityDefinitions:
   Bearer:
     description: Generate JWT
