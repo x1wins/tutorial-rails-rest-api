@@ -2,7 +2,7 @@
 FactoryBot.define do
   factory :comment do
     body  { Faker::Hacker.say_something_smart }
-    user_id  { user.id }
-    post_id  { post.id }
+    user  { create(:user) }
+    post  { create(:post) }
   end
 end
