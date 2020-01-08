@@ -11,6 +11,8 @@ TODO
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [x] Swager https://github.com/rswag/rswag
+- [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
+- [ ] Search in posts
 - [ ] Pagnation https://github.com/ddnexus/pagy
 
 How what to do
