@@ -11,6 +11,7 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :page, in: :query, type: :int, default: '1', description: 'Page number'
+      parameter name: :per, in: :query, type: :int, description: 'Per page number'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
       response(200, 'Successful') do
@@ -19,6 +20,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:page) { }
+        let(:per) { }
         let(:search) { }
 
         after do |example|
@@ -33,6 +35,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:page) { 1 }
+        let(:per) { }
         let(:search) { 'hello' }
 
         after do |example|
@@ -44,6 +47,7 @@ RSpec.describe 'Posts API', type: :request do
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
         let(:page) { 1 }
+        let(:per) { }
         let(:search) { }
 
         after do |example|

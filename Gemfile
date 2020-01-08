@@ -61,3 +61,5 @@ gem 'rswag-ui'
 group :development, :test do
   gem 'rswag-specs'
 end
+
+gem 'kaminari'

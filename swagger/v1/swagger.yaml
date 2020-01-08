@@ -209,6 +209,10 @@ paths:
         type: int
         default: '1'
         description: Page number
+      - name: per
+        in: query
+        type: int
+        description: Per page number
       - name: search
         in: query
         type: string
