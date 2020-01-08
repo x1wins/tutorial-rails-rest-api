@@ -8,7 +8,9 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     search = params[:search]
-    @posts = Post.search(search).published.by_date
+    page = params[:page].present? ? params[:page] : 1
+    per = params[:per].present? ? params[:per] : 10
+    @posts = Post.search(search).published.by_date.page(page).per(per)
     render json: @posts
   end
 

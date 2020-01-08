@@ -5,4 +5,5 @@ class Post < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :body, presence: true
+  max_paginates_per 100
 end
