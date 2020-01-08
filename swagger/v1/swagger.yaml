@@ -210,11 +210,15 @@ paths:
         required: true
         default: '1'
         description: Page number
+      - name: keyword
+        in: query
+        type: string
+        description: Search Keyword
       produces:
       - application/json
       responses:
         '200':
-          description: Successful
+          description: Search
         '401':
           description: Unauthorized
     post:
