@@ -165,3 +165,9 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
               end
             end
         ```
+        
+10. Category
+    1. generate
+        ```bash
+            rails g scaffold category title:string body:string user:references published:boolean
+        ```        
