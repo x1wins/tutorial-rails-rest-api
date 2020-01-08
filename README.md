@@ -12,6 +12,7 @@ TODO
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [x] Swager https://github.com/rswag/rswag
 - [ ] Pagnation https://github.com/ddnexus/pagy
+- [ ] N+1 
 
 How what to do
 --------------
