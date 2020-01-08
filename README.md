@@ -14,6 +14,7 @@ TODO
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [ ] Search in posts
 - [ ] Pagnation https://github.com/ddnexus/pagy
+- [ ] N+1 
 
 How what to do
 --------------
