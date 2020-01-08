@@ -11,7 +11,7 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
-      parameter name: :keyword, in: :query, type: :string, description: 'Search Keyword'
+      parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
       response(200, 'Successful') do
         let(:user){
@@ -19,7 +19,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:page) { '1' }
-        let(:keyword) { }
+        let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -33,7 +33,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:page) { '1' }
-        let(:keyword) { 'hello' }
+        let(:search) { 'hello' }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -44,7 +44,7 @@ RSpec.describe 'Posts API', type: :request do
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
         let(:page) { '1' }
-        let(:keyword) { }
+        let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

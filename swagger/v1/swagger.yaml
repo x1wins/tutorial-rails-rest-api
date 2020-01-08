@@ -210,7 +210,7 @@ paths:
         required: true
         default: '1'
         description: Page number
-      - name: keyword
+      - name: search
         in: query
         type: string
         description: Search Keyword
