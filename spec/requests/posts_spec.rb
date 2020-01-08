@@ -14,20 +14,6 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :per, in: :query, type: :int, description: 'Per page number'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
-      response(200, 'Successful') do
-        let(:user){
-          create(:user)
-        }
-        let(:Authorization) { authenticated_header(user: user) }
-        let(:page) { }
-        let(:per) { }
-        let(:search) { }
-
-        after do |example|
-          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-        end
-        run_test!
-      end
 
       response(200, 'Search') do
         let(:user){
@@ -37,6 +23,48 @@ RSpec.describe 'Posts API', type: :request do
         let(:page) { 1 }
         let(:per) { }
         let(:search) { 'hello' }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(200, 'Pagination') do
+        let(:total_count) { 100 }
+        before do
+          post_lists = create_list(:post, total_count)
+        end
+
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:page) { 1 }
+        let(:per) { total_count }
+        let(:search) { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it do
+          posts = JSON.parse(response.body)
+          # p response.body
+          expect(posts.class).to be(Array)
+          expect(posts.length()).to eql total_count
+        end
+        run_test!
+      end
+
+      response(200, 'Successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:page) { }
+        let(:per) { }
+        let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

@@ -221,7 +221,7 @@ paths:
       - application/json
       responses:
         '200':
-          description: Search
+          description: Successful
         '401':
           description: Unauthorized
     post:
