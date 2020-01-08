@@ -206,8 +206,7 @@ paths:
         description: JWT token for Authorization
       - name: page
         in: query
-        type: string
-        required: true
+        type: int
         default: '1'
         description: Page number
       - name: search
