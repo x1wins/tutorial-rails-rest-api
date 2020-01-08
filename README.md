@@ -12,8 +12,8 @@ TODO
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [x] Swager https://github.com/rswag/rswag
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
-- [ ] Search in posts
-- [ ] Pagnation https://github.com/ddnexus/pagy
+- [x] Search in posts
+- [x] Pagination https://github.com/kaminari/kaminari
 - [ ] N+1 
 
 How what to do
