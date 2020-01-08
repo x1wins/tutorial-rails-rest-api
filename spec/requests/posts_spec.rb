@@ -10,6 +10,7 @@ RSpec.describe 'Posts API', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: :category_id, in: :query, type: :int, default: '1', description: 'Category Id'
       parameter name: :page, in: :query, type: :int, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :int, description: 'Per page number'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
@@ -20,6 +21,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:category_id) { 1 }
         let(:page) { 1 }
         let(:per) { }
         let(:search) { 'hello' }
@@ -40,6 +42,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:category_id) { 1 }
         let(:page) { 1 }
         let(:per) { total_count }
         let(:search) { }
@@ -62,6 +65,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:category_id) { 1 }
         let(:page) { }
         let(:per) { }
         let(:search) { }
@@ -74,6 +78,7 @@ RSpec.describe 'Posts API', type: :request do
 
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
+        let(:category_id) { 1 }
         let(:page) { 1 }
         let(:per) { }
         let(:search) { }
@@ -96,7 +101,8 @@ RSpec.describe 'Posts API', type: :request do
               post: {
                   type: :object,
                   properties: {
-                      body: { type: :string }
+                      body: { type: :string },
+                      category_id: { type: :int }
                   }
               }
           }
@@ -110,7 +116,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {body: build_post.body, category_id: 1} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -123,7 +129,8 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { "Bearer invalid token" }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {body: build_post.body, category_id: 1} } }
+
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -136,7 +143,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: ""} } }
+        let(:body) { {post: {body: "", category_id: 1} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

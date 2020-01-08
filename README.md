@@ -171,3 +171,7 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             rails g scaffold category title:string body:string user:references published:boolean
         ```        
+    2. add referer
+        ```bash
+            rails g migration AddCategoryToPosts category:references
+        ```

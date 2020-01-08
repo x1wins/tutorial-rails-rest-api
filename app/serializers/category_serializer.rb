@@ -1,4 +1,4 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :published
+  attributes :id, :title, :body
   has_one :user
 end

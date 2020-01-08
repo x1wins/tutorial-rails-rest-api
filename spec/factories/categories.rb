@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :category do
-    title { "MyString" }
-    body { "MyString" }
-    user { nil }
-    published { false }
+    title { Faker::Ancient.god }
+    body { Faker::Hacker.say_something_smart }
+    user { create(:user) }
+    published { true }
   end
 end
