@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
     @posts = Post.search(search).published.by_date.page(page).per(per)
-    render json: {posts: @posts, pagnation: {page: page, per: per}, search: search}
+    render json: @posts
   end
 
   # GET /posts/1
