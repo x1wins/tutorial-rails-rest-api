@@ -206,15 +206,18 @@ paths:
         description: JWT token for Authorization
       - name: page
         in: query
-        type: string
-        required: true
+        type: int
         default: '1'
         description: Page number
+      - name: search
+        in: query
+        type: string
+        description: Search Keyword
       produces:
       - application/json
       responses:
         '200':
-          description: Successful
+          description: Search
         '401':
           description: Unauthorized
     post:
