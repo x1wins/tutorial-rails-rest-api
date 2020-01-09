@@ -101,7 +101,8 @@ RSpec.describe CategoriesController, type: :controller do
         authenticated_header(request: request, user: user)
         put :update, params: {id: category.to_param, category: new_attributes}, session: valid_session
         category.reload
-        skip("Add assertions for updated state")
+        expect(category.title).to eq(new_attributes[:title])
+        expect(category.body).to eq(new_attributes[:body])
       end
 
       it "renders a JSON response with the category" do
@@ -140,7 +141,7 @@ RSpec.describe CategoriesController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested category" do
       category = Category.create! valid_attributes
-      authenticated_header(user: another_user, request: request)
+      authenticated_header(request: request, user: user)
       expect {
         delete :destroy, params: {id: category.to_param}, session: valid_session
       }.to change(Category, :count).by(-1)
