@@ -10,9 +10,9 @@ RSpec.describe 'Posts API', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
-      parameter name: :category_id, in: :query, type: :int, default: '1', description: 'Category Id'
-      parameter name: :page, in: :query, type: :int, default: '1', description: 'Page number'
-      parameter name: :per, in: :query, type: :int, description: 'Per page number'
+      parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
+      parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
+      parameter name: :per, in: :query, type: :integer, description: 'Per page number'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
 
@@ -108,7 +108,7 @@ RSpec.describe 'Posts API', type: :request do
                   type: :object,
                   properties: {
                       body: { type: :string },
-                      category_id: { type: :int }
+                      category_id: { type: :integer }
                   }
               }
           }

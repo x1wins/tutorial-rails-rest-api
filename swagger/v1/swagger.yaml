@@ -351,17 +351,17 @@ paths:
         description: JWT token for Authorization
       - name: category_id
         in: query
-        type: int
+        type: integer
         default: '1'
         description: Category Id
       - name: page
         in: query
-        type: int
+        type: integer
         default: '1'
         description: Page number
       - name: per
         in: query
-        type: int
+        type: integer
         description: Per page number
       - name: search
         in: query
@@ -399,7 +399,7 @@ paths:
                 body:
                   type: string
                 category_id:
-                  type: int
+                  type: integer
       produces:
       - application/json
       responses:
