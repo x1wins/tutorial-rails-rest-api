@@ -374,6 +374,8 @@ paths:
           description: Successful
         '401':
           description: Unauthorized
+        '404':
+          description: Not Found Category
     post:
       summary: create post
       tags:
