@@ -144,7 +144,7 @@ RSpec.describe CategoriesController, type: :controller do
       authenticated_header(request: request, user: user)
       expect {
         delete :destroy, params: {id: category.to_param}, session: valid_session
-      }.to change(Category, :count).by(-1)
+      }.to change(Category.published, :count).by(-1)
     end
   end
 

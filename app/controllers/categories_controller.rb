@@ -39,7 +39,8 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1
   def destroy
-    @category.destroy
+    @category.published = false
+    @category.save
   end
 
   private
