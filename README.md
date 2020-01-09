@@ -165,3 +165,30 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
               end
             end
         ```
+        
+10. Category
+    1. generate
+        ```bash
+            rails g scaffold category title:string body:string user:references published:boolean
+        ```        
+    2. add referer
+        ```bash
+            rails g migration AddCategoryToPosts category:references
+        ```
+    3. migration
+        ```ruby
+             # db/seed.rb
+             user = User.create!({username: 'hello', email: 'sample@changwoo.net', password: 'hhhhhhhhh', password_confirmation: 'hhhhhhhhh'})
+             category = Category.create!({title: 'all', body: 'you can talk everything', user_id: user.id})
+             posts = Post.where(category_id: nil).or(Post.where(published: nil))
+             posts.each do |post|
+               post.category_id = category.id
+               post.published = true
+               post.save
+               p post
+             end
+             p category
+        ```
+        ```bash
+            rake db:seed
+        ```

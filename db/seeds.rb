@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+user = User.create!({username: 'hello', email: 'sample@changwoo.net', password: 'hhhhhhhhh', password_confirmation: 'hhhhhhhhh'})
+category = Category.create!({title: 'all', body: 'you can talk everything', user_id: user.id})
+posts = Post.where(category_id: nil).or(Post.where(published: nil))
+posts.each do |post|
+  post.category_id = category.id
+  post.published = true
+  post.save
+  p post
+end
+p category

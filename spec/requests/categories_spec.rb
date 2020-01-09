@@ -1,80 +1,21 @@
 require 'swagger_helper'
 
-RSpec.describe 'Posts API', type: :request do
+RSpec.describe 'Cateogories API', type: :request do
   include ApiHelper
 
-  path '/posts' do
+  path '/categories' do
 
-    get('list posts') do
-      tags 'Post'
+    get('list categories') do
+      tags 'Category'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
-      parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
-      parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
-      parameter name: :per, in: :query, type: :integer, description: 'Per page number'
-      parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
-
-      response(200, 'Search') do
-        let(:user){
-          create(:user)
-        }
-        let(:Authorization) { authenticated_header(user: user) }
-        let(:category){
-          create(:category)
-        }
-        let(:category_id) { category.id }
-        let(:page) { 1 }
-        let(:per) { }
-        let(:search) { 'hello' }
-
-        after do |example|
-          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-        end
-        run_test!
-      end
-
-      response(200, 'Pagination') do
-        let(:total_count) { 10 }
-        let(:category){
-          create(:category)
-        }
-        before do
-          create_list(:post, total_count, category: category)
-        end
-
-        let(:user){
-          create(:user)
-        }
-        let(:Authorization) { authenticated_header(user: user) }
-        let(:category_id) { category.id }
-        let(:page) { 1 }
-        let(:per) { total_count }
-        let(:search) { }
-
-        after do |example|
-          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-        end
-
-        it do
-          posts = JSON.parse(response.body)
-          # p response.body
-          expect(posts.class).to be(Array)
-          expect(posts.length()).to eql total_count
-        end
-        run_test!
-      end
-
       response(200, 'Successful') do
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:category_id) { 1 }
-        let(:page) { }
-        let(:per) { }
-        let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -84,10 +25,6 @@ RSpec.describe 'Posts API', type: :request do
 
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
-        let(:category_id) { 1 }
-        let(:page) { 1 }
-        let(:per) { }
-        let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -96,19 +33,19 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
 
-    post('create post') do
-      tags 'Post'
+    post('create category') do
+      tags 'Category'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :body, in: :body, required: true, schema: {
           type: :object,
           properties: {
-              post: {
+              category: {
                   type: :object,
                   properties: {
-                      body: { type: :string },
-                      category_id: { type: :integer }
+                      title: { type: :string },
+                      body: { type: :string }
                   }
               }
           }
@@ -118,11 +55,11 @@ RSpec.describe 'Posts API', type: :request do
         let(:user){
           create(:user)
         }
-        let(:build_post){
-          build(:post)
+        let(:build_category){
+          build(:category)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: build_post.body, category_id: build_post.category.id} } }
+        let(:body) { {category: {title: build_category.title, body: build_category.body } } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -131,12 +68,11 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(401, 'Unauthorized') do
-        let(:build_post){
-          build(:post)
+        let(:build_category){
+          build(:category)
         }
         let(:Authorization) { "Bearer invalid token" }
-        let(:body) { {post: {body: build_post.body, category_id: 1} } }
-
+        let(:body) { {category: {title: build_category.title, body: build_category.body } } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -149,7 +85,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: "", category_id: 1} } }
+        let(:body) { {category: {title: "", body: "" } } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -159,10 +95,10 @@ RSpec.describe 'Posts API', type: :request do
     end
   end
 
-  path '/posts/{id}' do
+  path '/categories/{id}' do
 
-    get('show post') do
-      tags 'Post'
+    get('show category') do
+      tags 'Category'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
@@ -172,11 +108,11 @@ RSpec.describe 'Posts API', type: :request do
         let(:user){
           create(:user)
         }
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:id) { post.id }
+        let(:id) { category.id }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -185,11 +121,11 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(401, 'Unauthorized') do
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
         let(:Authorization) { "Bearer invalid token" }
-        let(:id) { post.id }
+        let(:id) { category.id }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -201,11 +137,11 @@ RSpec.describe 'Posts API', type: :request do
         let(:user){
           create(:user)
         }
-        let(:invalid_post_id){
+        let(:invalid_category_id){
           1
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:id) { invalid_post_id }
+        let(:id) { invalid_category_id }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -214,8 +150,8 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
 
-    put('update post') do
-      tags 'Post'
+    put('update category') do
+      tags 'Category'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
@@ -223,7 +159,7 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :body, in: :body, required: true, schema: {
           type: :object,
           properties: {
-              post: {
+              category: {
                   type: :object,
                   properties: {
                       body: { type: :string }
@@ -233,15 +169,15 @@ RSpec.describe 'Posts API', type: :request do
       }
       produces 'application/json'
       response(200, 'Successful') do
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
-        let(:build_post){
-          build(:post)
+        let(:build_category){
+          build(:category)
         }
-        let(:Authorization) { authenticated_header(user: post.user) }
-        let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:Authorization) { authenticated_header(user: category.user) }
+        let(:id) { category.id }
+        let(:body) { {category: {body: build_category.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -250,18 +186,18 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(403, 'Forbidden Unathorized') do
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
-        let(:build_post){
-          build(:post)
+        let(:build_category){
+          build(:category)
         }
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:id) { category.id }
+        let(:body) { {category: {body: build_category.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -270,32 +206,32 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
 
-    delete('delete post') do
-      tags 'Post'
+    delete('delete category') do
+      tags 'Category'
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
       produces 'application/json'
       response(204, 'Successful') do
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
-        let(:Authorization) { authenticated_header(user: post.user) }
-        let(:id) { post.id }
+        let(:Authorization) { authenticated_header(user: category.user) }
+        let(:id) { category.id }
 
         run_test!
       end
 
       response(403, 'Forbidden Unathorized') do
-        let(:post){
-          create(:post)
+        let(:category){
+          create(:category)
         }
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:id) { post.id }
+        let(:id) { category.id }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

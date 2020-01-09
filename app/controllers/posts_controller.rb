@@ -7,10 +7,11 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
+    category_id = params[:category_id]
     search = params[:search]
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
-    @posts = Post.search(search).published.by_date.page(page).per(per)
+    @posts = Post.category(category_id).search(search).published.by_date.page(page).per(per)
     render json: @posts
   end
 
@@ -53,6 +54,6 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-        params.require(:post).permit(:body).merge(user_id: @current_user.id)
+        params.require(:post).permit(:body, :category_id).merge(user_id: @current_user.id)
     end
 end
