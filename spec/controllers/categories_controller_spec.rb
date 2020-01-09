@@ -24,26 +24,30 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe CategoriesController, type: :controller do
+  include ApiHelper
 
-  # This should return the minimal set of attributes required to create a valid
-  # Category. As you add validations to Category, be sure to
-  # adjust the attributes here as well.
+  let(:user){
+    create(:user)
+  }
+
+  let(:categories){
+    create_list(:category, 20, user: user)
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {title: "sample body", body: "sample body", user_id: user.id}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {title: "", body: "", user_id: user.id}
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # CategoriesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
       category = Category.create! valid_attributes
+      authenticated_header(request: request, user: user)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -52,6 +56,7 @@ RSpec.describe CategoriesController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       category = Category.create! valid_attributes
+      authenticated_header(request: request, user: user)
       get :show, params: {id: category.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -60,26 +65,27 @@ RSpec.describe CategoriesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Category" do
+        authenticated_header(request: request, user: user)
         expect {
           post :create, params: {category: valid_attributes}, session: valid_session
         }.to change(Category, :count).by(1)
       end
 
       it "renders a JSON response with the new category" do
-
+        authenticated_header(request: request, user: user)
         post :create, params: {category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to include('application/json')
         expect(response.location).to eq(category_url(Category.last))
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new category" do
-
+        authenticated_header(request: request, user: user)
         post :create, params: {category: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to include('application/json')
       end
     end
   end
@@ -87,11 +93,12 @@ RSpec.describe CategoriesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {title: "sample title", body: "sample body 222", user_id: user.id}
       }
 
       it "updates the requested category" do
         category = Category.create! valid_attributes
+        authenticated_header(request: request, user: user)
         put :update, params: {id: category.to_param, category: new_attributes}, session: valid_session
         category.reload
         skip("Add assertions for updated state")
@@ -99,20 +106,33 @@ RSpec.describe CategoriesController, type: :controller do
 
       it "renders a JSON response with the category" do
         category = Category.create! valid_attributes
-
+        authenticated_header(request: request, user: user)
         put :update, params: {id: category.to_param, category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to include('application/json')
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the category" do
         category = Category.create! valid_attributes
-
+        authenticated_header(request: request, user: user)
         put :update, params: {id: category.to_param, category: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context "with invalid Authorize" do
+      let(:another_user){
+        create(:user)
+      }
+      it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
+        category = Category.create! valid_attributes
+        authenticated_header(user: another_user, request: request)
+        put :update, params: {id: category.to_param, post: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
       end
     end
   end
@@ -120,6 +140,7 @@ RSpec.describe CategoriesController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested category" do
       category = Category.create! valid_attributes
+      authenticated_header(user: another_user, request: request)
       expect {
         delete :destroy, params: {id: category.to_param}, session: valid_session
       }.to change(Category, :count).by(-1)
