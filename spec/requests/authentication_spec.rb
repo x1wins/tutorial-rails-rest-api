@@ -5,26 +5,19 @@ RSpec.describe 'Authentication API', type: :request do
     post('login authentication') do
       tags 'Authentication'
       consumes 'application/json'
-      parameter name: :email, in: :query, type: :string, required: true, default: 'hello@changwoo.org', schema: {
-          type: :string,
+      parameter name: :body, in: :body, required: true, schema: {
+          type: :object,
           properties: {
-              email: { type: :string }
+              email: { type: :string, required: true, description: 'Email for Login', example: 'hello@changwoo.org' },
+              password: { type: :string, required: true, description: 'Password for Login', example: 'hello1234' }
           }
-      }, description: 'Email for Login'
-
-      parameter name: :password, in: :query, type: :string, required: true, default: 'hello1234', schema: {
-          type: :string,
-          properties: {
-              password: { type: :string }
-          }
-      }, description: 'Password for Login'
+      }
 
       response(200, 'Ok') do
         let(:user){
           create(:user)
         }
-        let(:email) { user.email }
-        let(:password) { user.password }
+        let(:body) { {email: user.email, password: user.password} }
         run_test!
       end
 

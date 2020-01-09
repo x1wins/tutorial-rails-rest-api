@@ -12,28 +12,22 @@ paths:
       consumes:
       - application/json
       parameters:
-      - name: email
-        in: query
-        type: string
+      - name: body
+        in: body
         required: true
-        default: hello@changwoo.org
         schema:
-          type: string
+          type: object
           properties:
             email:
               type: string
-        description: Email for Login
-      - name: password
-        in: query
-        type: string
-        required: true
-        default: hello1234
-        schema:
-          type: string
-          properties:
+              required: true
+              description: Email for Login
+              example: hello@changwoo.org
             password:
               type: string
-        description: Password for Login
+              required: true
+              description: Password for Login
+              example: hello1234
       responses:
         '200':
           description: Ok
