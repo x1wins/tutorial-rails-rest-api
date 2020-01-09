@@ -21,7 +21,10 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:category_id) { 1 }
+        let(:category){
+          create(:category)
+        }
+        let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { }
         let(:search) { 'hello' }
@@ -33,16 +36,19 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(200, 'Pagination') do
-        let(:total_count) { 100 }
+        let(:total_count) { 10 }
+        let(:category){
+          create(:category)
+        }
         before do
-          post_lists = create_list(:post, total_count)
+          create_list(:post, total_count, category: category)
         end
 
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:category_id) { 1 }
+        let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { total_count }
         let(:search) { }
@@ -116,7 +122,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: build_post.body, category_id: 1} } }
+        let(:body) { {post: {body: build_post.body, category_id: build_post.category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
