@@ -161,8 +161,27 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { "Bearer invalid token" }
-        let(:body) { {post: {body: build_post.body, category_id: 1} } }
+        let(:body) { {post: {body: build_post.body, category_id: build_post.category.id} } }
 
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(404, 'Not Found Category') do
+        let(:build_post){
+          build(:post)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:body) { {post: {body: build_post.body, category_id: category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -174,8 +193,11 @@ RSpec.describe 'Posts API', type: :request do
         let(:user){
           create(:user)
         }
+        let(:category){
+          create(:category)
+        }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: "", category_id: 1} } }
+        let(:body) { {post: {body: "", category_id: category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -238,6 +260,25 @@ RSpec.describe 'Posts API', type: :request do
         end
         run_test!
       end
+
+      response(404, 'Not Found Category') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:post){
+          create(:post, category: category)
+        }
+        let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
     end
 
     put('update post') do
@@ -275,6 +316,24 @@ RSpec.describe 'Posts API', type: :request do
         run_test!
       end
 
+      response(401, 'Unauthorized') do
+        let(:post){
+          create(:post)
+        }
+        let(:build_post){
+          build(:post)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:id) { post.id }
+        let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+        run_test!
+      end
+
       response(403, 'Forbidden Unathorized') do
         let(:post){
           create(:post)
@@ -294,6 +353,30 @@ RSpec.describe 'Posts API', type: :request do
         end
         run_test!
       end
+
+      response(404, 'Not Found Category') do
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:post){
+          create(:post, category: category)
+        }
+        let(:build_post){
+          build(:post)
+        }
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: post.user) }
+        let(:id) { post.id }
+        let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
     end
 
     delete('delete post') do
@@ -313,6 +396,20 @@ RSpec.describe 'Posts API', type: :request do
         run_test!
       end
 
+      response(401, 'Unauthorized') do
+        let(:post){
+          create(:post)
+        }
+        let(:Authorization) { "Bearer invalid token" }
+        let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+        run_test!
+      end
+
       response(403, 'Forbidden Unathorized') do
         let(:post){
           create(:post)
@@ -321,6 +418,22 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:id) { post.id }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(404, 'Not Found Category') do
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:post){
+          create(:post, category: category)
+        }
+        let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
 
         after do |example|

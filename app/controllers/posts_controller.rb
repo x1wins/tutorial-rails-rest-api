@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authorize_request
   before_action :set_post, only: [:show, :update, :destroy]
-  before_action only: [:edit, :update, :destroy] do
+  before_action only: [:update, :destroy] do
     is_owner_object @post ##your object
   end
 
@@ -24,6 +24,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
+    set_category @post.category_id
 
     if @post.save
       render json: @post, status: :created, location: @post
@@ -51,6 +52,11 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.published.find(params[:id])
+      set_category @post.category_id
+    end
+
+    def set_category category_id
+      @category = Category.published.find(category_id)
     end
 
     # Only allow a trusted parameter "white list" through.
