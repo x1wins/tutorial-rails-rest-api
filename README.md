@@ -5,6 +5,7 @@ TODO
 - [x] Generate porject ```rails new [Project Name] --api -T -d postgresql```
 - [x] Database setting Gem https://github.com/x1wins/docker-postgres-rails
 - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
+- [ ] User role
 - [ ] Category scaffold
 - [x] Post scaffold
 - [x] Comment scaffold
