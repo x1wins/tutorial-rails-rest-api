@@ -11,6 +11,7 @@ class PostsController < ApplicationController
     search = params[:search]
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
+    @category = Category.published.find(category_id) if category_id.present?
     @posts = Post.category(category_id).search(search).published.by_date.page(page).per(per)
     render json: @posts
   end
