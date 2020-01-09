@@ -40,16 +40,20 @@ RSpec.describe PostsController, type: :controller do
     create(:post)
   }
 
+  let(:category){
+    create(:category)
+  }
+
   let(:posts) {
-    create_list(:post, 20)
+    create_list(:post, 20, category: category)
   }
 
   let(:valid_attributes) {
-    {body: "sample body", user_id: user.id}
+    {body: "sample body", user_id: user.id, category_id: category.id}
   }
 
   let(:invalid_attributes) {
-    {body: "", user_id: user.id}
+    {body: "", user_id: user.id, category_id: category.id}
   }
 
   # This should return the minimal set of values that should be in the session
