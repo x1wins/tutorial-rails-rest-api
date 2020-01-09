@@ -1,8 +1,17 @@
 require 'json_web_token'
 
 class ApplicationController < ActionController::API
-  rescue_from (ActiveRecord::RecordNotFound) { |exception| handle_not_found(exception.message) }
+  rescue_from (ActiveRecord::RecordNotFound) { |exception| handle_exception(exception) }
 
+  def handle_exception exception
+    result = exception.message.match /Couldn't find ([\w]+) with 'id'=([\d]+)/
+    if result.present? and result[1].present? and result[2].present?
+      message = "Couldn't find #{result[1]} with id : #{result[2]} "
+    else
+      message = "Couldn't find"
+    end
+    handle_not_found message
+  end
   def not_found
     message = "/#{params[:a]} Page Not Found"
     handle_not_found message
