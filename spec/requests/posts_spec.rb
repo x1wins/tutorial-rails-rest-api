@@ -36,12 +36,12 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(200, 'Pagination') do
-        let(:total_count) { 10 }
+        let(:total_count) { 50 }
         let(:category){
           create(:category)
         }
         before do
-          create_list(:post, total_count, category: category)
+          create_list(:post, total_count*2 , category: category)
         end
 
         let(:user){
@@ -59,7 +59,6 @@ RSpec.describe 'Posts API', type: :request do
 
         it do
           posts = JSON.parse(response.body)
-          # p response.body
           expect(posts.class).to be(Array)
           expect(posts.length()).to eql total_count
         end

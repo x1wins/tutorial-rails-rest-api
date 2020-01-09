@@ -14,8 +14,11 @@ TODO
 - [x] Swager https://github.com/rswag/rswag
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
-- [x] Pagination https://github.com/kaminari/kaminari
-- [ ] N+1 
+- [ ] Pagination https://github.com/kaminari/kaminari
+      - [x] posts#index
+      - [ ] posts#index Comments
+      - [ ] posts#show Comments
+- [ ] N+1
 
 How what to do
 --------------
