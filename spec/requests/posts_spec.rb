@@ -70,7 +70,10 @@ RSpec.describe 'Posts API', type: :request do
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:category_id) { 1 }
+        let(:category){
+          create(:category)
+        }
+        let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
         let(:search) { }
@@ -83,14 +86,38 @@ RSpec.describe 'Posts API', type: :request do
 
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
-        let(:category_id) { 1 }
-        let(:page) { 1 }
+        let(:category){
+          create(:category)
+        }
+        let(:category_id) { category.id }
+        let(:page) { }
         let(:per) { }
         let(:search) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
         end
+        run_test!
+      end
+
+      response(404, 'Not Found Category') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:category_id) { category.id }
+        let(:page) { }
+        let(:per) { }
+        let(:search) { }
+
+        after do |example|
+          p category
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
         run_test!
       end
     end
