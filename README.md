@@ -15,9 +15,9 @@ TODO
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
 - [ ] Pagination https://github.com/kaminari/kaminari
-      - [x] posts#index
-      - [ ] posts#index Comments
-      - [ ] posts#show Comments
+  - [x] posts#index
+  - [ ] posts#index Comments
+  - [ ] posts#show Comments
 - [ ] N+1
 
 How what to do
