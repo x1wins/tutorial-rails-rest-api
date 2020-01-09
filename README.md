@@ -4,9 +4,10 @@ TODO
 ----
 - [x] Generate porject ```rails new [Project Name] --api -T -d postgresql```
 - [x] Database setting Gem https://github.com/x1wins/docker-postgres-rails
-- [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
-- [ ] User role
-- [ ] Category scaffold
+- [ ] User scaffold
+    - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
+    - [ ] User role
+- [x] Category scaffold
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
