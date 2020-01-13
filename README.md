@@ -20,6 +20,9 @@ TODO
   - [ ] posts#index Comments
   - [ ] posts#show Comments
 - [ ] N+1
+- [ ] log
+  - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
+  - [ ] ELK https://github.com/deviantony/docker-elk
 
 How what to do
 --------------
@@ -197,3 +200,33 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             rake db:seed
         ```
+11. Codegen
+    > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
+    ```bash
+        brew install swagger-codegen
+        swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
+    ```        
+    
+12. Log
+    1. ELK
+        1. config password
+            ```bash
+                $ cat kibana/config/kibana.yml
+                ---
+                ## Default Kibana configuration from Kibana base image.
+                ## https://github.com/elastic/kibana/blob/master/src/dev/build/tasks/os_packages/docker_generator/templates/kibana_yml.template.js
+                #
+                server.name: kibana
+                server.host: "0"
+                elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+                xpack.monitoring.ui.container.elasticsearch.enabled: true
+                
+                ## X-Pack security credentials
+                #
+                elasticsearch.username: elastic
+                elasticsearch.password: 7tG59gLU9keX0CT1S9vI
+            ```
+        2. disable xpack
+            https://github.com/deviantony/docker-elk#how-to-disable-paid-features
+        3. 
+        curl -XPUT 'http://localhost:5000' -d '111cwhello' -u elastic:7tG59gLU9keX0CT1S9vI
