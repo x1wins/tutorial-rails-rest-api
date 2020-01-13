@@ -20,6 +20,12 @@ TODO
   - [ ] posts#index Comments
   - [ ] posts#show Comments
 - [ ] N+1
+- [ ] log
+  - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
+  - [ ] ELK https://github.com/deviantony/docker-elk
+  
+  
+  
 
 How what to do
 --------------
