@@ -9,6 +9,7 @@ Rails.application.configure do
     exceptions = %w(controller action format id)
     {
       params: event.payload[:params].except(*exceptions),
+      ip: event.payload[:headers][:REMOTE_ADDR],
       headers: {
           HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION]
       }
