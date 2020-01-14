@@ -209,6 +209,9 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
     
 12. Log
     1. ELK
+            ```
+                git clone https://github.com/deviantony/docker-elk.git
+            ```
         1. config password
             ```bash
                 $ cat kibana/config/kibana.yml
@@ -228,5 +231,26 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
             ```
         2. disable xpack
             https://github.com/deviantony/docker-elk#how-to-disable-paid-features
-        3. 
-        curl -XPUT 'http://localhost:5000' -d '111cwhello' -u elastic:7tG59gLU9keX0CT1S9vI
+            
+        3. lograge.rb
+            ```ruby
+               # config/initializers/lograge.rb
+               Rails.application.configure do
+                 config.lograge.enabled = true
+                 config.lograge.formatter = Lograge::Formatters::Logstash.new
+                 config.lograge.logger = LogStashLogger.new(type: :tcp, host: 'localhost', port: 5000)
+                 config.lograge.custom_options = lambda do |event|
+                   exceptions = %w(controller action format id)
+                   {
+                     params: event.payload[:params].except(*exceptions),
+                     headers: {
+                         HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION]
+                     }
+                   }
+                 end
+               end
+            ```
+        4. 
+            https://github.com/roidrage/lograge
+            https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html 
+            curl -XPUT 'http://localhost:5000' -d '111cwhello' -u elastic:7tG59gLU9keX0CT1S9vI
