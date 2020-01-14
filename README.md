@@ -250,7 +250,32 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                  end
                end
             ```
-        4. 
+        4. logstash.conf
             https://github.com/roidrage/lograge
             https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html 
             curl -XPUT 'http://localhost:5000' -d '111cwhello' -u elastic:7tG59gLU9keX0CT1S9vI
+            
+            # logstash/pipeline/logstash.conf
+            ```bash
+                input {
+                    tcp {
+                        port => 5000
+                        codec => "json_lines"
+                    }
+                }
+                
+                ## Add your filters / logstash plugins configuration here
+                
+                output {
+                  elasticsearch {
+                    hosts => ["elasticsearch:9200"]
+                        user => "elastic"
+                        password => "7tG59gLU9keX0CT1S9vI"
+                    codec => json_lines
+                  }
+                  stdout {
+                    codec => json_lines
+                  }
+                }
+
+            ```
