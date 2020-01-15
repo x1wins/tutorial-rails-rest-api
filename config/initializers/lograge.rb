@@ -8,8 +8,8 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     exceptions = %w(controller action format id)
     {
-      params:      event.payload[:params].except(*exceptions),
-      type:        :rails,
+      params: event.payload[:params].except(*exceptions),
+      type: :rails,
       environment: Rails.env,
       remote_ip: event.payload[:ip],
       HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION],
@@ -17,5 +17,4 @@ Rails.application.configure do
       user_id: event.payload[:user_id]
     }
   end
-
 end
