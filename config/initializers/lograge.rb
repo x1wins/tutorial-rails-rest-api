@@ -11,10 +11,10 @@ Rails.application.configure do
       params:      event.payload[:params].except(*exceptions),
       type:        :rails,
       environment: Rails.env,
-      ip: event.payload[:headers][:REMOTE_ADDR],
-      headers: {
-          HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION]
-      }
+      remote_ip: event.payload[:ip],
+      HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION],
+      email: event.payload[:email],
+      user_id: event.payload[:user_id]
     }
   end
 
