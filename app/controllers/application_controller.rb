@@ -53,9 +53,14 @@ class ApplicationController < ActionController::API
     super
     payload[:ip] = remote_ip(request)
     if @current_user.present?
-      user = User.find(@current_user.id)
-      payload[:email] = user.email
-      payload[:user_id] = user.id
+      begin
+        user = User.find(@current_user.id)
+        payload[:email] = user.email
+        payload[:user_id] = user.id
+      rescue ActiveRecord::RecordNotFound => e
+        payload[:email] = ''
+        payload[:user_id] = ''
+      end
     end
   end
 
