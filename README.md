@@ -209,10 +209,53 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
     
 12. Log
     1. ELK
-            ```
+        1. install
+            
+            ```bash 
                 git clone https://github.com/deviantony/docker-elk.git
+                cd docker-elk
+                docker-compose build
+                docker-compose up -d # or docker-compose up --build -d 
+                docker-compose logs -f
             ```
-        1. config password
+            
+        2. config password
+            
+            ```bash
+                $ docker-compose exec -T elasticsearch bin/elasticsearch-setup-passwords auto --batch
+                Changed password for user apm_system
+                PASSWORD apm_system = MLvlkWhJcJBsKZLitEWy
+                
+                Changed password for user kibana
+                PASSWORD kibana = BmBRpoph2AqW56A2r9wN
+                
+                Changed password for user logstash_system
+                PASSWORD logstash_system = r2tGW6g8gxmnm4HA5aKf
+                
+                Changed password for user beats_system
+                PASSWORD beats_system = kOrNuDlvN0I5sDisssIK
+                
+                Changed password for user remote_monitoring_user
+                PASSWORD remote_monitoring_user = 4S5s6NShc8uZIbvqFeRk
+                
+                Changed password for user elastic
+                PASSWORD elastic = x3YUJobRIE5y88x5B8nA
+            ```
+
+            ```bash
+                docker-compose.yml              # Change 'changeme' to your new Password 
+                kibana/config/kibana.yml        # Change 'changeme' to your new Password 
+                logstash/config/logstash.yml    # Change 'changeme' to your new Password
+                logstash/pipeline/logstash.conf # Change 'changeme' to your new Password
+                docker-compose restart kibana logstash # or docker-compose restart
+                
+                curl -XPOST -D- 'http://localhost:5601/api/saved_objects/index-pattern' \
+                    -H 'Content-Type: application/json' \
+                    -H 'kbn-version: 7.5.0' \
+                    -u elastic:x3YUJobRIE5y88x5B8nA \
+                    -d '{"attributes":{"title":"logstash-*","timeFieldName":"@timestamp"}}'
+            ```
+            
             ```bash
                 $ cat kibana/config/kibana.yml
                 ---
@@ -227,11 +270,18 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                 ## X-Pack security credentials
                 #
                 elasticsearch.username: elastic
-                elasticsearch.password: 7tG59gLU9keX0CT1S9vI
+                elasticsearch.password: x3YUJobRIE5y88x5B8nA
             ```
-        2. disable xpack
+            > http://http://localhost:5601/
+            > login with id : elastic, pw : x3YUJobRIE5y88x5B8nA (or your new Password)
+                    
+        3. disable xpack
             https://github.com/deviantony/docker-elk#how-to-disable-paid-features
-        3. logstash.conf
+            ```bash
+                # elasticsearch/config/elasticsearch.yml
+                xpack.license.self_generated.type: basic
+            ```
+        4. logstash.conf
             # logstash/pipeline/logstash.conf
             ```bash
                 input {
