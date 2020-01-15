@@ -7,6 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user = User.create!({username: 'hello', email: 'sample@changwoo.net', password: 'hhhhhhhhh', password_confirmation: 'hhhhhhhhh'})
+user2 = User.create!({username: 'hello1', email: 'hello@changwoo.org', password: 'hello1234', password_confirmation: 'hello1234'})
+
 category = Category.create!({title: 'all', body: 'you can talk everything', user_id: user.id})
 posts = Post.where(category_id: nil).or(Post.where(published: nil))
 posts.each do |post|
