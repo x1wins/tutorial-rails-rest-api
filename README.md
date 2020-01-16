@@ -217,6 +217,32 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         [lograge.rb](/config/lograge.rb) <br/>
         [elk.yml](/config/elk.yml) <br/>
         [application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+        
+        > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
+        ```ruby
+            class ApplicationController < ActionController::API
+              #...leave out the details
+            
+              def append_info_to_payload(payload)
+                super
+                payload[:ip] = remote_ip(request)
+                if @current_user.present?
+                  begin
+                    user = User.find(@current_user.id)
+                    payload[:email] = user.email
+                    payload[:user_id] = user.id
+                  rescue ActiveRecord::RecordNotFound => e
+                    payload[:email] = ''
+                    payload[:user_id] = ''
+                  end
+                end
+              end
+            
+              def remote_ip(request)
+                request.headers['HTTP_X_REAL_IP'] || request.remote_ip
+              end
+            end
+        ```
          
     2. [ELK Setup](/rails_log_with_elk_setup.md)
             
