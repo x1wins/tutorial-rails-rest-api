@@ -237,6 +237,6 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
            end
     
         ```
-    2. [ELK Setup](rails log with_elk_setup.md)
+    2. [ELK Setup](/rails_log_with_elk_setup.md)
             
             
