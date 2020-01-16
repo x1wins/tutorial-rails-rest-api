@@ -6,8 +6,6 @@ Rails.application.configure do
 
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
-  # config.lograge.logger = LogStashLogger.new(type: :tcp, host: '0.0.0.0', port: 5000)
-  # config.lograge.logger = LogStashLogger.new(type: :udp, host: '0.0.0.0', port: 5000)
   config.lograge.logger = LogStashLogger.new(type: :udp, host: 'localhost', port: 5000)
   config.lograge.custom_options = lambda do |event|
     exceptions = %w(controller action format id)
