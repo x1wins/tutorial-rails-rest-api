@@ -276,14 +276,16 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
             > login with id : elastic, pw : x3YUJobRIE5y88x5B8nA (or your new Password)
                     
         3. disable xpack
+        
             https://github.com/deviantony/docker-elk#how-to-disable-paid-features
             ```bash
                 # elasticsearch/config/elasticsearch.yml
                 xpack.license.self_generated.type: basic
             ```
         4. logstash.conf
-            # logstash/pipeline/logstash.conf
+            
             ```bash
+                # logstash/pipeline/logstash.conf
                 input {
                   udp {
                     host => "0.0.0.0"
@@ -305,6 +307,82 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                     codec => json_lines
                   }
                 }
+            ```
+        5. docker-compose.yml
+            we will use UDP. you have to change "5000:5000" to "5000:5000/udp" in logstash port
+            ```yml
+                version: '3.2'
+                
+                services:
+                  elasticsearch:
+                    build:
+                      context: elasticsearch/
+                      args:
+                        ELK_VERSION: $ELK_VERSION
+                    volumes:
+                      - type: bind
+                        source: ./elasticsearch/config/elasticsearch.yml
+                        target: /usr/share/elasticsearch/config/elasticsearch.yml
+                        read_only: true
+                      - type: volume
+                        source: elasticsearch
+                        target: /usr/share/elasticsearch/data
+                    ports:
+                      - "9200:9200"
+                      - "9300:9300"
+                    environment:
+                      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+                      ELASTIC_PASSWORD: 7tG59gLU9keX0CT1S9vI
+                    networks:
+                      - elk
+                
+                  logstash:
+                    build:
+                      context: logstash/
+                      args:
+                        ELK_VERSION: $ELK_VERSION
+                    volumes:
+                      - type: bind
+                        source: ./logstash/config/logstash.yml
+                        target: /usr/share/logstash/config/logstash.yml
+                        read_only: true
+                      - type: bind
+                        source: ./logstash/pipeline
+                        target: /usr/share/logstash/pipeline
+                        read_only: true
+                    ports:
+                      - "5000:5000/udp"
+                      - "9600:9600"
+                    environment:
+                      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+                    networks:
+                      - elk
+                    depends_on:
+                      - elasticsearch
+                
+                  kibana:
+                    build:
+                      context: kibana/
+                      args:
+                        ELK_VERSION: $ELK_VERSION
+                    volumes:
+                      - type: bind
+                        source: ./kibana/config/kibana.yml
+                        target: /usr/share/kibana/config/kibana.yml
+                        read_only: true
+                    ports:
+                      - "5601:5601"
+                    networks:
+                      - elk
+                    depends_on:
+                      - elasticsearch
+                
+                networks:
+                  elk:
+                    driver: bridge
+                
+                volumes:
+                  elasticsearch:
             ```
     2. lograge.rb
     
