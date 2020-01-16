@@ -6,7 +6,9 @@ Rails.application.configure do
 
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
-  config.lograge.logger = LogStashLogger.new(type: :tcp, host: 'localhost', port: 5000)
+  # config.lograge.logger = LogStashLogger.new(type: :tcp, host: '0.0.0.0', port: 5000)
+  # config.lograge.logger = LogStashLogger.new(type: :udp, host: '0.0.0.0', port: 5000)
+  config.lograge.logger = LogStashLogger.new(type: :udp, host: 'localhost', port: 5000)
   config.lograge.custom_options = lambda do |event|
     exceptions = %w(controller action format id)
     {
@@ -21,10 +23,10 @@ Rails.application.configure do
   end
 
   # Optional, max number of items to buffer before flushing. Defaults to 50
-  config.logstash.buffer_max_items = 50
+  config.logstash.buffer_max_items = 4096
 
   # Optional, max number of seconds to wait between flushes. Defaults to 5
-  config.logstash.buffer_max_interval = 10
+  config.logstash.buffer_max_interval = 1
 
   # Optional, drop message when a connection error occurs. Defaults to false
   config.logstash.drop_messages_on_flush_error = false
@@ -32,7 +34,7 @@ Rails.application.configure do
   # Optional, drop messages when the buffer is full. Defaults to true
   config.logstash.drop_messages_on_full_buffer = true
 
-  config.logstash.max_message_size = 4096
+  # config.logstash.max_message_size = 4096
   config.logstash.buffer_max_items = 8192
-  config.logstash.buffer_max_interval = 1
+  # config.logstash.buffer_max_interval = 1
 end
