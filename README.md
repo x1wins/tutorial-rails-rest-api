@@ -20,6 +20,9 @@ TODO
   - [ ] posts#index Comments
   - [ ] posts#show Comments
 - [ ] N+1
+- [ ] log
+  - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
+  - [x] ELK https://github.com/deviantony/docker-elk
 
 How what to do
 --------------
@@ -197,3 +200,44 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             rake db:seed
         ```
+11. Codegen
+    > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
+    ```bash
+        brew install swagger-codegen
+        swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
+    ```        
+    
+12. Send log to ELK (Elastic Search, Logstash, Kibana)
+    
+    1. lograge.rb
+    
+        https://github.com/roidrage/lograge
+        
+        https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
+        ```ruby
+           # config/initializers/lograge.rb
+           # OR
+           # config/environments/production.rb
+           Rails.application.configure do
+             config.lograge.enabled = true
+             config.lograge.formatter = Lograge::Formatters::Logstash.new
+             config.lograge.logger = LogStashLogger.new(type: :tcp, host: 'localhost', port: 5000)
+             config.lograge.custom_options = lambda do |event|
+               exceptions = %w(controller action format id)
+               {
+                 params: event.payload[:params].except(*exceptions),
+                 type: :rails,
+                 environment: Rails.env,
+                 remote_ip: event.payload[:ip],
+                 HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION],
+                 email: event.payload[:email],
+                 user_id: event.payload[:user_id]
+               }
+             end
+           end
+    
+        ```
+    [rails_log_with_elk_setup.md](rails_log_with_elk_setup.md)
+    
+            
+            

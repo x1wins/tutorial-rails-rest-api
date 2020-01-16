@@ -49,4 +49,23 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def append_info_to_payload(payload)
+    super
+    payload[:ip] = remote_ip(request)
+    if @current_user.present?
+      begin
+        user = User.find(@current_user.id)
+        payload[:email] = user.email
+        payload[:user_id] = user.id
+      rescue ActiveRecord::RecordNotFound => e
+        payload[:email] = ''
+        payload[:user_id] = ''
+      end
+    end
+  end
+
+  def remote_ip(request)
+    request.headers['HTTP_X_REAL_IP'] || request.remote_ip
+  end
+
 end

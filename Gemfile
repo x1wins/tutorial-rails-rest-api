@@ -63,3 +63,7 @@ group :development, :test do
 end
 
 gem 'kaminari'
+
+gem 'lograge'
+gem 'logstash-event'
+gem 'logstash-logger'
