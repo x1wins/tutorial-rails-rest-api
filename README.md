@@ -285,10 +285,11 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
             # logstash/pipeline/logstash.conf
             ```bash
                 input {
-                    tcp {
-                        port => 5000
-                        codec => "json_lines"
-                    }
+                  udp {
+                    host => "0.0.0.0"
+                    port => 5000
+                    codec => json_lines
+                  }
                 }
                 
                 ## Add your filters / logstash plugins configuration here
@@ -296,15 +297,14 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
                 output {
                   elasticsearch {
                     hosts => ["elasticsearch:9200"]
-                        user => "elastic"
-                        password => "7tG59gLU9keX0CT1S9vI"
+                    user => "elastic"
+                    password => "7tG59gLU9keX0CT1S9vI"
                     codec => json_lines
                   }
                   stdout {
                     codec => json_lines
                   }
                 }
-
             ```
     2. lograge.rb
     
