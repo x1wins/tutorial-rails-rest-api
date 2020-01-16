@@ -1,0 +1,14 @@
+default: &default
+  enable: false
+  protocal: udp
+  host: localhost
+  port: 5000
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
