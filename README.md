@@ -130,6 +130,14 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```bash
             curl -X POST -i http://localhost:3000/comments -d '{"comment": {"body":"sample body for comment", "post_id": 2}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY"
         ```
+    6. loop curl
+        ```bash
+            for i in {1..100}; do curl -w "\n" -X POST "http://localhost:3000/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"hello@changwoo.org\", \"password\": \"hello1234\"}" >> curl.log &  done
+        ```
+        ```
+            curl -w "\n" -X POST "http://localhost:3000/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"hello@changwoo.org\", \"password\": \"hello1234\"}" >> curl.log
+        ```
+        
 
 7. [Unit Testing with Rspec](/unit_testing_with_rspec.md)
 
@@ -209,34 +217,41 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
     
 12. Send log to ELK (Elastic Search, Logstash, Kibana)
     
-    1. lograge.rb
+    1. lograge.rb with custom config
     
         https://github.com/roidrage/lograge
-        
         https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
+        
+        [lograge.rb](/config/lograge.rb) <br/>
+        [elk.yml](/config/elk.yml) <br/>
+        [application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+        
+        > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
         ```ruby
-           # config/initializers/lograge.rb
-           # OR
-           # config/environments/production.rb
-           Rails.application.configure do
-             config.lograge.enabled = true
-             config.lograge.formatter = Lograge::Formatters::Logstash.new
-             config.lograge.logger = LogStashLogger.new(type: :tcp, host: 'localhost', port: 5000)
-             config.lograge.custom_options = lambda do |event|
-               exceptions = %w(controller action format id)
-               {
-                 params: event.payload[:params].except(*exceptions),
-                 type: :rails,
-                 environment: Rails.env,
-                 remote_ip: event.payload[:ip],
-                 HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION],
-                 email: event.payload[:email],
-                 user_id: event.payload[:user_id]
-               }
-             end
-           end
-    
+            class ApplicationController < ActionController::API
+              #...leave out the details
+            
+              def append_info_to_payload(payload)
+                super
+                payload[:ip] = remote_ip(request)
+                if @current_user.present?
+                  begin
+                    user = User.find(@current_user.id)
+                    payload[:email] = user.email
+                    payload[:user_id] = user.id
+                  rescue ActiveRecord::RecordNotFound => e
+                    payload[:email] = ''
+                    payload[:user_id] = ''
+                  end
+                end
+              end
+            
+              def remote_ip(request)
+                request.headers['HTTP_X_REAL_IP'] || request.remote_ip
+              end
+            end
         ```
+         
     2. [ELK Setup](/rails_log_with_elk_setup.md)
             
             

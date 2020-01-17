@@ -63,7 +63,6 @@ RSpec.describe 'Users API', type: :request do
         end
         it do
           data = JSON.parse(response.body)
-          p data
           expect(data.class).to be(Hash)
           expect(response.status).to eq(201)
         end
