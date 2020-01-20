@@ -17,9 +17,9 @@ Rails.application.configure do
           type: :rails,
           environment: Rails.env,
           remote_ip: event.payload[:ip],
-          HTTP_AUTHORIZATION: event.payload[:headers][:HTTP_AUTHORIZATION],
           email: event.payload[:email],
-          user_id: event.payload[:user_id]
+          user_id: event.payload[:user_id],
+          headers: event.payload[:headers]
       }
     end
   end

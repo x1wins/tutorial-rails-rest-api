@@ -7,18 +7,6 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    sample = request.headers.env.select{|k, _| k.in?(ActionDispatch::Http::Headers::CGI_VARIABLES) || k =~ /^HTTP_/
-    # puts "k #{k} _ #{_}"
-    }
-    # puts "sample : "
-    # puts sample.class
-    # pp sample
-    # puts sample[:SERVER_NAME]
-    # # puts sample["SERVER_NAME"]
-    # request.headers.each { |key, value| puts "key #{key} value #{value}"
-    # puts "line end\n" }
-    sample.each { |key, value| puts "key #{key} value #{value}" }
-
     category_id = params[:category_id]
     search = params[:search]
     page = params[:page].present? ? params[:page] : 1

@@ -52,6 +52,7 @@ class ApplicationController < ActionController::API
   def append_info_to_payload(payload)
     super
     payload[:ip] = remote_ip(request)
+    header payload
     if @current_user.present?
       begin
         user = User.find(@current_user.id)
@@ -66,6 +67,11 @@ class ApplicationController < ActionController::API
 
   def remote_ip(request)
     request.headers['HTTP_X_REAL_IP'] || request.remote_ip
+  end
+
+  def header payload
+    headers = request.headers.env.select{|k, _| k.in?(ActionDispatch::Http::Headers::CGI_VARIABLES) || k =~ /^HTTP_/ }
+    payload[:headers] = headers
   end
 
 end
