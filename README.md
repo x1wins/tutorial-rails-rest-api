@@ -132,9 +132,14 @@ https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuild
         ```
     6. loop curl
         ```bash
-            for i in {1..100}; do curl -w "\n" -X POST "http://localhost:3000/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"hello@changwoo.org\", \"password\": \"hello1234\"}" >> curl.log &  done
+            for i in {1..100}; do bundle exec rspec; done
         ```
+        > if you want stop for loop
+        ```bash
+            pkill rspec
         ```
+        > login sample curl
+        ```bash
             curl -w "\n" -X POST "http://localhost:3000/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"hello@changwoo.org\", \"password\": \"hello1234\"}" >> curl.log
         ```
         
