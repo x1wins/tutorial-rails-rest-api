@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: "application#not_found"
   resources :categories
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
