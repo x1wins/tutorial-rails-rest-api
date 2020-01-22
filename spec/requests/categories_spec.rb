@@ -52,13 +52,13 @@ RSpec.describe 'Cateogories API', type: :request do
       }
       produces 'application/json'
       response(201, 'Successful') do
-        let(:user){
-          create(:user)
+        let(:admin){
+          create(:admin)
         }
         let(:build_category){
           build(:category)
         }
-        let(:Authorization) { authenticated_header(user: user) }
+        let(:Authorization) { authenticated_header(user: admin) }
         let(:body) { {category: {title: build_category.title, body: build_category.body } } }
 
         after do |example|
@@ -80,11 +80,27 @@ RSpec.describe 'Cateogories API', type: :request do
         run_test!
       end
 
-      response(422, 'Unprocessable Entity') do
+      response(403, 'Forbidden') do
         let(:user){
           create(:user)
         }
+        let(:build_category){
+          build(:category)
+        }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:body) { {category: {title: build_category.title, body: build_category.body } } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
+      response(422, 'Unprocessable Entity') do
+        let(:admin){
+          create(:admin)
+        }
+        let(:Authorization) { authenticated_header(user: admin) }
         let(:body) { {category: {title: "", body: "" } } }
 
         after do |example|
@@ -169,8 +185,11 @@ RSpec.describe 'Cateogories API', type: :request do
       }
       produces 'application/json'
       response(200, 'Successful') do
+        let(:admin){
+          create(:admin)
+        }
         let(:category){
-          create(:category)
+          create(:category, user: admin)
         }
         let(:build_category){
           build(:category)
@@ -214,8 +233,11 @@ RSpec.describe 'Cateogories API', type: :request do
       parameter name: 'id', in: :path, type: :string, description: 'id'
       produces 'application/json'
       response(204, 'Successful') do
+        let(:admin){
+          create(:admin)
+        }
         let(:category){
-          create(:category)
+          create(:category, user: admin)
         }
         let(:Authorization) { authenticated_header(user: category.user) }
         let(:id) { category.id }
