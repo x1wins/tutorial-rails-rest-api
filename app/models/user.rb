@@ -1,5 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
+  before_save :default_roles
+  def default_roles
+    self.roles = [:author]
+  end
+
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, presence: true, uniqueness: true
@@ -26,4 +31,5 @@ class User < ApplicationRecord
   def is?(role)
     roles.include?(role.to_s)
   end
+
 end
