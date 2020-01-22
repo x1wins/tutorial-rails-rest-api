@@ -77,7 +77,14 @@ class ApplicationController < ActionController::API
 
   def is_banned user
     if user.is? :banned
-      render json: { error: 'banned' }, status: :unauthorized
+      render json: { error: 'banned' }, status: :forbidden
+    end
+  end
+
+  def is_role role
+    user = User.find(@current_user.id)
+    unless user.is? role
+      render json: { error: "required #{role.to_s}" }, status: :forbidden
     end
   end
 
