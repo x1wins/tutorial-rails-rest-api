@@ -1,10 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
-  before_save :default_roles
-  def default_roles
-    self.roles = %w[author]
-  end
-
+  before_create :default_roles
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :username, presence: true, uniqueness: true
@@ -15,6 +11,15 @@ class User < ApplicationRecord
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
 
   ROLES = %w[admin moderator author banned].freeze
+
+  def default_roles
+    self.roles = %w[author]
+  end
+
+  def admin_roles
+    self.roles = %w[admin]
+    self.save
+  end
 
   def roles=(roles)
     self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
