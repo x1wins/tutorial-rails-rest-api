@@ -30,16 +30,20 @@ RSpec.describe CategoriesController, type: :controller do
     create(:user)
   }
 
+  let(:admin){
+    create(:admin)
+  }
+
   let(:categories){
     create_list(:category, 20, user: user)
   }
 
   let(:valid_attributes) {
-    {title: "sample body", body: "sample body", user_id: user.id}
+    {title: "sample body", body: "sample body", user_id: admin.id}
   }
 
   let(:invalid_attributes) {
-    {title: "", body: "", user_id: user.id}
+    {title: "", body: "", user_id: admin.id}
   }
 
   let(:valid_session) { {} }
@@ -65,14 +69,14 @@ RSpec.describe CategoriesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Category" do
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         expect {
           post :create, params: {category: valid_attributes}, session: valid_session
         }.to change(Category, :count).by(1)
       end
 
       it "renders a JSON response with the new category" do
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         post :create, params: {category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
@@ -82,9 +86,18 @@ RSpec.describe CategoriesController, type: :controller do
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new category" do
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         post :create, params: {category: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context "with role" do
+      it "renders a JSON response with errors for not admin role" do
+        authenticated_header(request: request, user: user)
+        post :create, params: {category: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(:forbidden)
         expect(response.content_type).to include('application/json')
       end
     end
@@ -93,12 +106,12 @@ RSpec.describe CategoriesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        {title: "sample title", body: "sample body 222", user_id: user.id}
+        {title: "sample title", body: "sample body 222", user_id: admin.id}
       }
 
       it "updates the requested category" do
         category = Category.create! valid_attributes
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         put :update, params: {id: category.to_param, category: new_attributes}, session: valid_session
         category.reload
         expect(category.title).to eq(new_attributes[:title])
@@ -107,7 +120,7 @@ RSpec.describe CategoriesController, type: :controller do
 
       it "renders a JSON response with the category" do
         category = Category.create! valid_attributes
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         put :update, params: {id: category.to_param, category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to include('application/json')
@@ -117,7 +130,7 @@ RSpec.describe CategoriesController, type: :controller do
     context "with invalid params" do
       it "renders a JSON response with errors for the category" do
         category = Category.create! valid_attributes
-        authenticated_header(request: request, user: user)
+        authenticated_header(request: request, user: admin)
         put :update, params: {id: category.to_param, category: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
@@ -125,13 +138,21 @@ RSpec.describe CategoriesController, type: :controller do
     end
 
     context "with invalid Authorize" do
-      let(:another_user){
-        create(:user)
+      let(:another_admin){
+        create(:admin)
       }
       it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
         category = Category.create! valid_attributes
-        authenticated_header(user: another_user, request: request)
+        authenticated_header(user: another_admin, request: request)
         put :update, params: {id: category.to_param, post: invalid_attributes}, session: valid_session
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
+      end
+
+      it "renders a JSON response with errors for not admin role" do
+        category = Category.create! valid_attributes
+        authenticated_header(request: request, user: user)
+        put :update, params: {id: category.to_param, category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:forbidden)
         expect(response.content_type).to include('application/json')
       end
@@ -141,11 +162,37 @@ RSpec.describe CategoriesController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested category" do
       category = Category.create! valid_attributes
-      authenticated_header(request: request, user: user)
+      authenticated_header(request: request, user: admin)
       expect {
         delete :destroy, params: {id: category.to_param}, session: valid_session
       }.to change(Category.published, :count).by(-1)
     end
+
+    context "with invalid Authorize" do
+      let(:another_admin){
+        create(:admin)
+      }
+      it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
+        category = Category.create! valid_attributes
+        authenticated_header(request: request, user: another_admin)
+        expect {
+          delete :destroy, params: {id: category.to_param}, session: valid_session
+        }.to change(Category.published, :count).by(0)
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
+      end
+
+      it "renders a JSON response with errors for not admin role" do
+        category = Category.create! valid_attributes
+        authenticated_header(request: request, user: user)
+        expect {
+          delete :destroy, params: {id: category.to_param}, session: valid_session
+        }.to change(Category.published, :count).by(0)
+        expect(response).to have_http_status(:forbidden)
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
   end
 
 end

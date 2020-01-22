@@ -27,6 +27,7 @@ class ApplicationController < ActionController::API
     begin
       @decoded = JsonWebToken.decode(header)
       @current_user = User.find(@decoded[:user_id])
+      is_banned @current_user
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
@@ -72,6 +73,19 @@ class ApplicationController < ActionController::API
   def header payload
     headers = request.headers.env.select{|k, _| k.in?(ActionDispatch::Http::Headers::CGI_VARIABLES) || k =~ /^HTTP_/ }
     payload[:headers] = headers
+  end
+
+  def is_banned user
+    if user.is? :banned
+      render json: { error: 'banned' }, status: :forbidden
+    end
+  end
+
+  def is_role role
+    user = User.find(@current_user.id)
+    unless user.is? role
+      render json: { error: "required #{role.to_s}" }, status: :forbidden
+    end
   end
 
 end

@@ -1,5 +1,8 @@
 class CategoriesController < ApplicationController
   before_action :authorize_request
+  before_action except: [:index, :show] do
+    is_role :admin
+  end
   before_action :set_category, only: [:show, :update, :destroy]
   before_action only: [:edit, :update, :destroy] do
     is_owner_object @category ##your object
