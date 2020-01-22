@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   before_save :default_roles
   def default_roles
-    self.roles = ["author"]
+    self.roles = %w[author]
   end
 
   validates :email, presence: true, uniqueness: true
