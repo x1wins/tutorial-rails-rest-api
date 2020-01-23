@@ -5,6 +5,7 @@ How to Run
 
 1. Ready to database
     ```bash
+        rake docker:db:init
         rake docker:db:run
     ```
     ```bash
