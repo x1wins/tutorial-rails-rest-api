@@ -5,16 +5,22 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'factory_bot_rails'
 
-user = User.create!({username: 'hello', email: 'sample@changwoo.net', password: 'hhhhhhhhh', password_confirmation: 'hhhhhhhhh'})
-user2 = User.create!({username: 'hello1', email: 'hello@changwoo.org', password: 'hello1234', password_confirmation: 'hello1234'})
-
-category = Category.create!({title: 'all', body: 'you can talk everything', user_id: user.id})
-posts = Post.where(category_id: nil).or(Post.where(published: nil))
-posts.each do |post|
-  post.category_id = category.id
-  post.published = true
-  post.save
-  p post
+email = 'hello@changwoo.org'
+unless User.where(email: email)
+  User.create!({username: 'hello1', email: 'hello@changwoo.org', password: 'hello1234', password_confirmation: 'hello1234'})
 end
-p category
+
+admin = FactoryBot.create :admin
+
+10.times do
+  category = FactoryBot.create :category, user: admin
+  30.times do
+    user = FactoryBot.create :user
+    post = FactoryBot.create :post, user: user, category: category
+    30.times do
+      FactoryBot.create :comment, post: post
+    end
+  end
+end
