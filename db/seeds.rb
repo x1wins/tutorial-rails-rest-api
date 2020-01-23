@@ -5,16 +5,25 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'factory_bot_rails'
 
-user = User.create!({username: 'hello', email: 'sample@changwoo.net', password: 'hhhhhhhhh', password_confirmation: 'hhhhhhhhh'})
-user2 = User.create!({username: 'hello1', email: 'hello@changwoo.org', password: 'hello1234', password_confirmation: 'hello1234'})
-
-category = Category.create!({title: 'all', body: 'you can talk everything', user_id: user.id})
-posts = Post.where(category_id: nil).or(Post.where(published: nil))
-posts.each do |post|
-  post.category_id = category.id
-  post.published = true
-  post.save
-  p post
+email = 'hello@changwoo.org'
+unless User.exists?(email: email)
+  User.create!({name: 'Nick', username: 'hello1', email: email, password: 'hello1234', password_confirmation: 'hello1234'})
 end
-p category
+
+admin = FactoryBot.create :admin
+user_count = rand(1..20)
+category_count = rand(1..10)
+post_count = rand(1..20)
+comment_count = rand(1..100)
+users = FactoryBot.create_list :user, user_count
+category_count.times do
+  category = FactoryBot.create :category, user: admin
+  post_count.times do
+    post = FactoryBot.create :post, user: users[rand(0...user_count)], category: category
+    comment_count.times do
+      FactoryBot.create :comment, post: post, user: users[rand(0...user_count)]
+    end
+  end
+end
