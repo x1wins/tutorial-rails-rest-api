@@ -1,5 +1,44 @@
 # tutorial-rails-rest-api
 
+How to Run
+----------
+
+1. Ready to database
+    ```bash
+        rake docker:db:run
+    ```
+    ```bash
+        bundle install
+    ````
+    ```bash
+        rake db:migrate
+        rake db:migrate RAILS_ENV=test
+    ````
+    ```bash
+      rake db:seed
+    ```
+2. ELK
+    ```bash
+        git clone https://github.com/deviantony/docker-elk
+        cd docker-elk
+        docker-compose exec -T elasticsearch bin/elasticsearch-setup-passwords auto --batch
+        # https://github.com/deviantony/docker-elk#setting-up-user-authentication
+        docker-compose up --build
+    ```
+3. Testing
+    ```bash
+      bundle exec rpsec --format documentation
+    ```
+4. Rails Server Run
+    ```bash
+      rails s
+    ```
+5. Swagger - Restful Api Documentation
+    ```bash
+        rake rswag 
+    ``` 
+    > http://localhost:3000/api-docs/index.html
+
 TODO
 ----
 - [x] Generate porject ```rails new [Project Name] --api -T -d postgresql```
