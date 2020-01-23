@@ -13,16 +13,16 @@ unless User.exists?(email: email)
 end
 
 admin = FactoryBot.create :admin
-user_count = rand(1..20)
-category_count = rand(1..10)
-post_count_max = rand(1..20)
-comment_count_max = rand(1..100)
+user_count = 50
+category_count = rand(10..20)
+post_count_max = 30
+comment_count_max = 30
 users = FactoryBot.create_list :user, user_count
 category_count.times do
   category = FactoryBot.create :category, user: admin
-  rand(1..post_count_max).times do
+  rand(0..post_count_max).times do
     post = FactoryBot.create :post, user: users[rand(0...user_count)], category: category
-    rand(1..comment_count_max).times do
+    rand(0..comment_count_max).times do
       FactoryBot.create :comment, post: post, user: users[rand(0...user_count)]
     end
   end
