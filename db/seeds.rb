@@ -8,8 +8,8 @@
 require 'factory_bot_rails'
 
 email = 'hello@changwoo.org'
-unless User.where(email: email)
-  User.create!({username: 'hello1', email: 'hello@changwoo.org', password: 'hello1234', password_confirmation: 'hello1234'})
+unless User.exists?(email: email)
+  User.create!({name: 'Nick', username: 'hello1', email: email, password: 'hello1234', password_confirmation: 'hello1234'})
 end
 
 admin = FactoryBot.create :admin
