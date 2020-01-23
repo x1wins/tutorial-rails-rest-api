@@ -13,14 +13,17 @@ unless User.where(email: email)
 end
 
 admin = FactoryBot.create :admin
-
-10.times do
+user_count = rand(1..20)
+category_count = rand(1..10)
+post_count = rand(1..20)
+comment_count = rand(1..100)
+users = FactoryBot.create_list :user, user_count
+category_count.times do
   category = FactoryBot.create :category, user: admin
-  30.times do
-    user = FactoryBot.create :user
-    post = FactoryBot.create :post, user: user, category: category
-    30.times do
-      FactoryBot.create :comment, post: post
+  post_count.times do
+    post = FactoryBot.create :post, user: users[rand(0...user_count)], category: category
+    comment_count.times do
+      FactoryBot.create :comment, post: post, user: users[rand(0...user_count)]
     end
   end
 end
