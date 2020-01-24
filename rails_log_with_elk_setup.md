@@ -37,11 +37,14 @@
             kibana/config/kibana.yml        # Change 'changeme' to your new Password 
             logstash/config/logstash.yml    # Change 'changeme' to your new Password
             logstash/pipeline/logstash.conf # Change 'changeme' to your new Password
+            
+            sed -i -e 's/changeme/YOUR_NEW_elastic_PASSWORD/g' docker-compose.yml kibana/config/kibana.yml logstash/config/logstash.yml logstash/pipeline/logstash.conf  
+            
             docker-compose restart kibana logstash # or docker-compose restart
             
             curl -XPOST -D- 'http://localhost:5601/api/saved_objects/index-pattern' \
                 -H 'Content-Type: application/json' \
-                -H 'kbn-version: 7.5.0' \
+                -H 'kbn-version: 7.5.1' \
                 -u elastic:x3YUJobRIE5y88x5B8nA \
                 -d '{"attributes":{"title":"logstash-*","timeFieldName":"@timestamp"}}'
         ```
