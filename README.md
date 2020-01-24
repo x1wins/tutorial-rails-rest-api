@@ -5,6 +5,7 @@ How to Run
 
 1. Ready to database
     ```bash
+        rake docker:db:init
         rake docker:db:run
     ```
     ```bash
@@ -15,7 +16,7 @@ How to Run
         rake db:migrate RAILS_ENV=test
     ````
     ```bash
-      rake db:seed
+        rake db:seed
     ```
 2. ELK
     ```bash
@@ -27,11 +28,11 @@ How to Run
     ```
 3. Testing
     ```bash
-      bundle exec rpsec --format documentation
+        bundle exec rpsec --format documentation
     ```
 4. Rails Server Run
     ```bash
-      rails s
+        rails s
     ```
 5. Swagger - Restful Api Documentation
     ```bash
@@ -62,6 +63,7 @@ TODO
 - [ ] log
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
+- [ ] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
 
 How what to do
 --------------
