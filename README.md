@@ -5,12 +5,12 @@ How to Run
 
 1. Ready to database
     ```bash
+        bundle install
+    ````
+    ```bash
         rake docker:db:init
         rake docker:db:run
     ```
-    ```bash
-        bundle install
-    ````
     ```bash
         rake db:migrate
         rake db:migrate RAILS_ENV=test
