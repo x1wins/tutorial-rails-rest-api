@@ -14,6 +14,36 @@ RSpec.describe 'Comments API', type: :request do
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :integer, description: 'Per page number'
       produces 'application/json'
+
+      response(200, 'Pagination') do
+        let(:total_count) { 12 }
+        let(:post){
+          create(:post)
+        }
+        before do
+          create_list(:comment, total_count*2 , post: post)
+        end
+
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:post_id) { post.id }
+        let(:page) { 1 }
+        let(:per) { total_count/2 }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it do
+          comments = JSON.parse(response.body)
+          expect(comments.class).to be(Array)
+          expect(comments.length()).to eql per
+        end
+        run_test!
+      end
+
       response(200, 'Successful') do
         let(:user){
           create(:user)
@@ -44,6 +74,47 @@ RSpec.describe 'Comments API', type: :request do
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
         end
+        run_test!
+      end
+
+      response(404, 'Not Found Category') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category){
+          create(:category, published: false)
+        }
+        let(:post){
+          create(:post, published: true, category: category)
+        }
+        let(:post_id) { post.id }
+        let(:page) { }
+        let(:per) { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        run_test!
+      end
+
+      response(404, 'Not Found Post') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:post){
+          create(:post, published: false)
+        }
+        let(:post_id) { post.id }
+        let(:page) { }
+        let(:per) { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
         run_test!
       end
     end

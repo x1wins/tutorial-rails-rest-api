@@ -215,6 +215,8 @@ paths:
           description: Successful
         '401':
           description: Unauthorized
+        '404':
+          description: Not Found Post
     post:
       summary: create comment
       tags:
