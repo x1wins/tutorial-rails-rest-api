@@ -58,7 +58,7 @@ RSpec.describe CommentsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       authenticated_header(request: request, user: user)
-      get :index, params: {}, session: valid_session
+      get :index, params: {post_id: first_post.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
