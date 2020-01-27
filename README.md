@@ -62,7 +62,9 @@ TODO
   - [ ] posts#show Comments
 - [x] Parent Model 404 check in Nested Model
   - [x] Parent Category in Post#index 404 check
+    - [x] Post rspec
   - [x] Parent Post, Category in Comment#index 404 check
+    - [x] Comment rspec
 - [ ] N+1
 - [ ] log
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
