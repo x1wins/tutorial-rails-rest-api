@@ -67,18 +67,18 @@ TODO
 
 How what to do
 --------------
-* [Build Json with active_model_serializers Gem](#build_json_with_active_model_serializers-gem) 
-* [Nested Model](#nested_model)
-* [add published](#add_published)
+* [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
+* [Nested Model](#nested-model)
+* [add published](#add-published)
 * [Category](#category)
 * [Testing](#testing)
-    * [Facker gem](#facker_gem)
+    * [Facker gem](#facker-gem)
     * [CURL](#curl)
-    * [Unit Testing with Rspec](/unit_testing_with_rspec.md)
-* [rswag for API Documentation](#rswag_for_api_documentation)
+    * [Unit Testing with Rspec](/unit-testing_with-rspec.md)
+* [rswag for API Documentation](#rswag-for-api-documentation)
 * [Codegen](#codegen)
-* [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log_for_elk_stack_-elastic-search-logstash-kibana-)
-    * [lograge.rb with custom config](lograge_rb_with_custom_config)
+* [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+    * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
 
 #### Build Json with active_model_serializers Gem
