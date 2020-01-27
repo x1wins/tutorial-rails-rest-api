@@ -74,14 +74,14 @@ How what to do
 * [Testing](#testing)
     * [Facker gem](#facker-gem)
     * [CURL](#curl)
-    * [Unit Testing with Rspec](/unit-testing_with-rspec.md)
+    * [Unit Testing with Rspec](/unit_testing_with_rspec.md)
 * [rswag for API Documentation](#rswag-for-api-documentation)
 * [Codegen](#codegen)
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
 
-#### Build Json with active_model_serializers Gem
+### Build Json with active_model_serializers Gem
 1. Gemfile
     ```bash
       gem 'active_model_serializers'
@@ -125,7 +125,7 @@ How what to do
       ActiveModelSerializers.config.default_includes = '**'
     ```      
       
-#### Nested Model        
+### Nested Model        
 1. Comment Controller
     ```ruby
       class CommentsController < ApplicationController
@@ -157,7 +157,7 @@ How what to do
       end
     ```
     
-#### add published
+### add published
 1. alter column
     ```bash
        $ rails generate migration ChangePublishedDefaultToComments published:boolean
@@ -181,7 +181,7 @@ How what to do
         end
     ```
         
-#### Category
+### Category
 1. generate
     ```bash
         rails g scaffold category title:string body:string user:references published:boolean
@@ -208,8 +208,8 @@ How what to do
         rake db:seed
     ```    
 
-#### Testing
-##### Facker gem
+### Testing
+#### Facker gem
 
 > https://rubyinrails.com/2018/11/10/rails-building-json-api-resopnses-with-jbuilder/
 
@@ -217,7 +217,7 @@ How what to do
         gem 'faker', '~> 1.9.1', group: [:development, :test]
     ```
 
-##### CURL
+#### CURL
 1. Join User
     ```bash
         curl -d '{"user": {"name":"ChangWoo", "username":"CW", "email":"x1wins@changwoo.org", "password":"hello1234", "password_confirmation":"hello1234"}}' -H "Content-Type: application/json" -X POST -i http://localhost:3000/users
@@ -255,9 +255,9 @@ How what to do
         curl -w "\n" -X POST "http://localhost:3000/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"email\": \"hello@changwoo.org\", \"password\": \"hello1234\"}" >> curl.log
     ```
 
-##### [Unit Testing with Rspec](/unit_testing_with_rspec.md)
+#### [Unit Testing with Rspec](/unit_testing_with_rspec.md)
 
-#### rswag for API Documentation
+### rswag for API Documentation
 1. testing
     ``` bundle exec rspec spec/requests/users_spec.rb --format documentation ```
 2. Generate documentation
@@ -268,15 +268,15 @@ How what to do
     
     ![swagger_screencapture](/localhost-3000-api-docs-index-html.png)
     
-#### Codegen
+### Codegen
     > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
     ```bash
         brew install swagger-codegen
         swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
     ```        
     
-#### Log For ELK stack (Elastic Search, Logstash, Kibana)
-##### lograge.rb with custom config
+### Log For ELK stack (Elastic Search, Logstash, Kibana)
+#### lograge.rb with custom config
 
     > https://github.com/roidrage/lograge
     
@@ -312,4 +312,4 @@ How what to do
         end
     ```
      
-##### [ELK Setup](/rails_log_with_elk_setup.md)
+#### [ELK Setup](/rails_log_with_elk_setup.md)
