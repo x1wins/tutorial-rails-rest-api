@@ -276,18 +276,15 @@ How what to do
     ```        
     
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
-#### lograge.rb with custom config
 
-    > https://github.com/roidrage/lograge
-    
-    > https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
-    
-    [lograge.rb](/config/lograge.rb) <br/>
-    [elk.yml](/config/elk.yml) <br/>
-    [application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
-    
-    > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
-    ```ruby
+#### lograge.rb with custom config
+https://github.com/roidrage/lograge
+https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
+[lograge.rb](/config/lograge.rb) <br/>
+[elk.yml](/config/elk.yml) <br/>
+[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+> override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
+```ruby
         class ApplicationController < ActionController::API
           #...leave out the details
         
@@ -310,6 +307,6 @@ How what to do
             request.headers['HTTP_X_REAL_IP'] || request.remote_ip
           end
         end
-    ```
-     
+```
+         
 #### [ELK Setup](/rails_log_with_elk_setup.md)
