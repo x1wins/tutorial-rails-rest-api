@@ -67,7 +67,7 @@ TODO
 
 How what to do
 --------------
-* [Build Json with active_model_serializers](#build_json_with_active_model_serializers]) 
+* [Build Json with active_model_serializers Gem](#build_json_with_active_model_serializers-gem]) 
 * [Nested Model](#nested_model)
 * [add published](#add_published)
 * [Category](#category)
