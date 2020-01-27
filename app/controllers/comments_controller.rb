@@ -10,6 +10,9 @@ class CommentsController < ApplicationController
     post_id = params[:post_id]
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
+    @post = Post.published.find(post_id) if post_id.present?
+    category_id = @post.category_id
+    @category = Category.published.find(category_id)
     @comments = Comment.post(post_id).published.by_date.page(page).per(per)
     render json: @comments
   end
