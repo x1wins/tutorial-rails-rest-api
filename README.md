@@ -56,6 +56,7 @@ TODO
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
 - [ ] Pagination https://github.com/kaminari/kaminari
+  - [ ] categories#index
   - [x] posts#index
   - [ ] posts#index Comments
   - [ ] posts#show Comments

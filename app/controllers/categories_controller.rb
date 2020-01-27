@@ -10,8 +10,9 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @categories = Category.all
-
+    page = params[:page].present? ? params[:page] : 1
+    per = params[:per].present? ? params[:per] : 10
+    @categories = Category.published.by_date.page(page).per(per)
     render json: @categories
   end
 
