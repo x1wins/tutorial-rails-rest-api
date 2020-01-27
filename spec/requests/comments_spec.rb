@@ -10,14 +10,21 @@ RSpec.describe 'Comments API', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
-      parameter name: :page, in: :query, type: :string, required: true, default: '1', description: 'Page number'
+      parameter name: :post_id, in: :query, type: :integer, default: '1', description: 'Post Id'
+      parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
+      parameter name: :per, in: :query, type: :integer, description: 'Per page number'
       produces 'application/json'
       response(200, 'Successful') do
         let(:user){
           create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:page) { '1' }
+        let(:post){
+          create(:post)
+        }
+        let(:post_id) { post.id }
+        let(:page) { 1 }
+        let(:per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -27,7 +34,12 @@ RSpec.describe 'Comments API', type: :request do
 
       response(401, 'Unauthorized') do
         let(:Authorization) { "Bearer invalid token" }
-        let(:page) { '1' }
+        let(:post){
+          create(:post)
+        }
+        let(:post_id) { post.id }
+        let(:page) { 1 }
+        let(:per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

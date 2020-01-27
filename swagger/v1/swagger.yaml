@@ -87,6 +87,8 @@ paths:
           description: Successful
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden
         '422':
           description: Unprocessable Entity
   "/categories/{id}":
@@ -192,12 +194,20 @@ paths:
         in: header
         type: string
         description: JWT token for Authorization
+      - name: post_id
+        in: query
+        type: integer
+        default: '1'
+        description: Post Id
       - name: page
         in: query
-        type: string
-        required: true
+        type: integer
         default: '1'
         description: Page number
+      - name: per
+        in: query
+        type: integer
+        description: Per page number
       produces:
       - application/json
       responses:

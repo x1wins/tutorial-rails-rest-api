@@ -7,9 +7,10 @@ class CommentsController < ApplicationController
 
   # GET /comments
   def index
+    post_id = params[:post_id]
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
-    @comments = Comment.published.by_date.page(page).per(per)
+    @comments = Comment.post(post_id).published.by_date.page(page).per(per)
     render json: @comments
   end
 
