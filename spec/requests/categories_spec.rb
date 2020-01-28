@@ -16,8 +16,11 @@ RSpec.describe 'Cateogories API', type: :request do
 
       response(200, 'Category Pagination') do
         let(:total_count) { 12 }
+        let(:admin){
+          create(:admin)
+        }
         before do
-          create_list(:category, total_count*2)
+          create_list(:category, total_count*2, user: admin)
         end
 
         let(:user){
@@ -47,12 +50,15 @@ RSpec.describe 'Cateogories API', type: :request do
         let(:category){
           create(:category)
         }
+        let(:admin){
+          create(:admin)
+        }
         let(:post_user){
           create(:user)
         }
 
         before do
-          categories = create_list(:category, total_count*2)
+          categories = create_list(:category, total_count*2, user: admin)
           categories.each {|category|
             create_list(:post, post_count , category: category, user: post_user)
           }
