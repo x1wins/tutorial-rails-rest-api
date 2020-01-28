@@ -44,8 +44,11 @@ RSpec.describe 'Posts API', type: :request do
         let(:category){
           create(:category)
         }
+        let(:post_user){
+          create(:user)
+        }
         before do
-          create_list(:post, total_count*2 , category: category)
+          create_list(:post, total_count*2 , category: category, user: post_user)
         end
 
         let(:user){
@@ -77,12 +80,15 @@ RSpec.describe 'Posts API', type: :request do
         let(:category){
           create(:category)
         }
+        let(:post_user){
+          create(:user)
+        }
         let(:comment_user){
           create(:user)
         }
 
         before do
-          posts = create_list(:post, total_count*2 , category: category)
+          posts = create_list(:post, total_count*2 , category: category, user: post_user)
           posts.each {|post|
             create_list(:comment, comment_count , post: post, user: comment_user)
           }
