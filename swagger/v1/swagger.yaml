@@ -47,6 +47,15 @@ paths:
         in: header
         type: string
         description: JWT token for Authorization
+      - name: page
+        in: query
+        type: integer
+        default: '1'
+        description: Page number
+      - name: per
+        in: query
+        type: integer
+        description: Per page number
       produces:
       - application/json
       responses:

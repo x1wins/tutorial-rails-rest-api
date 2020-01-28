@@ -56,10 +56,15 @@ TODO
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
 - [ ] Pagination https://github.com/kaminari/kaminari
-  - [ ] categories#index
+  - [x] categories#index
   - [x] posts#index
   - [ ] posts#index Comments
   - [ ] posts#show Comments
+- [x] Parent Model 404 check in Nested Model
+  - [x] Parent Category in Post#index 404 check
+    - [x] Post rspec
+  - [x] Parent Post, Category in Comment#index 404 check
+    - [x] Comment rspec
 - [ ] N+1
 - [ ] log
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
