@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :authorize_request
+  before_action :post_pagination_params, only: [:index, :show]
   before_action except: [:index, :show] do
     is_role :admin
   end
@@ -13,7 +14,7 @@ class CategoriesController < ApplicationController
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
     @categories = Category.published.by_date.page(page).per(per)
-    render json: @categories
+    render json: @categories, post_page: @post_page, post_per: @post_per
   end
 
   # GET /categories/1
@@ -56,5 +57,10 @@ class CategoriesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def category_params
       params.require(:category).permit(:title, :body).merge(user_id: @current_user.id)
+    end
+
+    def post_pagination_params
+      @post_page = params[:post_page].present? ? params[:post_page] : 1
+      @post_per = params[:post_per].present? ? params[:post_per] : 10
     end
 end
