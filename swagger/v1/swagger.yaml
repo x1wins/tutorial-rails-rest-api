@@ -47,6 +47,23 @@ paths:
         in: header
         type: string
         description: JWT token for Authorization
+      - name: page
+        in: query
+        type: integer
+        default: '1'
+        description: Page number
+      - name: per
+        in: query
+        type: integer
+        description: Per page number
+      - name: post_page
+        in: query
+        type: integer
+        description: Page number for Post
+      - name: post_per
+        in: query
+        type: integer
+        description: Per page number For Post
       produces:
       - application/json
       responses:
@@ -110,6 +127,14 @@ paths:
         type: string
         description: id
         required: true
+      - name: post_page
+        in: query
+        type: integer
+        description: Page number for Post
+      - name: post_per
+        in: query
+        type: integer
+        description: Per page number For Post
       produces:
       - application/json
       responses:

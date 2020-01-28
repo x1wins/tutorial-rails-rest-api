@@ -12,6 +12,8 @@ RSpec.describe 'Cateogories API', type: :request do
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :integer, description: 'Per page number'
+      parameter name: :post_page, in: :query, type: :integer, description: 'Page number for Post'
+      parameter name: :post_per, in: :query, type: :integer, description: 'Per page number For Post'
       produces 'application/json'
 
       response(200, 'Category Pagination') do
@@ -97,6 +99,8 @@ RSpec.describe 'Cateogories API', type: :request do
         let(:Authorization) { authenticated_header(user: user) }
         let(:page) { 1 }
         let(:per) { }
+        let(:post_page) { }
+        let(:post_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -108,6 +112,8 @@ RSpec.describe 'Cateogories API', type: :request do
         let(:Authorization) { "Bearer invalid token" }
         let(:page) { 1 }
         let(:per) { }
+        let(:post_page) { }
+        let(:post_per) { }
         
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -202,6 +208,8 @@ RSpec.describe 'Cateogories API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: :post_page, in: :query, type: :integer, description: 'Page number for Post'
+      parameter name: :post_per, in: :query, type: :integer, description: 'Per page number For Post'
       produces 'application/json'
       response(200, 'Successful') do
         let(:user){
@@ -212,6 +220,8 @@ RSpec.describe 'Cateogories API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { category.id }
+        let(:post_page) { }
+        let(:post_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -225,6 +235,8 @@ RSpec.describe 'Cateogories API', type: :request do
         }
         let(:Authorization) { "Bearer invalid token" }
         let(:id) { category.id }
+        let(:post_page) { }
+        let(:post_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -241,6 +253,8 @@ RSpec.describe 'Cateogories API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { invalid_category_id }
+        let(:post_page) { }
+        let(:post_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
