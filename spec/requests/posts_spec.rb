@@ -39,7 +39,7 @@ RSpec.describe 'Posts API', type: :request do
         run_test!
       end
 
-      response(200, 'Pagination') do
+      response(200, 'Post Pagination') do
         let(:total_count) { 12 }
         let(:category){
           create(:category)
@@ -67,6 +67,48 @@ RSpec.describe 'Posts API', type: :request do
           posts = JSON.parse(response.body)
           expect(posts.class).to be(Array)
           expect(posts.length()).to eql per
+        end
+        run_test!
+      end
+
+      response(200, 'Nested Comment Pagination') do
+        let(:total_count) { 12 }
+        let(:comment_count) { 15 }
+        let(:category){
+          create(:category)
+        }
+
+        let(:comment_user){
+          create(:user)
+        }
+        before do
+          posts = create_list(:post, total_count*2 , category: category)
+          posts.each {|post|
+            create_list(:comment, comment_count , post: post, user: comment_user)
+          }
+        end
+
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category_id) { category.id }
+        let(:page) { 1 }
+        let(:per) { total_count/2 }
+        let(:comment_page) { 1 }
+        let(:comment_per) { 10 }
+        let(:search) { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it do
+          posts = JSON.parse(response.body)
+          posts.each {|post|
+            expect(post.comments.class).to be(Array)
+            expect(post.comments.length()).to eql comment_per
+          }
         end
         run_test!
       end
