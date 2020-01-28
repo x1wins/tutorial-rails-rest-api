@@ -13,7 +13,7 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :integer, description: 'Per page number'
-      parameter name: :comment_page, in: :query, type: :integer, default: '1', description: 'Page number for Comment'
+      parameter name: :comment_page, in: :query, type: :integer, description: 'Page number for Comment'
       parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
