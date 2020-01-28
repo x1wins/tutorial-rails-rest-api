@@ -56,6 +56,14 @@ paths:
         in: query
         type: integer
         description: Per page number
+      - name: post_page
+        in: query
+        type: integer
+        description: Page number for Post
+      - name: post_per
+        in: query
+        type: integer
+        description: Per page number For Post
       produces:
       - application/json
       responses:
@@ -119,6 +127,14 @@ paths:
         type: string
         description: id
         required: true
+      - name: post_page
+        in: query
+        type: integer
+        description: Page number for Post
+      - name: post_per
+        in: query
+        type: integer
+        description: Per page number For Post
       produces:
       - application/json
       responses:
@@ -378,6 +394,14 @@ paths:
         in: query
         type: integer
         description: Per page number
+      - name: comment_page
+        in: query
+        type: integer
+        description: Page number for Comment
+      - name: comment_per
+        in: query
+        type: integer
+        description: Per page number For Comment
       - name: search
         in: query
         type: string
@@ -447,6 +471,14 @@ paths:
         type: string
         description: id
         required: true
+      - name: comment_page
+        in: query
+        type: integer
+        description: Page number for Comment
+      - name: comment_per
+        in: query
+        type: integer
+        description: Per page number For Comment
       produces:
       - application/json
       responses:

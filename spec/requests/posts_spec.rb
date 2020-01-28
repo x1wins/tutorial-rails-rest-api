@@ -13,6 +13,8 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :integer, description: 'Per page number'
+      parameter name: :comment_page, in: :query, type: :integer, description: 'Page number for Comment'
+      parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
 
@@ -27,6 +29,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { 'hello' }
 
         after do |example|
@@ -35,13 +39,16 @@ RSpec.describe 'Posts API', type: :request do
         run_test!
       end
 
-      response(200, 'Pagination') do
+      response(200, 'Post Pagination') do
         let(:total_count) { 12 }
         let(:category){
           create(:category)
         }
+        let(:post_user){
+          create(:user)
+        }
         before do
-          create_list(:post, total_count*2 , category: category)
+          create_list(:post, total_count*2 , category: category, user: post_user)
         end
 
         let(:user){
@@ -51,6 +58,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { total_count/2 }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -61,6 +70,52 @@ RSpec.describe 'Posts API', type: :request do
           posts = JSON.parse(response.body)
           expect(posts.class).to be(Array)
           expect(posts.length()).to eql per
+        end
+        run_test!
+      end
+
+      response(200, 'Nested Comment Pagination') do
+        let(:total_count) { 12 }
+        let(:comment_count) { 15 }
+        let(:category){
+          create(:category)
+        }
+        let(:post_user){
+          create(:user)
+        }
+        let(:comment_user){
+          create(:user)
+        }
+
+        before do
+          posts = create_list(:post, total_count*2 , category: category, user: post_user)
+          posts.each {|post|
+            create_list(:comment, comment_count , post: post, user: comment_user)
+          }
+        end
+
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:category_id) { category.id }
+        let(:page) { 1 }
+        let(:per) { total_count/2 }
+        let(:comment_page) { 1 }
+        let(:comment_per) { 10 }
+        let(:search) { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it 'returns a included comments response' do
+          posts = JSON.parse(response.body, {symbolize_names: true})
+          posts.each {|post|
+            comments = post[:comments]
+            expect(comments.class).to be(Array)
+            expect(comments.length()).to eql comment_per
+          }
         end
         run_test!
       end
@@ -76,6 +131,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -92,6 +149,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -111,6 +170,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -214,19 +275,43 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: :comment_page, in: :query, type: :integer, description: 'Page number for Comment'
+      parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       produces 'application/json'
       response(200, 'Successful') do
-        let(:user){
+        let(:total_count) { 12 }
+        let(:comment_count) { 15 }
+        let(:category){
+          create(:category)
+        }
+        let(:comment_user){
           create(:user)
         }
         let(:post){
-          create(:post)
+          create(:post, category: category)
+        }
+
+        before do
+          create_list(:comment, comment_count , post: post, user: comment_user)
+        end
+
+        let(:user){
+          create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { post.id }
+        let(:comment_page) { 1 }
+        let(:comment_per) { 10 }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it 'returns a included comments response' do
+          post = JSON.parse(response.body, {symbolize_names: true})
+          comments = post[:comments]
+          expect(comments.class).to be(Array)
+          expect(comments.length()).to eql comment_per
         end
         run_test!
       end
@@ -237,6 +322,8 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { "Bearer invalid token" }
         let(:id) { post.id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -253,6 +340,8 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { invalid_post_id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -272,6 +361,8 @@ RSpec.describe 'Posts API', type: :request do
           create(:post, category: category)
         }
         let(:id) { post.id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
