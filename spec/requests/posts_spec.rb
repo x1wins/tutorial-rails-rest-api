@@ -77,10 +77,10 @@ RSpec.describe 'Posts API', type: :request do
         let(:category){
           create(:category)
         }
-
         let(:comment_user){
           create(:user)
         }
+
         before do
           posts = create_list(:post, total_count*2 , category: category)
           posts.each {|post|
@@ -103,7 +103,7 @@ RSpec.describe 'Posts API', type: :request do
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
         end
 
-        it do
+        it 'returns a included comments response' do
           posts = JSON.parse(response.body, {symbolize_names: true})
           posts.each {|post|
             comments = post[:comments]
@@ -273,19 +273,39 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       produces 'application/json'
       response(200, 'Successful') do
-        let(:user){
+        let(:total_count) { 12 }
+        let(:comment_count) { 15 }
+        let(:category){
+          create(:category)
+        }
+        let(:comment_user){
           create(:user)
         }
         let(:post){
-          create(:post)
+          create(:post, category: category)
+        }
+
+        before do
+          create_list(:comment, comment_count , post: post, user: comment_user)
+        end
+
+        let(:user){
+          create(:user)
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { post.id }
-        let(:comment_page) { }
-        let(:comment_per) { }
+        let(:comment_page) { 1 }
+        let(:comment_per) { 10 }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+
+        it 'returns a included comments response' do
+          post = JSON.parse(response.body, {symbolize_names: true})
+          comments = post[:comments]
+          expect(comments.class).to be(Array)
+          expect(comments.length()).to eql comment_per
         end
         run_test!
       end
