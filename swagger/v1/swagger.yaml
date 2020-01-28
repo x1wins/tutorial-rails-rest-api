@@ -47,6 +47,15 @@ paths:
         in: header
         type: string
         description: JWT token for Authorization
+      - name: page
+        in: query
+        type: integer
+        default: '1'
+        description: Page number
+      - name: per
+        in: query
+        type: integer
+        description: Per page number
       produces:
       - application/json
       responses:
@@ -369,6 +378,15 @@ paths:
         in: query
         type: integer
         description: Per page number
+      - name: comment_page
+        in: query
+        type: integer
+        default: '1'
+        description: Page number for Comment
+      - name: comment_per
+        in: query
+        type: integer
+        description: Per page number For Comment
       - name: search
         in: query
         type: string
@@ -438,6 +456,14 @@ paths:
         type: string
         description: id
         required: true
+      - name: comment_page
+        in: query
+        type: integer
+        description: Page number for Comment
+      - name: comment_per
+        in: query
+        type: integer
+        description: Per page number For Comment
       produces:
       - application/json
       responses:

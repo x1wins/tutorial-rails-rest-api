@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :authorize_request
+  before_action :comment_pagination_params, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
   before_action only: [:update, :destroy] do
     is_owner_object @post ##your object
@@ -13,12 +14,12 @@ class PostsController < ApplicationController
     per = params[:per].present? ? params[:per] : 10
     @category = Category.published.find(category_id) if category_id.present?
     @posts = Post.category(category_id).search(search).published.by_date.page(page).per(per)
-    render json: @posts
+    render json: @posts, comment_page: @comment_page, comment_per: @comment_per
   end
 
   # GET /posts/1
   def show
-    render json: @post
+    render json: @post, comment_page: @comment_page, comment_per: @comment_per
   end
 
   # POST /posts
@@ -50,6 +51,11 @@ class PostsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def comment_pagination_params
+      @comment_page = params[:comment_page].present? ? params[:comment_page] : 1
+      @comment_per = params[:comment_per].present? ? params[:comment_per] : 10
+    end
+
     def set_post
       @post = Post.published.find(params[:id])
       set_category @post.category_id

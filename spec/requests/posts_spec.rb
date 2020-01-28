@@ -13,6 +13,8 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
       parameter name: :per, in: :query, type: :integer, description: 'Per page number'
+      parameter name: :comment_page, in: :query, type: :integer, default: '1', description: 'Page number for Comment'
+      parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       parameter name: :search, in: :query, type: :string, description: 'Search Keyword'
       produces 'application/json'
 
@@ -27,6 +29,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { 'hello' }
 
         after do |example|
@@ -51,6 +55,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { 1 }
         let(:per) { total_count/2 }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -76,6 +82,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -92,6 +100,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -111,6 +121,8 @@ RSpec.describe 'Posts API', type: :request do
         let(:category_id) { category.id }
         let(:page) { }
         let(:per) { }
+        let(:comment_page) { }
+        let(:comment_per) { }
         let(:search) { }
 
         after do |example|
@@ -214,6 +226,8 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: :comment_page, in: :query, type: :integer, description: 'Page number for Comment'
+      parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       produces 'application/json'
       response(200, 'Successful') do
         let(:user){
@@ -224,6 +238,8 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { post.id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -237,6 +253,8 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { "Bearer invalid token" }
         let(:id) { post.id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -253,6 +271,8 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { invalid_post_id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -272,6 +292,8 @@ RSpec.describe 'Posts API', type: :request do
           create(:post, category: category)
         }
         let(:id) { post.id }
+        let(:comment_page) { }
+        let(:comment_per) { }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
