@@ -58,8 +58,9 @@ TODO
 - [ ] Pagination https://github.com/kaminari/kaminari
   - [x] categories#index
   - [x] posts#index
-  - [ ] posts#index Comments
-  - [ ] posts#show Comments
+  - [x] posts#index Comments
+  - [x] posts#show Comments
+  - [ ] Add json of pagination
 - [x] Parent Model 404 check in Nested Model
   - [x] Parent Category in Post#index 404 check
     - [x] Post rspec
