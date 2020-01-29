@@ -1,9 +1,9 @@
 # /lib/pagination.rb
 class Pagination
-  def self.build_json object, has_many_model_page, has_many_model_per
+  def self.build_json object, nested_page = 1, nested_per = 10
     ob_name = object.name.downcase
     json = Hash.new
-    json[ob_name] = ActiveModel::SerializableResource.new(object.to_a, comment_page: has_many_model_page, comment_per: has_many_model_per)
+    json[ob_name] = ActiveModel::SerializableResource.new(object.to_a, comment_page: nested_page, comment_per: nested_per)
     json[:pagination] = {
         current_page: object.current_page,
         next_page: object.next_page,
