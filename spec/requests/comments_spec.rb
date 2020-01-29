@@ -37,7 +37,7 @@ RSpec.describe 'Comments API', type: :request do
         end
 
         it do
-          comments = JSON.parse(response.body)
+          comments = JSON.parse(response.body, {symbolize_names: true})[:comments]
           expect(comments.class).to be(Array)
           expect(comments.length()).to eql per
         end
