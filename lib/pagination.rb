@@ -1,9 +1,9 @@
 # /lib/pagination.rb
 class Pagination
   def self.build_json object
-    ob_name = object.name.downcase + 's'
+    ob_name = object.name.downcase
     json = Hash.new
-    json[ob_name] = object
+    json[ob_name] = ActiveModel::SerializableResource.new(object.to_a).to_json
     json[:pagination] = {
         current_page: object.current_page,
         next_page: object.next_page,
