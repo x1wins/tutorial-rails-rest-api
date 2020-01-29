@@ -1,4 +1,5 @@
 require 'json_web_token'
+require 'pagination'
 
 class ApplicationController < ActionController::API
   rescue_from (ActiveRecord::RecordNotFound) { |exception| handle_exception(exception) }
