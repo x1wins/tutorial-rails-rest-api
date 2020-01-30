@@ -1,15 +1,14 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :id, :title, :body
+  attributes :id, :title, :body, :pagination
   has_one :user
   has_many :posts
   def posts
-    post_page = 1
-    post_per = 10
-    param_page = instance_options[:param_page]
-    if param_page
-      post_page = param_page[:post_page].presence || post_page
-      post_per = param_page[:post_per].presence || post_per
-    end
+    post_page = instance_options[:param_page][:post_page].present? ? instance_options[:param_page][:post_page] : 1
+    post_per = instance_options[:param_page][:post_per].present? ? instance_options[:param_page][:post_per] : 10
     object.posts.published.by_date.page(post_page).per(post_per)
+  end
+  def pagination
+    post_per = instance_options[:param_page][:post_per].present? ? instance_options[:param_page][:post_per] : 10
+    Pagination.build_json(posts)[:pagination]
   end
 end
