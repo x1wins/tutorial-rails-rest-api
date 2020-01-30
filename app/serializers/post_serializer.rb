@@ -3,8 +3,13 @@ class PostSerializer < ActiveModel::Serializer
   has_one :user
   has_many :comments
   def comments
-    comment_page = instance_options[:nested_page].presence || 1
-    comment_per = instance_options[:nested_per].presence || 10
+    comment_page = 1
+    comment_per = 0
+    param_page = instance_options[:param_page]
+    if param_page
+      comment_page = param_page[:comment_page].presence || comment_page
+      comment_per = param_page[:comment_per].presence || comment_per
+    end
     object.comments.published.by_date.page(comment_page).per(comment_per)
   end
 end

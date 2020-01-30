@@ -39,7 +39,7 @@ RSpec.describe 'Cateogories API', type: :request do
         end
 
         it do
-          categories = JSON.parse(response.body)
+          categories = JSON.parse(response.body, {symbolize_names: true})[:categories]
           expect(categories.class).to be(Array)
           expect(categories.length()).to eql per
         end
@@ -82,7 +82,7 @@ RSpec.describe 'Cateogories API', type: :request do
         end
 
         it 'returns a included posts response' do
-          categories = JSON.parse(response.body, {symbolize_names: true})
+          categories = JSON.parse(response.body, {symbolize_names: true})[:categories]
           categories.each {|category|
             posts = category[:posts]
             expect(posts.class).to be(Array)

@@ -67,7 +67,7 @@ RSpec.describe 'Posts API', type: :request do
         end
 
         it do
-          posts = JSON.parse(response.body)
+          posts = JSON.parse(response.body, {symbolize_names: true})[:posts]
           expect(posts.class).to be(Array)
           expect(posts.length()).to eql per
         end
@@ -110,7 +110,7 @@ RSpec.describe 'Posts API', type: :request do
         end
 
         it 'returns a included comments response' do
-          posts = JSON.parse(response.body, {symbolize_names: true})
+          posts = JSON.parse(response.body, {symbolize_names: true})[:posts]
           posts.each {|post|
             comments = post[:comments]
             expect(comments.class).to be(Array)

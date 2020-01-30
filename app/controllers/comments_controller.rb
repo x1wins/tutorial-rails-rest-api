@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     category_id = @post.category_id
     @category = Category.published.find(category_id)
     @comments = Comment.post(post_id).published.by_date.page(page).per(per)
-    render json: @comments
+    render json: Pagination.build_json(@comments)
   end
 
   # GET /comments/1
