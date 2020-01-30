@@ -14,7 +14,11 @@ class PostsController < ApplicationController
     per = params[:per].present? ? params[:per] : 10
     @category = Category.published.find(category_id) if category_id.present?
     @posts = Post.category(category_id).search(search).published.by_date.page(page).per(per)
-    render json: Pagination.build_json(@posts, @comment_page, @comment_per)
+    param_page = {
+        comment_page: @comment_page,
+        comment_per: @comment_per
+    }
+    render json: Pagination.build_json(@posts, param_page)
   end
 
   # GET /posts/1
