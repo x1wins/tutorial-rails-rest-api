@@ -9,6 +9,6 @@ class PostSerializer < ActiveModel::Serializer
   end
   def comments_pagination
     comment_per = instance_options.dig(:pagaination_param, :comment_per).presence.to_i || 0
-    Pagination.build_json(comments)[:pagination] if comment_per > 0
+    Pagination.build_json(comments)[:comments_pagination] if comment_per > 0
   end
 end

@@ -9,6 +9,6 @@ class CategorySerializer < ActiveModel::Serializer
   end
   def posts_pagination
     post_per = instance_options.dig(:pagaination_param, :post_per).presence.to_i || 10
-    Pagination.build_json(posts)[:pagination] if post_per > 0
+    Pagination.build_json(posts)[:posts_pagination] if post_per > 0
   end
 end
