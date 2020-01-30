@@ -1,6 +1,6 @@
 # /lib/pagination.rb
 class Pagination
-  def self.build_json object, param_page
+  def self.build_json object, param_page = {}
     ob_name = object.name.downcase.pluralize
     json = Hash.new
     json[ob_name] = ActiveModelSerializers::SerializableResource.new(object.to_a, param_page: param_page)

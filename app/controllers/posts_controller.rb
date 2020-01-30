@@ -23,7 +23,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    render json: @post, comment_page: @comment_page, comment_per: @comment_per
+    param_page = {
+        comment_page: @comment_page,
+        comment_per: @comment_per
+    }
+    render json: @post, param_page: param_page
   end
 
   # POST /posts

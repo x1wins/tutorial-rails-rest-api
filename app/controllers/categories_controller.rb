@@ -23,7 +23,11 @@ class CategoriesController < ApplicationController
 
   # GET /categories/1
   def show
-    render json: @category
+    param_page = {
+        post_page: @post_page,
+        post_per: @post_per
+    }
+    render json: @category, param_page: param_page
   end
 
   # POST /categories
