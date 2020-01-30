@@ -8,7 +8,6 @@ class CategorySerializer < ActiveModel::Serializer
     object.posts.published.by_date.page(post_page).per(post_per)
   end
   def pagination
-    post_per = instance_options[:param_page][:post_per].present? ? instance_options[:param_page][:post_per] : 10
     Pagination.build_json(posts)[:pagination]
   end
 end
