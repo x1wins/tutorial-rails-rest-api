@@ -14,20 +14,20 @@ class CategoriesController < ApplicationController
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
     @categories = Category.published.by_date.page(page).per(per)
-    param_page = {
+    pagaination_param = {
         post_page: @post_page,
         post_per: @post_per
     }
-    render json: Pagination.build_json(@categories, param_page)
+    render json: Pagination.build_json(@categories, pagaination_param)
   end
 
   # GET /categories/1
   def show
-    param_page = {
+    pagaination_param = {
         post_page: @post_page,
         post_per: @post_per
     }
-    render json: @category, param_page: param_page
+    render json: @category, pagaination_param: pagaination_param
   end
 
   # POST /categories
