@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  include PostHelper
   before_action :authorize_request
   before_action :comment_pagination_params, only: [:index, :show]
   before_action :set_post, only: [:show, :update, :destroy]
@@ -13,12 +14,16 @@ class PostsController < ApplicationController
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
     @category = Category.published.find(category_id) if category_id.present?
-    @posts = Post.category(category_id).search(search).published.by_date.page(page).per(per)
     pagaination_param = {
+        category_id: category_id,
+        search: search,
+        post_page: page,
+        post_per: per,
         comment_page: @comment_page,
         comment_per: @comment_per
     }
-    render json: Pagination.build_json(@posts, pagaination_param)
+    @posts = fetch_posts pagaination_param
+    render json: @posts
   end
 
   # GET /posts/1

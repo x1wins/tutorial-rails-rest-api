@@ -67,3 +67,8 @@ gem 'kaminari'
 gem 'lograge'
 gem 'logstash-event'
 gem 'logstash-logger'
+
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
