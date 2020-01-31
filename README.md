@@ -317,3 +317,10 @@ https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logsta
 ```
          
 #### [ELK Setup](/rails_log_with_elk_setup.md)
+
+### Redis
+
+```bash
+    docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+    redis-cli -h localhost -p 7001
+```
