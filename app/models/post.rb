@@ -7,4 +7,8 @@ class Post < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :body, presence: true
+  after_save :clear_cache
+  def clear_cache
+    $redis.del "categories"
+  end
 end
