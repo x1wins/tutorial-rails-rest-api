@@ -87,6 +87,11 @@ How what to do
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
+* [Redis](#redis)    
+    * [server run](#server-run)    
+    * [add gem](#add-gem)    
+    * [config](#config)    
+    * [how to added cache](#how-to-added-cache)    
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
@@ -319,8 +324,72 @@ https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logsta
 #### [ELK Setup](/rails_log_with_elk_setup.md)
 
 ### Redis
-
+#### server run
 ```bash
-    docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
-    redis-cli -h localhost -p 7001
+docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+redis-cli -h localhost -p 7001
+```
+
+#### add gem
+```ruby
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
+```
+
+#### config
+```ruby
+# config/initializers/redis.rb
+
+$redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127.0.0.1', :port => 7001))
+
+```
+
+#### how to added cache
+```ruby
+  # GET /categories
+  def index
+    page = params[:page].present? ? params[:page] : 1
+    per = params[:per].present? ? params[:per] : 10
+    pagaination_param = {
+        category_page: page,
+        category_per: per,
+        post_page: @post_page,
+        post_per: @post_per
+    }
+    @categories = fetch_categories pagaination_param
+    render json: @categories
+  end
+```
+
+```ruby
+    class Category < ApplicationRecord
+      include CategoryHelper
+      ...your code
+      after_save :clear_cache
+    end
+```
+
+```ruby
+    # app/helpers/category_helper.rb
+    module CategoryHelper
+      def fetch_categories pagaination_param
+        page = pagaination_param[:category_page]
+        per = pagaination_param[:category_per]
+        key = "categories"+pagaination_param.to_s
+        categories =  $redis.get(key)
+        if categories.nil?
+          @categories = Category.published.by_date.page(page).per(per)
+          categories = Pagination.build_json(@categories, pagaination_param).to_json
+          $redis.set(key, categories)
+          $redis.expire(key, 1.hour.to_i)
+        end
+        categories
+      end
+      def clear_cache
+        keys = $redis.keys "*categories*"
+        keys.each {|key| $redis.del key}
+      end
+    end
 ```
