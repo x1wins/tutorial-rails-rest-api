@@ -1,4 +1,5 @@
 class Category < ApplicationRecord
+  include CategoryHelper
   belongs_to :user
   has_many :posts
   scope :published, -> { where(published: true) }
@@ -6,7 +7,4 @@ class Category < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
   after_save :clear_cache
-  def clear_cache
-    $redis.del "categories"
-  end
 end

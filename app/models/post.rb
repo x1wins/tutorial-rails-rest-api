@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include CategoryHelper
   belongs_to :category
   belongs_to :user
   has_many :comments
@@ -8,7 +9,4 @@ class Post < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :body, presence: true
   after_save :clear_cache
-  def clear_cache
-    $redis.del "categories"
-  end
 end

@@ -14,7 +14,13 @@ class CategoriesController < ApplicationController
   def index
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
-    @categories = fetch_categories page, per
+    pagaination_param = {
+        category_page: page,
+        category_per: per,
+        post_page: @post_page,
+        post_per: @post_per
+    }
+    @categories = fetch_categories pagaination_param
     render json: @categories
   end
 
