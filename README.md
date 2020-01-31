@@ -263,6 +263,7 @@ How what to do
 6. loop curl
     ```bash
         for i in {1..100}; do bundle exec rspec; done
+        for i in {1..10000}; do curl -X GET "http://localhost:3000/categories?page=1" -H "accept: application/json" -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODA1NzY5NDZ9.vjoQpeOKdX83JwAwkPBi6p-dWjc1MPGVUQsSG9QSWhg"; done
     ```
     > if you want stop for loop
     ```bash
