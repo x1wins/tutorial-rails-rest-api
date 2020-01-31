@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  include CategoryHelper
   before_action :authorize_request
   before_action :post_pagination_params, only: [:index, :show]
   before_action except: [:index, :show] do
@@ -13,12 +14,8 @@ class CategoriesController < ApplicationController
   def index
     page = params[:page].present? ? params[:page] : 1
     per = params[:per].present? ? params[:per] : 10
-    @categories = Category.published.by_date.page(page).per(per)
-    pagaination_param = {
-        post_page: @post_page,
-        post_per: @post_per
-    }
-    render json: Pagination.build_json(@categories, pagaination_param)
+    @categories = fetch_categories page, per
+    render json: @categories
   end
 
   # GET /categories/1
