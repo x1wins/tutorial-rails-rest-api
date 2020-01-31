@@ -4,20 +4,26 @@ How to Run
 ----------
 
 1. Ready to database
-    ```bash
-        bundle install
-    ````
-    ```bash
-        rake docker:db:init
-        rake docker:db:run
-    ```
-    ```bash
-        rake db:migrate
-        rake db:migrate RAILS_ENV=test
-    ````
-    ```bash
-        rake db:seed
-    ```
+    1. Run Postgresql and migrate
+        ```bash
+            bundle install
+        ````
+        ```bash
+            rake docker:db:init
+            rake docker:db:run
+        ```
+        ```bash
+            rake db:migrate
+            rake db:migrate RAILS_ENV=test
+        ````
+        ```bash
+            rake db:seed
+        ```
+    2. Run Redis for cache
+       ```bash
+           docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+           redis-cli -h localhost -p 7001
+       ```
 2. ELK
     ```bash
         git clone https://github.com/deviantony/docker-elk
