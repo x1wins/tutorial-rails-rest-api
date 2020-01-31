@@ -264,6 +264,7 @@ How what to do
     ```bash
         for i in {1..100}; do bundle exec rspec; done
         for i in {1..10000}; do curl -X GET "http://localhost:3000/categories?page=1" -H "accept: application/json" -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODA1NzY5NDZ9.vjoQpeOKdX83JwAwkPBi6p-dWjc1MPGVUQsSG9QSWhg"; done
+        ab -n 10000 -c 100 -H "accept: application/json" -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODA1NzY5NDZ9.vjoQpeOKdX83JwAwkPBi6p-dWjc1MPGVUQsSG9QSWhg" -v 2 http://localhost:3000/categories?page=1
     ```
     > if you want stop for loop
     ```bash
