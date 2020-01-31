@@ -34,5 +34,6 @@ module SamplePostApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.elk = config_for(:elk)
+    config.cache_store = :redis_store, 'redis://localhost:7001/0/cache', { expires_in: 90.minutes }
   end
 end
