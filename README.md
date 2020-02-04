@@ -76,7 +76,7 @@ TODO
 - [ ] log
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
-- [ ] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
+- [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
 
 How what to do
 --------------
