@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe CommentsController, type: :controller do
+RSpec.describe Api::V1::CommentsController, type: :controller do
   include ApiHelper
 
   let(:user){
