@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'Cateogories API', type: :request do
   include ApiHelper
 
-  path '/categories' do
+  path '/api/v1/categories' do
 
     get('list categories') do
       tags 'Category'
@@ -200,7 +200,7 @@ RSpec.describe 'Cateogories API', type: :request do
     end
   end
 
-  path '/categories/{id}' do
+  path '/api/v1/categories/{id}' do
 
     get('show category') do
       tags 'Category'

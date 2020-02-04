@@ -6,13 +6,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get comments_url, as: :json
+    get api_v1_comments_url, as: :json
     assert_response :success
   end
 
   test "should create comment" do
     assert_difference('Comment.count') do
-      post comments_url, params: { comment: { body: @comment.body, post_id: @comment.post_id, published: @comment.published, user_id: @comment.user_id } }, as: :json
+      post api_v1_comments_url, params: { comment: { body: @comment.body, post_id: @comment.post_id, published: @comment.published, user_id: @comment.user_id } }, as: :json
     end
 
     assert_response 201

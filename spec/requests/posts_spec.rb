@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'Posts API', type: :request do
   include ApiHelper
 
-  path '/posts' do
+  path '/api/v1/posts' do
 
     get('list posts') do
       tags 'Post'
@@ -267,7 +267,7 @@ RSpec.describe 'Posts API', type: :request do
     end
   end
 
-  path '/posts/{id}' do
+  path '/api/v1/posts/{id}' do
 
     get('show post') do
       tags 'Post'

@@ -80,7 +80,7 @@ RSpec.describe CategoriesController, type: :controller do
         post :create, params: {category: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
-        expect(response.location).to eq(category_url(Category.last))
+        expect(response.location).to eq(api_v1_category_url(Category.last))
       end
     end
 
