@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'Users API', type: :request do
   include ApiHelper
 
-  path '/users' do
+  path '/api/v1/users' do
 
     get('list users') do
       tags 'User'
@@ -76,7 +76,7 @@ RSpec.describe 'Users API', type: :request do
     end
   end
 
-  path '/users/{_username}' do
+  path '/api/v1/users/{_username}' do
     get('show user') do
       tags 'User'
       security [Bearer: []]

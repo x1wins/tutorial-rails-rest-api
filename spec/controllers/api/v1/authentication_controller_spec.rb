@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe AuthenticationController, type: :controller do
+RSpec.describe Api::V1::AuthenticationController, type: :controller do
   include ApiHelper
 
   let(:user){

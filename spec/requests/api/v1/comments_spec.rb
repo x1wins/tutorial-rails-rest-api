@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe 'Comments API', type: :request do
   include ApiHelper
 
-  path '/comments' do
+  path '/api/v1/comments' do
 
     get('list comments') do
       tags 'Comment'
@@ -184,7 +184,7 @@ RSpec.describe 'Comments API', type: :request do
     end
   end
 
-  path '/comments/{id}' do
+  path '/api/v1/comments/{id}' do
 
     get('show comment') do
       tags 'Comment'

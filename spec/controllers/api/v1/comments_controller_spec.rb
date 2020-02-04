@@ -23,83 +23,77 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe PostsController, type: :controller do
+RSpec.describe Api::V1::CommentsController, type: :controller do
   include ApiHelper
 
-  # This should return the minimal set of attributes required to create a valid
-  # Post. As you add validations to Post, be sure to
-  # adjust the attributes here as well.
   let(:user){
     create(:user)
   }
 
-  # if you use name of "post", this will be make below error messages.
-  # ArgumentError: wrong number of arguments (given 2, expected 0)
-  # https://stackoverflow.com/a/53862066/1399891
-  let(:post1){
+  let(:first_post){
     create(:post)
   }
 
-  let(:category){
-    create(:category)
+  let(:comment) {
+    create(:comment)
   }
 
-  let(:posts) {
-    create_list(:post, 20, category: category)
+  let(:comments) {
+    create_list(:comment, 20)
   }
 
+  # let(:valid_attributes) {
+  #   {body: "sample body", user: user, post: post}
+  # }
   let(:valid_attributes) {
-    {body: "sample body", user_id: user.id, category_id: category.id}
+    {body: "sample body", user_id: user.id, post_id: first_post.id}
   }
 
   let(:invalid_attributes) {
-    {body: "", user_id: user.id, category_id: category.id}
+    {body: "", post_id: first_post.id}
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PostsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
       authenticated_header(request: request, user: user)
-      get :index, params: {}, session: valid_session
+      get :index, params: {post_id: first_post.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "GET #show" do
     it "returns a success response" do
-      post = Post.create! valid_attributes
       authenticated_header(request: request, user: user)
-      get :show, params: {id: post.to_param}, session: valid_session
+      comment = Comment.create! valid_attributes
+      get :show, params: {id: comment.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Post" do
+      it "creates a new Comment" do
         authenticated_header(user: user, request: request)
         expect {
-          post :create, params: {post: valid_attributes}, session: valid_session
-        }.to change(Post, :count).by(1)
+          post :create, params: {comment: valid_attributes}, session: valid_session
+        }.to change(Comment, :count).by(1)
       end
 
-      it "renders a JSON response with the new post" do
-        authenticated_header(user: user, request: request)
-        post :create, params: {post: valid_attributes}, session: valid_session
+      it "renders a JSON response with the new comment" do
+        authenticated_header(request: request, user: user)
+        post :create, params: {comment: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
-        expect(response.location).to eq(post_url(Post.last))
+        expect(response.location).to eq(api_v1_comment_url(Comment.last))
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the new post" do
-        authenticated_header(user: user, request: request)
-        post :create, params: {post: invalid_attributes}, session: valid_session
+      it "renders a JSON response with errors for the new comment" do
+        authenticated_header(request: request, user: user)
+        post :create, params: {comment: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
       end
@@ -109,31 +103,34 @@ RSpec.describe PostsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        {body: "sample body 222", user_id: user.id}
+        {body: "updated sample body", user_id: user.id}
       }
 
-      it "updates the requested post" do
-        post = Post.create! valid_attributes
-        authenticated_header(user: user, request: request)
-        put :update, params: {id: post.to_param, post: new_attributes}, session: valid_session
-        post.reload
-        expect(post.body).to eq(new_attributes[:body])
+      it "updates the requested comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: new_attributes}, session: valid_session
+        comment.reload
+        expect(comment.body).to eq(new_attributes[:body])
       end
 
-      it "renders a JSON response with the post" do
-        post = Post.create! valid_attributes
-        authenticated_header(user: user, request: request)
-        put :update, params: {id: post.to_param, post: valid_attributes}, session: valid_session
+      it "renders a JSON response with the comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to include('application/json')
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the post" do
-        post = Post.create! valid_attributes
-        authenticated_header(user: user, request: request)
-        put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
+      it "renders a JSON response with errors for the comment" do
+        authenticated_header(request: request, user: user)
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to include('application/json')
       end
@@ -144,9 +141,10 @@ RSpec.describe PostsController, type: :controller do
         create(:user)
       }
       it "renders a JSON response with errors (http code 403, Forbidden) for the post" do
-        post = Post.create! valid_attributes
         authenticated_header(user: another_user, request: request)
-        put :update, params: {id: post.to_param, post: invalid_attributes}, session: valid_session
+        comment = Comment.create! valid_attributes
+
+        put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:forbidden)
         expect(response.content_type).to include('application/json')
       end
@@ -154,12 +152,12 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested post" do
-      post = Post.create! valid_attributes
-      authenticated_header(user: user, request: request)
+    it "destroys the requested comment" do
+      authenticated_header(request: request, user: user)
+      comment = Comment.create! valid_attributes
       expect {
-        delete :destroy, params: {id: post.to_param}, session: valid_session
-      }.to change(Post.published, :count).by(-1)
+        delete :destroy, params: {id: comment.to_param}, session: valid_session
+      }.to change(Comment.published, :count).by(-1)
     end
   end
 

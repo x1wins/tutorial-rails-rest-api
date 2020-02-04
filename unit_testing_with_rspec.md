@@ -110,28 +110,28 @@
           RSpec.describe PostsController, type: :routing do
             describe "routing" do
               it "routes to #index" do
-                expect(:get => "/posts").to route_to("posts#index")
+                expect(:get => "/api/v1/posts").to route_to("api/v1/posts#index")
               end
           
               it "routes to #show" do
-                expect(:get => "/posts/1").to route_to("posts#show", :id => "1")
+                expect(:get => "/api/v1/posts/1").to route_to("api/v1/posts#show", :id => "1")
               end
           
           
               it "routes to #create" do
-                expect(:post => "/posts").to route_to("posts#create")
+                expect(:post => "/api/v1/posts").to route_to("api/v1/posts#create")
               end
           
               it "routes to #update via PUT" do
-                expect(:put => "/posts/1").to route_to("posts#update", :id => "1")
+                expect(:put => "/api/v1/posts/1").to route_to("api/v1/posts#update", :id => "1")
               end
           
               it "routes to #update via PATCH" do
-                expect(:patch => "/posts/1").to route_to("posts#update", :id => "1")
+                expect(:patch => "/api/v1/posts/1").to route_to("api/v1/posts#update", :id => "1")
               end
           
               it "routes to #destroy" do
-                expect(:delete => "/posts/1").to route_to("posts#destroy", :id => "1")
+                expect(:delete => "/api/v1/posts/1").to route_to("api/v1/posts#destroy", :id => "1")
               end
             end
           end
@@ -211,7 +211,7 @@
                post :create, params: {post: valid_attributes}, session: valid_session
                expect(response).to have_http_status(:created)
                expect(response.content_type).to include('application/json')
-               expect(response.location).to eq(post_url(Post.last))
+               expect(response.location).to eq(api_v1_post_url(Post.last))
              end
            end
        

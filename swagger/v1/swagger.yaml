@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/auth/login":
+  "/api/v1/auth/login":
     post:
       summary: login authentication
       tags:
@@ -33,7 +33,7 @@ paths:
           description: Ok
         '401':
           description: Unauthorized
-  "/categories":
+  "/api/v1/categories":
     get:
       summary: list categories
       tags:
@@ -108,7 +108,7 @@ paths:
           description: Forbidden
         '422':
           description: Unprocessable Entity
-  "/categories/{id}":
+  "/api/v1/categories/{id}":
     get:
       summary: show category
       tags:
@@ -205,7 +205,7 @@ paths:
           description: Successful
         '403':
           description: Forbidden Unathorized
-  "/comments":
+  "/api/v1/comments":
     get:
       summary: list comments
       tags:
@@ -277,7 +277,7 @@ paths:
           description: Unauthorized
         '422':
           description: Unprocessable Entity
-  "/comments/{id}":
+  "/api/v1/comments/{id}":
     get:
       summary: show comment
       tags:
@@ -366,7 +366,7 @@ paths:
           description: Successful
         '403':
           description: Forbidden Unathorized
-  "/posts":
+  "/api/v1/posts":
     get:
       summary: list posts
       tags:
@@ -452,7 +452,7 @@ paths:
           description: Not Found Category
         '422':
           description: Unprocessable Entity
-  "/posts/{id}":
+  "/api/v1/posts/{id}":
     get:
       summary: show post
       tags:
@@ -557,7 +557,7 @@ paths:
           description: Forbidden Unathorized
         '404':
           description: Not Found Category
-  "/users":
+  "/api/v1/users":
     get:
       summary: list users
       tags:
@@ -617,7 +617,7 @@ paths:
           description: User created
         '422':
           description: Unprocessable Entity
-  "/users/{_username}":
+  "/api/v1/users/{_username}":
     get:
       summary: show user
       tags:

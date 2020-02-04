@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe Api::V1::UsersController, type: :controller do
   include ApiHelper
 
   # let(:user){
@@ -76,7 +76,7 @@ RSpec.describe UsersController, type: :controller do
         post :create, params: {user: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
-        expect(response.location).to eq(user_url(User.last.username))
+        expect(response.location).to eq(api_v1_user_url(User.last.username))
       end
     end
 
