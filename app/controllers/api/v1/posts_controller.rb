@@ -43,7 +43,7 @@ module Api
         set_category @post.category_id
 
         if @post.save
-          render json: @post, status: :created, location: @post
+          render json: @post, status: :created, location: api_v1_post_url(@post)
         else
           render json: @post.errors, status: :unprocessable_entity
         end
