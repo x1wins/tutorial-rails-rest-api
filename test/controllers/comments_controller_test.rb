@@ -19,18 +19,18 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show comment" do
-    get comment_url(@comment), as: :json
+    get api_v1_comment_url(@comment), as: :json
     assert_response :success
   end
 
   test "should update comment" do
-    patch comment_url(@comment), params: { comment: { body: @comment.body, post_id: @comment.post_id, published: @comment.published, user_id: @comment.user_id } }, as: :json
+    patch api_v1_comment_url(@comment), params: { comment: { body: @comment.body, post_id: @comment.post_id, published: @comment.published, user_id: @comment.user_id } }, as: :json
     assert_response 200
   end
 
   test "should destroy comment" do
     assert_difference('Comment.count', -1) do
-      delete comment_url(@comment), as: :json
+      delete api_v1_comment_url(@comment), as: :json
     end
 
     assert_response 204
