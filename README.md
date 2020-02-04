@@ -54,6 +54,7 @@ TODO
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
 - [x] Category scaffold
+
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
@@ -77,7 +78,11 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-
+- [ ] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html
+- [ ] docker-compose
+    - [ ] staging
+    - [ ] production
+    
 How what to do
 --------------
 * [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
