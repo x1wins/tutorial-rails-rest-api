@@ -3,27 +3,38 @@
 How to Run
 ----------
 
-1. Ready to database
-    1. Run Postgresql and migrate
-        ```bash
-            bundle install
+1. Setup
+    1. non docker-compose
+        1. Run Postgresql and migrate
+            ```bash
+                bundle install
+            ````
+            ```bash
+                rake docker:db:init
+                rake docker:db:run
+            ```
+            ```bash
+                rake db:migrate
+                rake db:migrate RAILS_ENV=test
+            ````
+            ```bash
+                rake db:seed
+            ```
+        2. Run Redis for cache
+           ```bash
+               docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+               redis-cli -h localhost -p 7001
+            ```
+        3. Rails Server Run
+            ```bash
+                rails s
+            ```            
+    2. docker-compose
+        ````bash
+            docker-compose up --build
+            docker-compose run web bundle exec rake db:migrate
+            docker-compose run web bundle exec rake db:seed
         ````
-        ```bash
-            rake docker:db:init
-            rake docker:db:run
-        ```
-        ```bash
-            rake db:migrate
-            rake db:migrate RAILS_ENV=test
-        ````
-        ```bash
-            rake db:seed
-        ```
-    2. Run Redis for cache
-       ```bash
-           docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
-           redis-cli -h localhost -p 7001
-       ```
 2. ELK
     ```bash
         git clone https://github.com/deviantony/docker-elk
@@ -36,11 +47,7 @@ How to Run
     ```bash
         bundle exec rpsec --format documentation
     ```
-4. Rails Server Run
-    ```bash
-        rails s
-    ```
-5. Swagger - Restful Api Documentation
+4. Swagger - Restful Api Documentation
     ```bash
         rake rswag 
     ``` 
@@ -335,6 +342,7 @@ https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logsta
 #### server run
 ```bash
 docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+docker run --rm --name my-redis-container -p 7001:6379 -d redis 
 redis-cli -h localhost -p 7001
 ```
 
