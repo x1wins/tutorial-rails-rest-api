@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:10.10
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./tmp/db:/var/lib/postgresql/data
     ports:
       - "5433:5432"
   web:
