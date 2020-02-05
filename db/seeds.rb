@@ -13,7 +13,7 @@ unless User.exists?(email: email)
 end
 
 admin = FactoryBot.create :admin
-user_count = 50
+user_count = 10
 category_count = rand(10..20)
 post_count_max = 30
 comment_count_max = 30

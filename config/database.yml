@@ -22,15 +22,13 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: docker_postgres_rails
   password: mysecretpassword
-  host: localhost
+  host: db
   port: 5432
 
 development:
   <<: *default
   database: sample_post_api_development
-  host: db
-  port: 5432
-  
+
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is

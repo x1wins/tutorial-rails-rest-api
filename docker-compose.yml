@@ -5,11 +5,18 @@ services:
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_USER=docker_postgres_rails
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=sample_post_api_development
+  redis:
+    image: redis:4.0-alpine
+    volumes:
+      - ./tmp/redis:/data
+    entrypoint: redis-server --appendonly yes
+    ports:
+      - "7001:6379"
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -19,5 +26,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
 volumes:
   pgdata:
