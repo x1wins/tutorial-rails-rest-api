@@ -1,0 +1,16 @@
+#config/redis.yml
+default: &default
+  host: redis
+  port: 6379
+  namespace: tutorial_post
+development:
+  <<: *default
+  db: 0
+test:
+  <<: *default
+  db: 1
+production:
+  <<: *default
+  db: 2
+  host: 192.168.1.100
+  namespace: tutorial_post
