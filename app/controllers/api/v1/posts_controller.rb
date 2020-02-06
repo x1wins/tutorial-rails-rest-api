@@ -82,7 +82,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def post_params
-            params.require(:post).permit(:body, :category_id).merge(user_id: @current_user.id)
+            params.require(:post).permit(:body, :category_id, files: []).merge(user_id: @current_user.id)
         end
     end
   end
