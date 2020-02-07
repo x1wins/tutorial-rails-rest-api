@@ -22,7 +22,7 @@ How to Run
             ```
         2. Run Redis for cache
            ```bash
-               docker run --rm --name my-redis-container -p 7001:6379 -d redis redis-server --appendonly yes
+               docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
                redis-cli -h localhost -p 7001
             ```
         3. Rails Server Run
@@ -38,6 +38,13 @@ How to Run
             docker-compose run web bundle exec rake rswag
             docker-compose run web bundle exec rake spec --format documentation
         ````
+        > rails console
+        ```bash
+            docker-compose exec web bin/rails c
+        ```
+        ```bash
+            docker-compose run --no-deps web bundle exec rake routes
+        ```
 2. ELK
     ```bash
         git clone https://github.com/deviantony/docker-elk
@@ -111,8 +118,10 @@ How what to do
 * [Redis](#redis)    
     * [server run](#server-run)    
     * [add gem](#add-gem)    
-    * [config](#config)    
+    * [config](#config)
     * [how to added cache](#how-to-added-cache)    
+* [Active Storage](#active-storage)
+    * [Setup](#setup)    
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
@@ -267,6 +276,16 @@ How what to do
         curl  -X POST -i http://localhost:3000/posts -d '{"post": {"body":"hihihi ahaha"}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY"
         curl  -X POST -i http://localhost:3000/posts -d '{"post": {"body":"Average Speed   Time    Time     Time  Current"}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1Nzc0OTMwMjl9.s9WqkyM84LQGZUtpmfmZzWN8rsVUp4_yfKfxEN_t4AQ"
     ```
+    
+    > file upload
+    ```bash
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODExOTA3NTV9.oaPeMu1hoinllzFGKb_7frFPwdyYzbR0wc93GOMBTeI" \
+        -F "post[body]=string123" \
+        -F "post[category_id]=1" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -X POST http://localhost:3000/api/v1/posts
+    ```
 4. Index Post
     ```bash
         curl -X GET http://localhost:3000/posts -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY" | jq
@@ -417,3 +436,11 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
       end
     end
 ```
+
+
+### Active Storage
+#### Setup
+    ```bash
+        rails active_storage:install
+        rake db:migrate
+    ```
