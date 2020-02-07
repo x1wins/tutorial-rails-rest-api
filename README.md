@@ -44,6 +44,7 @@ How to Run
         ```
         ```bash
             docker-compose run --no-deps web bundle exec rake routes
+            docker-compose run --no-deps web bundle exec rake spec 
         ```
 2. ELK
     ```bash

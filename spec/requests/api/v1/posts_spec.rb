@@ -8,7 +8,6 @@ RSpec.describe 'Posts API', type: :request do
     get('list posts') do
       tags 'Post'
       security [Bearer: []]
-      consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :category_id, in: :query, type: :integer, default: '1', description: 'Category Id'
       parameter name: :page, in: :query, type: :integer, default: '1', description: 'Page number'
@@ -185,7 +184,8 @@ RSpec.describe 'Posts API', type: :request do
     post('create post') do
       tags 'Post'
       security [Bearer: []]
-      consumes 'application/json'
+      consumes 'multipart/form-data'
+      parameter name: :files, :in => :formData, :type => :file, required: true
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: :body, in: :body, required: true, schema: {
           type: :object,
@@ -201,6 +201,7 @@ RSpec.describe 'Posts API', type: :request do
       }
       produces 'application/json'
       response(201, 'Successful') do
+        let(:files) { Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt")) }
         let(:user){
           create(:user)
         }
