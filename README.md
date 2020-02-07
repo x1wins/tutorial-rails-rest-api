@@ -10,8 +10,8 @@ How to Run
                 bundle install
             ````
             ```bash
-                rake docker:db:init
-                rake docker:db:run
+                rake docker:pg:init
+                rake docker:pg:run
             ```
             ```bash
                 rake db:migrate
