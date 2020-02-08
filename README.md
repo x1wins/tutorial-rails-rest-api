@@ -99,7 +99,7 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-- [ ] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+- [x] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
 - [ ] docker-compose
     - [ ] staging
     - [ ] production
