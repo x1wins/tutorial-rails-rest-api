@@ -367,54 +367,6 @@ paths:
         '403':
           description: Forbidden Unathorized
   "/api/v1/posts":
-    get:
-      summary: list posts
-      tags:
-      - Post
-      security:
-      - Bearer: []
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        description: JWT token for Authorization
-      - name: category_id
-        in: query
-        type: integer
-        default: '1'
-        description: Category Id
-      - name: page
-        in: query
-        type: integer
-        default: '1'
-        description: Page number
-      - name: per
-        in: query
-        type: integer
-        description: Per page number
-      - name: comment_page
-        in: query
-        type: integer
-        description: Page number for Comment
-      - name: comment_per
-        in: query
-        type: integer
-        description: Per page number For Comment
-      - name: search
-        in: query
-        type: string
-        description: Search Keyword
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: Successful
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found Category
     post:
       summary: create post
       tags:
@@ -422,141 +374,29 @@ paths:
       security:
       - Bearer: []
       consumes:
-      - application/json
+      - multipart/form-data
       parameters:
       - name: Authorization
         in: header
         type: string
         description: JWT token for Authorization
-      - name: body
-        in: body
+      - name: post[body]
+        in: formData
+        type: string
         required: true
-        schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                body:
-                  type: string
-                category_id:
-                  type: integer
-      produces:
-      - application/json
+      - name: post[category_id]
+        in: formData
+        type: integer
+        required: true
+      - name: post[files][]
+        in: formData
+        type: file
+      - name: post[files][]
+        in: formData
+        type: file
       responses:
         '201':
           description: Successful
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found Category
-        '422':
-          description: Unprocessable Entity
-  "/api/v1/posts/{id}":
-    get:
-      summary: show post
-      tags:
-      - Post
-      security:
-      - Bearer: []
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        description: JWT token for Authorization
-      - name: id
-        in: path
-        type: string
-        description: id
-        required: true
-      - name: comment_page
-        in: query
-        type: integer
-        description: Page number for Comment
-      - name: comment_per
-        in: query
-        type: integer
-        description: Per page number For Comment
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: Successful
-        '401':
-          description: Unauthorized
-        '404':
-          description: Not Found Category
-    put:
-      summary: update post
-      tags:
-      - Post
-      security:
-      - Bearer: []
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        description: JWT token for Authorization
-      - name: id
-        in: path
-        type: string
-        description: id
-        required: true
-      - name: body
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                body:
-                  type: string
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: Successful
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden Unathorized
-        '404':
-          description: Not Found Category
-    delete:
-      summary: delete post
-      tags:
-      - Post
-      security:
-      - Bearer: []
-      consumes:
-      - application/json
-      parameters:
-      - name: Authorization
-        in: header
-        type: string
-        description: JWT token for Authorization
-      - name: id
-        in: path
-        type: string
-        description: id
-        required: true
-      produces:
-      - application/json
-      responses:
-        '204':
-          description: Successful
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden Unathorized
-        '404':
-          description: Not Found Category
   "/api/v1/users":
     get:
       summary: list users
