@@ -533,4 +533,5 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
   end
+
 end

@@ -416,31 +416,32 @@ paths:
         '404':
           description: Not Found Category
     post:
-      summary: create post
+      summary: multipart form
       tags:
-      - Post
+      - Post - multipart/form-data
       security:
       - Bearer: []
       consumes:
-      - application/json
+      - multipart/form-data
       parameters:
       - name: Authorization
         in: header
         type: string
         description: JWT token for Authorization
-      - name: body
-        in: body
+      - name: post[body]
+        in: formData
+        type: string
         required: true
-        schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                body:
-                  type: string
-                category_id:
-                  type: integer
+      - name: post[category_id]
+        in: formData
+        type: integer
+        required: true
+      - name: post[files][]
+        in: formData
+        type: file
+      - name: post[files][]
+        in: formData
+        type: file
       produces:
       - application/json
       responses:
