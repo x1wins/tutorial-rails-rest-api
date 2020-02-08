@@ -35,16 +35,19 @@ How to Run
             docker-compose run web bundle exec rake db:test:load
             docker-compose run web bundle exec rake db:migrate
             docker-compose run web bundle exec rake db:seed
-            docker-compose run web bundle exec rake rswag
-            docker-compose run web bundle exec rake spec --format documentation
         ````
         > rails console
         ```bash
             docker-compose exec web bin/rails c
         ```
+        > routes
         ```bash
             docker-compose run --no-deps web bundle exec rake routes
-            docker-compose run --no-deps web bundle exec rake spec 
+        ```
+        > rswag and rspec testing
+        ```bash
+            docker-compose run --no-deps web bundle exec rake rswag
+            docker-compose run --no-deps web bundle exec rspec --format documentation
         ```
 2. ELK
     ```bash
