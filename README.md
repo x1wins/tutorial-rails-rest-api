@@ -3,39 +3,32 @@
 How to Run
 ----------
 
+1. Prerequisites
+    * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+        * [elk.yml config](#elkyml-config)
+        * [lograge.rb with custom config](#logragerb-with-custom-config)
+        * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
-    1. non docker-compose
-        1. Run Postgresql and migrate
-            ```bash
-                bundle install
-            ````
-            ```bash
-                rake docker:pg:init
-                rake docker:pg:run
-            ```
-            ```bash
-                rake db:migrate
-                rake db:migrate RAILS_ENV=test
-            ````
-            ```bash
-                rake db:seed
-            ```
-        2. Run Redis for cache
-           ```bash
-               docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
-               redis-cli -h localhost -p 7001
-            ```
-        3. Rails Server Run
-            ```bash
-                rails s
-            ```            
-    2. docker-compose
+    > You can run with ```docker-compose``` or non docker-compose
+    1. docker-compose
+        > server run
+        ````
+            docker-compose up --build -d
+        ````
+        > db setup
         ````bash
-            docker-compose up --build
             docker-compose run web bundle exec rake db:test:load
             docker-compose run web bundle exec rake db:migrate
             docker-compose run web bundle exec rake db:seed
         ````
+        > Testing
+        ```bash
+            docker-compose run --no-deps web bundle exec rspec --format documentation
+        ```
+        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+        ```bash
+            docker-compose run --no-deps web bundle exec rake rswag
+        ```
         > rails console
         ```bash
             docker-compose exec web bin/rails c
@@ -44,28 +37,39 @@ How to Run
         ```bash
             docker-compose run --no-deps web bundle exec rake routes
         ```
-        > rswag and rspec testing
+    2. non docker-compose
+        > bundle
         ```bash
-            docker-compose run --no-deps web bundle exec rake rswag
-            docker-compose run --no-deps web bundle exec rspec --format documentation
+            bundle install
         ```
-2. ELK
-    ```bash
-        git clone https://github.com/deviantony/docker-elk
-        cd docker-elk
-        docker-compose exec -T elasticsearch bin/elasticsearch-setup-passwords auto --batch
-        # https://github.com/deviantony/docker-elk#setting-up-user-authentication
-        docker-compose up --build
-    ```
-3. Testing
-    ```bash
-        bundle exec rpsec --format documentation
-    ```
-4. Swagger - Restful Api Documentation
-    ```bash
-        rake rswag 
-    ``` 
-    > http://localhost:3000/api-docs/index.html
+        > postgresql run
+        ```bash
+            rake docker:pg:init
+            rake docker:pg:run
+        ```
+        > migrate
+        ```bash
+            rake db:migrate RAILS_ENV=test
+            rake db:migrate
+            rake db:seed
+        ```
+        > redis run
+        ```bash
+           docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
+           redis-cli -h localhost -p 7001
+        ```
+        > server run
+        ```bash
+            rails s
+        ```      
+        > Testing
+        ```bash
+            bundle exec rpsec --format documentation
+        ```
+        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+        ```bash
+            rake rswag 
+        ```
 
 TODO
 ----
@@ -117,6 +121,7 @@ How what to do
 * [rswag for API Documentation](#rswag-for-api-documentation)
 * [Codegen](#codegen)
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+    * [elk.yml config](#elkyml-config)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
 * [Redis](#redis)    
@@ -170,6 +175,100 @@ How what to do
       # config/initializers/active_model_serializer.rb
       ActiveModelSerializers.config.default_includes = '**'
     ```      
+5. Pagination with serializer
+
+[/app/helpers/category_helper.rb](/app/helpers/category_helper.rb)
+
+```ruby
+# app/helpers/category_helper.rb
+module CategoryHelper
+  def fetch_categories pagaination_param
+    page = pagaination_param[:category_page]
+    per = pagaination_param[:category_per]
+    key = "categories"+pagaination_param.to_s
+    categories =  $redis.get(key)
+    if categories.nil?
+      @categories = Category.published.by_date.page(page).per(per)
+      categories = Pagination.build_json(@categories, pagaination_param).to_json
+      $redis.set(key, categories)
+      $redis.expire(key, 1.hour.to_i)
+    end
+    categories
+  end
+  def clear_cache
+    keys = $redis.keys "*categories*"
+    keys.each {|key| $redis.del key}
+  end
+end
+
+class CategoriesController < ApplicationController
+      include CategoryHelper
+      //... your code
+
+      # GET /categories
+      def index
+        page = params[:page].present? ? params[:page] : 1
+        per = params[:per].present? ? params[:per] : 10
+        pagaination_param = {
+            category_page: page,
+            category_per: per,
+            post_page: @post_page,
+            post_per: @post_per
+        }
+        @categories = fetch_categories pagaination_param
+        render json: @categories
+      end
+```
+```ruby
+class Category < ApplicationRecord
+  include CategoryHelper
+  belongs_to :user
+  has_many :posts
+  scope :published, -> { where(published: true) }
+  scope :by_date, -> { order('created_at DESC, id DESC') }
+  validates :title, presence: true
+  validates :body, presence: true
+  after_save :clear_cache
+end
+```    
+```ruby
+class CategorySerializer < ActiveModel::Serializer
+  attributes :id, :title, :body, :posts_pagination
+  has_one :user
+  has_many :posts
+  def posts
+    post_page = (instance_options.dig(:pagaination_param, :post_page).presence || 1).to_i
+    post_per = (instance_options.dig(:pagaination_param, :post_per).presence || 0).to_i
+    object.posts.published.by_date.page(post_page).per(post_per)
+  end
+  def posts_pagination
+    post_per = (instance_options.dig(:pagaination_param, :post_per).presence || 10).to_i
+    Pagination.build_json(posts)[:posts_pagination] if post_per > 0
+  end
+end
+```    
+```ruby
+# /lib/pagination.rb
+class Pagination
+  def self.information array
+    {
+        current_page: array.current_page,
+        next_page: array.next_page,
+        prev_page: array.prev_page,
+        total_pages: array.total_pages,
+        total_count: array.total_count
+    }
+  end
+  def self.build_json array, pagaination_param = {}
+    ob_name = array.name.downcase.pluralize.to_sym
+    json = Hash.new
+    json[ob_name] = ActiveModelSerializers::SerializableResource.new(array.to_a, pagaination_param: pagaination_param)
+    pagination_name = "#{ob_name}_pagination".to_sym
+    json[pagination_name] = self.information array
+    json
+  end
+end
+```
       
 ### Nested Model        
 1. Comment Controller
@@ -327,20 +426,45 @@ How what to do
     ![swagger_screencapture](/localhost-3000-api-docs-index-html.png)
     
 ### Codegen
-    > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
-    ```bash
-        brew install swagger-codegen
-        swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
-    ```        
+> We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
+    
+```bash
+    brew install swagger-codegen
+    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
+```        
     
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
+
+#### elk.yml config
+> enable value is ```false``` or ```true``` <br/> 
+exmaple : ```enable: false```<br/>
+[elk.yml](/config/elk.yml) <br/>
+
+```yml
+# config/elk.yml
+
+default: &default
+  enable: false
+  protocal: udp
+  host: localhost
+  port: 5000
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+```
 
 #### lograge.rb with custom config
 https://github.com/roidrage/lograge
 https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
 [lograge.rb](/config/lograge.rb) <br/>
-[elk.yml](/config/elk.yml) <br/>
 [application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+
 > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
 ```ruby
         class ApplicationController < ActionController::API
