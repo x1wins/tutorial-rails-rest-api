@@ -5,6 +5,7 @@ How to Run
 
 1. Prerequisites
     * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+        * [elk.yml config](#elk-yml-config)
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
@@ -120,6 +121,7 @@ How what to do
 * [rswag for API Documentation](#rswag-for-api-documentation)
 * [Codegen](#codegen)
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+    * [elk.yml config](#elk-yml-config)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
 * [Redis](#redis)    
@@ -330,20 +332,45 @@ How what to do
     ![swagger_screencapture](/localhost-3000-api-docs-index-html.png)
     
 ### Codegen
-    > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
-    ```bash
-        brew install swagger-codegen
-        swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
-    ```        
+> We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
+    
+```bash
+    brew install swagger-codegen
+    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
+```        
     
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
+
+#### elk.yml config
+> enable value is ```false``` or ```true``` <br/> 
+exmaple : ```enable: false```<br/>
+[elk.yml](/config/elk.yml) <br/>
+
+```yml
+# config/elk.yml
+
+default: &default
+  enable: false
+  protocal: udp
+  host: localhost
+  port: 5000
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+```
 
 #### lograge.rb with custom config
 https://github.com/roidrage/lograge
 https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
 [lograge.rb](/config/lograge.rb) <br/>
-[elk.yml](/config/elk.yml) <br/>
 [application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+
 > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
 ```ruby
         class ApplicationController < ActionController::API
