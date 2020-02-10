@@ -11,12 +11,12 @@ class PostSerializer < ActiveModel::Serializer
     file_urls
   end
   def comments
-    comment_page = instance_options.dig(:pagaination_param, :comment_page).presence.to_i || 1
-    comment_per = instance_options.dig(:pagaination_param, :comment_per).presence.to_i || 0
+    comment_page = (instance_options.dig(:pagaination_param, :comment_page).presence || 1).to_i
+    comment_per = (instance_options.dig(:pagaination_param, :comment_per).presence || 10).to_i
     object.comments.published.by_date.page(comment_page).per(comment_per)
   end
   def comments_pagination
-    comment_per = instance_options.dig(:pagaination_param, :comment_per).presence.to_i || 0
+    comment_per = (instance_options.dig(:pagaination_param, :comment_per).presence || 10).to_i
     Pagination.build_json(comments)[:comments_pagination] if comment_per > 0
   end
 end
