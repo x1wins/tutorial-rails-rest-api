@@ -1,5 +1,8 @@
 # /lib/pagination.rb
 class Pagination
+  def self.per
+    10
+  end
   def self.information array
     {
         current_page: array.current_page,
