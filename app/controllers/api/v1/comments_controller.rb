@@ -10,8 +10,8 @@ module Api
       # GET /comments
       def index
         post_id = params[:post_id]
-        page = params[:page].present? ? params[:page] : 1
-        per = params[:per].present? ? params[:per] : 10
+        page = params[:page].presence || 1
+        per = params[:per].presence || Pagination.per
         @post = Post.published.find(post_id) if post_id.present?
         category_id = @post.category_id
         @category = Category.published.find(category_id)

@@ -13,8 +13,8 @@ module Api
       def index
         category_id = params[:category_id]
         search = params[:search]
-        page = params[:page].present? ? params[:page] : 1
-        per = params[:per].present? ? params[:per] : Pagination.per
+        page = params[:page].presence || 1
+        per = params[:per].presence || Pagination.per
         @category = Category.published.find(category_id) if category_id.present?
         pagaination_param = {
             category_id: category_id,
