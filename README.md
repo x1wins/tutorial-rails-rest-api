@@ -79,7 +79,6 @@ TODO
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
 - [x] Category scaffold
-
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
@@ -87,7 +86,7 @@ TODO
 - [x] Swager https://github.com/rswag/rswag
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
-- [ ] Pagination https://github.com/kaminari/kaminari
+- [x] Pagination https://github.com/kaminari/kaminari
   - [x] categories#index
   - [x] posts#index
   - [x] posts#index Comments
@@ -103,7 +102,10 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-- [x] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+- [ ] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+    - [x] create
+    - [ ] update
+    - [ ] delete
 - [ ] docker-compose
     - [ ] staging
     - [ ] production
@@ -380,7 +382,7 @@ end
         curl  -X POST -i http://localhost:3000/posts -d '{"post": {"body":"Average Speed   Time    Time     Time  Current"}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1Nzc0OTMwMjl9.s9WqkyM84LQGZUtpmfmZzWN8rsVUp4_yfKfxEN_t4AQ"
     ```
     
-    > file upload
+    > file upload - create
     ```bash
         curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODExOTA3NTV9.oaPeMu1hoinllzFGKb_7frFPwdyYzbR0wc93GOMBTeI" \
         -F "post[body]=string123" \
@@ -388,6 +390,15 @@ end
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -X POST http://localhost:3000/api/v1/posts
+    ```
+    
+    > file upload - update
+    ```bash
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE0NjM2MzR9.ItmuYyoSGXJczyzzROV8JW8POEiSYBpqeONyYvBLY7Y" \
+        -F "post[body]=aasadsadasdasstring123" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -X PUT http://localhost:3000/api/v1/posts/469
     ```
 4. Index Post
     ```bash
