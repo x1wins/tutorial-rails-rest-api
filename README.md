@@ -5,7 +5,7 @@ How to Run
 
 1. Prerequisites
     * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
-        * [elk.yml config](#elk-yml-config)
+        * [elk.yml config](#elkyml-config)
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
@@ -121,7 +121,7 @@ How what to do
 * [rswag for API Documentation](#rswag-for-api-documentation)
 * [Codegen](#codegen)
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
-    * [elk.yml config](#elk-yml-config)
+    * [elk.yml config](#elkyml-config)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
 * [Redis](#redis)    
