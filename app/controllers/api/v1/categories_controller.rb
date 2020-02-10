@@ -14,8 +14,8 @@ module Api
 
       # GET /categories
       def index
-        page = params[:page].present? ? params[:page] : 1
-        per = params[:per].present? ? params[:per] : 10
+        page = params[:page].presence || 1
+        per = params[:per].presence || 10
         pagaination_param = {
             category_page: page,
             category_per: per,
@@ -73,8 +73,8 @@ module Api
         end
 
         def post_pagination_params
-          @post_page = params[:post_page].present? ? params[:post_page] : 1
-          @post_per = params[:post_per].present? ? params[:post_per] : 10
+          @post_page = params[:post_page].presence || 1
+          @post_per = params[:post_per].presence || 10
         end
     end
   end

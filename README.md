@@ -207,8 +207,8 @@ class CategoriesController < ApplicationController
 
       # GET /categories
       def index
-        page = params[:page].present? ? params[:page] : 1
-        per = params[:per].present? ? params[:per] : 10
+        page = params[:page].presence || 1
+        per = params[:per].presence || 10
         pagaination_param = {
             category_page: page,
             category_per: per,
@@ -521,8 +521,8 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
 ```ruby
   # GET /categories
   def index
-    page = params[:page].present? ? params[:page] : 1
-    per = params[:per].present? ? params[:per] : 10
+    page = params[:page].presence || 1
+    per = params[:per].presence || 10
     pagaination_param = {
         category_page: page,
         category_per: per,

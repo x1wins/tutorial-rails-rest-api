@@ -13,8 +13,8 @@ module Api
       def index
         category_id = params[:category_id]
         search = params[:search]
-        page = params[:page].present? ? params[:page] : 1
-        per = params[:per].present? ? params[:per] : 10
+        page = params[:page].presence || 1
+        per = params[:per].presence || 10
         @category = Category.published.find(category_id) if category_id.present?
         pagaination_param = {
             category_id: category_id,
@@ -67,8 +67,8 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
         def comment_pagination_params
-          @comment_page = params[:comment_page].present? ? params[:comment_page] : 1
-          @comment_per = params[:comment_per].present? ? params[:comment_per] : 10
+          @comment_page = params[:comment_page].presence || 11
+          @comment_per = params[:comment_per].presence || 10
         end
 
         def set_post
