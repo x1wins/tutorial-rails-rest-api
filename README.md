@@ -175,6 +175,100 @@ How what to do
       # config/initializers/active_model_serializer.rb
       ActiveModelSerializers.config.default_includes = '**'
     ```      
+5. Pagination with serializer
+
+[/app/helpers/category_helper.rb](/app/helpers/category_helper.rb)
+
+```ruby
+# app/helpers/category_helper.rb
+module CategoryHelper
+  def fetch_categories pagaination_param
+    page = pagaination_param[:category_page]
+    per = pagaination_param[:category_per]
+    key = "categories"+pagaination_param.to_s
+    categories =  $redis.get(key)
+    if categories.nil?
+      @categories = Category.published.by_date.page(page).per(per)
+      categories = Pagination.build_json(@categories, pagaination_param).to_json
+      $redis.set(key, categories)
+      $redis.expire(key, 1.hour.to_i)
+    end
+    categories
+  end
+  def clear_cache
+    keys = $redis.keys "*categories*"
+    keys.each {|key| $redis.del key}
+  end
+end
+
+class CategoriesController < ApplicationController
+      include CategoryHelper
+      //... your code
+
+      # GET /categories
+      def index
+        page = params[:page].present? ? params[:page] : 1
+        per = params[:per].present? ? params[:per] : 10
+        pagaination_param = {
+            category_page: page,
+            category_per: per,
+            post_page: @post_page,
+            post_per: @post_per
+        }
+        @categories = fetch_categories pagaination_param
+        render json: @categories
+      end
+```
+```ruby
+class Category < ApplicationRecord
+  include CategoryHelper
+  belongs_to :user
+  has_many :posts
+  scope :published, -> { where(published: true) }
+  scope :by_date, -> { order('created_at DESC, id DESC') }
+  validates :title, presence: true
+  validates :body, presence: true
+  after_save :clear_cache
+end
+```    
+```ruby
+class CategorySerializer < ActiveModel::Serializer
+  attributes :id, :title, :body, :posts_pagination
+  has_one :user
+  has_many :posts
+  def posts
+    post_page = instance_options.dig(:pagaination_param, :post_page).presence.to_i || 1
+    post_per = instance_options.dig(:pagaination_param, :post_per).presence.to_i || 10
+    object.posts.published.by_date.page(post_page).per(post_per)
+  end
+  def posts_pagination
+    post_per = instance_options.dig(:pagaination_param, :post_per).presence.to_i || 10
+    Pagination.build_json(posts)[:posts_pagination] if post_per > 0
+  end
+end
+```    
+```ruby
+# /lib/pagination.rb
+class Pagination
+  def self.information array
+    {
+        current_page: array.current_page,
+        next_page: array.next_page,
+        prev_page: array.prev_page,
+        total_pages: array.total_pages,
+        total_count: array.total_count
+    }
+  end
+  def self.build_json array, pagaination_param = {}
+    ob_name = array.name.downcase.pluralize.to_sym
+    json = Hash.new
+    json[ob_name] = ActiveModelSerializers::SerializableResource.new(array.to_a, pagaination_param: pagaination_param)
+    pagination_name = "#{ob_name}_pagination".to_sym
+    json[pagination_name] = self.information array
+    json
+  end
+end
+```
       
 ### Nested Model        
 1. Comment Controller
