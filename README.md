@@ -9,8 +9,35 @@ How to Run
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
-    > You can run with non docker-compose or ```docker-compose```
-    1. non docker-compose
+    > You can run with ```docker-compose``` or non docker-compose
+    1. docker-compose
+        > server run
+        ````
+            docker-compose up --build -d
+        ````
+        > db setup
+        ````bash
+            docker-compose run web bundle exec rake db:test:load
+            docker-compose run web bundle exec rake db:migrate
+            docker-compose run web bundle exec rake db:seed
+        ````
+        > Testing
+        ```bash
+            docker-compose run --no-deps web bundle exec rspec --format documentation
+        ```
+        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+        ```bash
+            docker-compose run --no-deps web bundle exec rake rswag
+        ```
+        > rails console
+        ```bash
+            docker-compose exec web bin/rails c
+        ```
+        > routes
+        ```bash
+            docker-compose run --no-deps web bundle exec rake routes
+        ```
+    2. non docker-compose
         > bundle
         ```bash
             bundle install
@@ -42,33 +69,6 @@ How to Run
         > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
         ```bash
             rake rswag 
-        ```
-    2. docker-compose
-        > db setup
-        ````bash
-            docker-compose run web bundle exec rake db:test:load
-            docker-compose run web bundle exec rake db:migrate
-            docker-compose run web bundle exec rake db:seed
-        ````
-        > server run
-        ````
-            docker-compose up --build -d
-        ````
-        > Testing
-        ```bash
-            docker-compose run --no-deps web bundle exec rspec --format documentation
-        ```
-        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-        ```bash
-            docker-compose run --no-deps web bundle exec rake rswag
-        ```
-        > rails console
-        ```bash
-            docker-compose exec web bin/rails c
-        ```
-        > routes
-        ```bash
-            docker-compose run --no-deps web bundle exec rake routes
         ```
 
 TODO
