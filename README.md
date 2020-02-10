@@ -3,39 +3,64 @@
 How to Run
 ----------
 
+1. Prerequisites
+    * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+        * [lograge.rb with custom config](#logragerb-with-custom-config)
+        * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
+    > You can run with non docker-compose or ```docker-compose```
     1. non docker-compose
-        1. Run Postgresql and migrate
-            ```bash
-                bundle install
-            ````
-            ```bash
-                rake docker:pg:init
-                rake docker:pg:run
-            ```
-            ```bash
-                rake db:migrate
-                rake db:migrate RAILS_ENV=test
-            ````
-            ```bash
-                rake db:seed
-            ```
-        2. Run Redis for cache
-           ```bash
-               docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
-               redis-cli -h localhost -p 7001
-            ```
-        3. Rails Server Run
-            ```bash
-                rails s
-            ```            
+        > bundle
+        ```bash
+            bundle install
+        ```
+        > postgresql run
+        ```bash
+            rake docker:pg:init
+            rake docker:pg:run
+        ```
+        > migrate
+        ```bash
+            rake db:migrate RAILS_ENV=test
+            rake db:migrate
+            rake db:seed
+        ```
+        > redis run
+        ```bash
+           docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
+           redis-cli -h localhost -p 7001
+        ```
+        > server run
+        ```bash
+            rails s
+        ```      
+        > Testing
+        ```bash
+            bundle exec rpsec --format documentation
+        ```
+        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+        ```bash
+            rake rswag 
+        ```
     2. docker-compose
+        > db setup
         ````bash
-            docker-compose up --build
             docker-compose run web bundle exec rake db:test:load
             docker-compose run web bundle exec rake db:migrate
             docker-compose run web bundle exec rake db:seed
         ````
+        > server run
+        ````
+            docker-compose up --build -d
+        ````
+        > Testing
+        ```bash
+            docker-compose run --no-deps web bundle exec rspec --format documentation
+        ```
+        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+        ```bash
+            docker-compose run --no-deps web bundle exec rake rswag
+        ```
         > rails console
         ```bash
             docker-compose exec web bin/rails c
@@ -44,28 +69,6 @@ How to Run
         ```bash
             docker-compose run --no-deps web bundle exec rake routes
         ```
-        > rswag and rspec testing
-        ```bash
-            docker-compose run --no-deps web bundle exec rake rswag
-            docker-compose run --no-deps web bundle exec rspec --format documentation
-        ```
-2. ELK
-    ```bash
-        git clone https://github.com/deviantony/docker-elk
-        cd docker-elk
-        docker-compose exec -T elasticsearch bin/elasticsearch-setup-passwords auto --batch
-        # https://github.com/deviantony/docker-elk#setting-up-user-authentication
-        docker-compose up --build
-    ```
-3. Testing
-    ```bash
-        bundle exec rpsec --format documentation
-    ```
-4. Swagger - Restful Api Documentation
-    ```bash
-        rake rswag 
-    ``` 
-    > http://localhost:3000/api-docs/index.html
 
 TODO
 ----
