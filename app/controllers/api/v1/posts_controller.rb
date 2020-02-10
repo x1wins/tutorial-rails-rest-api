@@ -67,8 +67,8 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
         def comment_pagination_params
-          @comment_page = params[:comment_page].present? ? params[:comment_page] : 1
-          @comment_per = params[:comment_per].present? ? params[:comment_per] : Pagination.per
+          @comment_page = params[:comment_page].presence || 1
+          @comment_per = params[:comment_per].presence || Pagination.per
         end
 
         def set_post
