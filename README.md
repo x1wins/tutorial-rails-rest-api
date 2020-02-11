@@ -402,14 +402,13 @@ end
     
     > file upload - update
     ```bash
-        curl curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
         -F "post[body]=aasadsadasdasstring123" \
-        -F "post[files][65]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -X PUT http://localhost:3000/api/v1/posts/716
-        
-        
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -X PUT http://localhost:3000/api/v1/posts/722
     ```
+    
 4. Index Post
     ```bash
         curl -X GET http://localhost:3000/posts -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY" | jq
