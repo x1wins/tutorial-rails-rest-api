@@ -15,6 +15,10 @@ How to Run
         ````
             docker-compose up --build -d
         ````
+        > mkdir upload folder
+        ```bash
+            mkdir ~/storage
+        ```
         > db setup
         ````bash
             docker-compose run web bundle exec rake db:test:load
@@ -38,6 +42,10 @@ How to Run
             docker-compose run --no-deps web bundle exec rake routes
         ```
     2. non docker-compose
+        > mkdir upload folder
+        ```bash
+            mkdir ~/storage
+        ```
         > bundle
         ```bash
             bundle install

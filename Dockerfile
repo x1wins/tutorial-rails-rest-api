@@ -6,6 +6,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get install -qq -y build-essential nodejs yarn \
     libpq-dev postgresql-client
 RUN mkdir /myapp
+RUN mkdir /storage
 WORKDIR /myapp
 COPY . /myapp
 RUN gem update --system
