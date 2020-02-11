@@ -21,8 +21,8 @@ How to Run
         ```
         > db setup
         ````bash
-            docker-compose run web bundle exec rake db:test:load
-            docker-compose run web bundle exec rake db:migrate
+            docker-compose run web bundle exec rake db:test:load && \
+            docker-compose run web bundle exec rake db:migrate && \
             docker-compose run web bundle exec rake db:seed
         ````
         > Testing
