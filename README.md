@@ -392,7 +392,7 @@ end
     
     > file upload - create
     ```bash
-        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODExOTA3NTV9.oaPeMu1hoinllzFGKb_7frFPwdyYzbR0wc93GOMBTeI" \
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
         -F "post[body]=string123" \
         -F "post[category_id]=1" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
@@ -402,11 +402,13 @@ end
     
     > file upload - update
     ```bash
-        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE0NjM2MzR9.ItmuYyoSGXJczyzzROV8JW8POEiSYBpqeONyYvBLY7Y" \
+        curl curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
         -F "post[body]=aasadsadasdasstring123" \
+        -F "post[files][65]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -X PUT http://localhost:3000/api/v1/posts/469
+        -X PUT http://localhost:3000/api/v1/posts/716
+        
+        
     ```
 4. Index Post
     ```bash
