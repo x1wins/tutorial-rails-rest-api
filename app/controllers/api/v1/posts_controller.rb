@@ -4,7 +4,7 @@ module Api
       include PostHelper
       before_action :authorize_request
       before_action :comment_pagination_params, only: [:index, :show]
-      before_action :set_post, only: [:show, :update, :destroy]
+      before_action :set_post, only: [:show, :update, :destroy, :destroy_attached]
       before_action only: [:update, :destroy] do
         is_owner_object @post ##your object
       end
@@ -62,6 +62,14 @@ module Api
       def destroy
         @post.published = false
         @post.save
+      end
+
+      # DELETE /posts/:id/destroy_attached/:attached_id
+      def destroy_attached
+        # @blob = ActiveStorage::Blob.find_signed(params[:attached_id])
+        # @blob.purge_later
+        attachment = ActiveStorage::Attachment.find(params[:attached_id])
+        attachment.purge # or use purge_later
       end
 
       private
