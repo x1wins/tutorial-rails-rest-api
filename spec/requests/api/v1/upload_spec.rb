@@ -64,4 +64,27 @@ RSpec.describe 'Posts API', type: :request do
     end
   end
 
+  path '/api/v1/posts/{id}/attached/{attached_id}' do
+    delete('delete post attached file') do
+      tags 'Post - multipart/form-data'
+      security [Bearer: []]
+      consumes 'application/json'
+      parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: 'attached_id', in: :path, type: :string, description: 'attached_id'
+      produces 'application/json'
+      response(204, 'Successful') do
+        let(:attenched){
+          Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt"))
+        }
+        let(:post){
+          create(:post, files: [ attenched ])
+        }
+        let(:Authorization) { authenticated_header(user: post.user) }
+        let(:id) { post.id }
+        let(:attached_id) { post.files.first.id }
+        run_test!
+      end
+    end
+  end
 end
