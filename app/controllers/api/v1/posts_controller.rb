@@ -40,6 +40,8 @@ module Api
       # POST /posts
       def create
         @post = Post.new(post_params)
+        @post.files.attach(params[:post][:files])
+
         set_category @post.category_id
 
         if @post.save
@@ -51,6 +53,7 @@ module Api
 
       # PATCH/PUT /posts/1
       def update
+        @post.files.attach(params[:post][:files])
         if @post.update(post_params)
           render json: @post
         else
@@ -88,7 +91,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def post_params
-            params.require(:post).permit(:body, :category_id, files: []).merge(user_id: @current_user.id)
+            params.require(:post).permit(:body, :category_id).merge(user_id: @current_user.id)
         end
     end
   end
