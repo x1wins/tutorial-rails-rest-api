@@ -402,10 +402,11 @@ end
     
     > file upload - delete
     ```bash
-        curl -X DELETE "http://localhost:3000/api/v1/posts/731/destroy_attached/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--d4381dd7601c457c55b1f148c2a5e362be244f09" \
+        curl -X DELETE "http://localhost:3000/api/v1/posts/731/destroy_attached/93" \
         -H  "accept: application/json" \
         -H  "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1NDY0Njl9.XjaDElIlvmWDyAWMiGtjZByax-IuG1HBn3i8-Rjl1EU"
     ```
+    
     > file upload - update
     ```bash
         curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
