@@ -3,6 +3,10 @@ require 'swagger_helper'
 RSpec.describe 'Posts API', type: :request do
   include ApiHelper
 
+  let(:uploadfile){
+    Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt"))
+  }
+
   path '/api/v1/posts/' do
     post('create multipart form') do
       tags 'Post - multipart/form-data'
@@ -22,7 +26,7 @@ RSpec.describe 'Posts API', type: :request do
         let(:Authorization) { authenticated_header(user: user) }
         let(:'post[body]') { build_post.body }
         let(:'post[category_id]') { build_post.category.id }
-        let(:'post[files][]') { Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt")) }
+        let(:'post[files][]') { uploadfile }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -54,7 +58,7 @@ RSpec.describe 'Posts API', type: :request do
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
         let(:'post[body]') { build_post.body }
-        let(:'post[files][]') { Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt")) }
+        let(:'post[files][]') { uploadfile }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -74,11 +78,8 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: 'attached_id', in: :path, type: :string, description: 'attached_id'
       produces 'application/json'
       response(204, 'Successful') do
-        let(:attenched){
-          Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt"))
-        }
         let(:post){
-          create(:post, files: [ attenched ])
+          create(:post, files: [ uploadfile ])
         }
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
