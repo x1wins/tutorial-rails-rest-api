@@ -417,32 +417,6 @@ end
         -X PUT http://localhost:3000/api/v1/posts/728
     ```
     
-    ```bash
-        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
-        -F "post[body]=aasadsadasdasstring123" \
-        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -X PUT http://localhost:3000/api/v1/posts/731
-    ```
-    
-    ```bash
-        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
-        -F "post[body]=aasadsadasdasstring123" \
-        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
-        -X PUT http://localhost:3000/api/v1/posts/728
-    ```
-    
-    curl -X PUT "http://localhost:3000/api/v1/posts/728/" \
-    -H  "accept: application/json" -H  "Content-Type: multipart/form-data" \ 
-    -d {"post[body]":"eeeeee"}
-    
-    
-
-    
-    
-    curl -X POST "http://localhost:3000/api/v1/posts/" -H  "accept: application/json" -H  "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1NDY0Njl9.XjaDElIlvmWDyAWMiGtjZByax-IuG1HBn3i8-Rjl1EU" -H  "Content-Type: multipart/form-data" -F "post[body]=fgh" -F "post[category_id]=33" -F "post[files][]=@Screen Shot 2020-01-13 at 10.28.27 AM.png;type=image/png"
-    
 4. Index Post
     ```bash
         curl -X GET http://localhost:3000/posts -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY" | jq
