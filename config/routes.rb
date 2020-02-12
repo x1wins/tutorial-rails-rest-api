@@ -6,9 +6,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :categories
       resources :comments
-      resources :posts
-      # DELETE /posts/attached/:attached_id
-      delete '/posts/:id/attached/:attached_id', to: 'posts#destroy_attached'
+      resources :posts do
+        delete '/attached/:attached_id', to: 'posts#destroy_attached', on: :member
+      end
       post '/auth/login', to: 'authentication#login'
       resources :users, param: :_username
     end
