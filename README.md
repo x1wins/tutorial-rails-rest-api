@@ -28,6 +28,7 @@ How to Run
         > Testing
         ```bash
             docker-compose run --no-deps web bundle exec rspec --format documentation
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
         ```
         > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
         ```bash
@@ -402,7 +403,7 @@ end
     
     > file upload - delete
     ```bash
-        curl -X DELETE "http://localhost:3000/api/v1/posts/731/destroy_attached/93" \
+        curl -X DELETE "http://localhost:3000/api/v1/posts/731/attached/93" \
         -H  "accept: application/json" \
         -H  "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1NDY0Njl9.XjaDElIlvmWDyAWMiGtjZByax-IuG1HBn3i8-Rjl1EU"
     ```

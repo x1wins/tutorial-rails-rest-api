@@ -64,7 +64,7 @@ module Api
         @post.save
       end
 
-      # DELETE /posts/:id/destroy_attached/:id
+      # DELETE /posts/:id/attached/:id
       def destroy_attached
         attachment = ActiveStorage::Attachment.find(params[:attached_id])
         attachment.purge # or use purge_later

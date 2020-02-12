@@ -614,6 +614,35 @@ paths:
       responses:
         '200':
           description: Successful
+  "/api/v1/posts/{id}/attached/{attached_id}":
+    delete:
+      summary: delete post attached file
+      tags:
+      - Post - multipart/form-data
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: id
+        in: path
+        type: string
+        description: id
+        required: true
+      - name: attached_id
+        in: path
+        type: string
+        description: attached_id
+        required: true
+      produces:
+      - application/json
+      responses:
+        '204':
+          description: Successful
   "/api/v1/users":
     get:
       summary: list users
