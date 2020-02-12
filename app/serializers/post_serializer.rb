@@ -8,7 +8,6 @@ class PostSerializer < ActiveModel::Serializer
     file_urls = object.files.map do |file|
       {
           id: file.id,
-          signed_id: file.signed_id,
           url: rails_blob_url(file)
       }
     end
