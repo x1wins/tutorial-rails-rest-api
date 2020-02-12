@@ -6,7 +6,10 @@ class PostSerializer < ActiveModel::Serializer
   def files
     return unless object.files.attachments
     file_urls = object.files.map do |file|
-      rails_blob_url(file)
+      {
+          id: file.id,
+          url: rails_blob_url(file)
+      }
     end
     file_urls
   end

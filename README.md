@@ -15,15 +15,22 @@ How to Run
         ````
             docker-compose up --build -d
         ````
+        > mkdir upload folder
+        ```bash
+            mkdir ~/storage
+        ```
         > db setup
         ````bash
-            docker-compose run web bundle exec rake db:test:load
-            docker-compose run web bundle exec rake db:migrate
+            docker-compose run web bundle exec rake db:test:load && \
+            docker-compose run web bundle exec rake db:migrate && \
             docker-compose run web bundle exec rake db:seed
         ````
         > Testing
         ```bash
             docker-compose run --no-deps web bundle exec rspec --format documentation
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
         ```
         > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
         ```bash
@@ -38,6 +45,10 @@ How to Run
             docker-compose run --no-deps web bundle exec rake routes
         ```
     2. non docker-compose
+        > mkdir upload folder
+        ```bash
+            mkdir ~/storage
+        ```
         > bundle
         ```bash
             bundle install
@@ -79,7 +90,6 @@ TODO
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
 - [x] Category scaffold
-
 - [x] Post scaffold
 - [x] Comment scaffold
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
@@ -87,7 +97,7 @@ TODO
 - [x] Swager https://github.com/rswag/rswag
 - [x] Add published condition of association https://www.rubydoc.info/gems/active_model_serializers/0.9.4
 - [x] Search in posts
-- [ ] Pagination https://github.com/kaminari/kaminari
+- [x] Pagination https://github.com/kaminari/kaminari
   - [x] categories#index
   - [x] posts#index
   - [x] posts#index Comments
@@ -103,7 +113,10 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-- [x] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+- [ ] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+    - [x] create
+    - [ ] update
+    - [ ] delete
 - [ ] docker-compose
     - [ ] staging
     - [ ] production
@@ -380,15 +393,32 @@ end
         curl  -X POST -i http://localhost:3000/posts -d '{"post": {"body":"Average Speed   Time    Time     Time  Current"}}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1Nzc0OTMwMjl9.s9WqkyM84LQGZUtpmfmZzWN8rsVUp4_yfKfxEN_t4AQ"
     ```
     
-    > file upload
+    > file upload - create
     ```bash
-        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODExOTA3NTV9.oaPeMu1hoinllzFGKb_7frFPwdyYzbR0wc93GOMBTeI" \
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
         -F "post[body]=string123" \
         -F "post[category_id]=1" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
         -X POST http://localhost:3000/api/v1/posts
     ```
+    
+    > file upload - delete
+    ```bash
+        curl -X DELETE "http://localhost:3000/api/v1/posts/731/attached/93" \
+        -H  "accept: application/json" \
+        -H  "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1NDY0Njl9.XjaDElIlvmWDyAWMiGtjZByax-IuG1HBn3i8-Rjl1EU"
+    ```
+    
+    > file upload - update
+    ```bash
+        curl -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODE1MjgwNjd9.YKkk0B-T0_AROBTVaQ7f_OE2hnFGp1HcR2wbEDa9EtA" \
+        -F "post[body]=aasadsadasdasstring123" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -F "post[files][]=@/Users/rhee/Desktop/item/log/47310817701116.csv" \
+        -X PUT http://localhost:3000/api/v1/posts/728
+    ```
+    
 4. Index Post
     ```bash
         curl -X GET http://localhost:3000/posts -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1Nzc0OTAyNjJ9.PCY7kXIlImORySIeDd78gErhqApAyGP6aNFBmK_mdXY" | jq
@@ -568,6 +598,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
 
 ### Active Storage
 #### Setup
+> https://cameronbothner.com/activestorage-beyond-rails-views/
     ```bash
         rails active_storage:install
         rake db:migrate

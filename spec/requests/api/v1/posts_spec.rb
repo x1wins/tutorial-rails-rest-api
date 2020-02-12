@@ -389,6 +389,27 @@ RSpec.describe 'Posts API', type: :request do
           }
       }
       produces 'application/json'
+
+      response(200, 'Successful - update after multuplart file upload') do
+        let(:uploadfile){
+          Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt"))
+        }
+        let(:post){
+          create(:post, files: [ uploadfile ])
+        }
+        let(:build_post){
+          build(:post)
+        }
+        let(:Authorization) { authenticated_header(user: post.user) }
+        let(:id) { post.id }
+        let(:body) { {post: {body: build_post.body} } }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
+
       response(200, 'Successful') do
         let(:post){
           create(:post)

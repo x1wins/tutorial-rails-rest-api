@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       resources :categories
       resources :comments
       resources :posts
+      # DELETE /posts/attached/:attached_id
+      delete '/posts/:id/attached/:attached_id', to: 'posts#destroy_attached'
       post '/auth/login', to: 'authentication#login'
       resources :users, param: :_username
     end

@@ -4,8 +4,8 @@ module Api
       include PostHelper
       before_action :authorize_request
       before_action :comment_pagination_params, only: [:index, :show]
-      before_action :set_post, only: [:show, :update, :destroy]
-      before_action only: [:update, :destroy] do
+      before_action :set_post, only: [:show, :update, :destroy, :destroy_attached]
+      before_action only: [:update, :destroy, :destroy_attached] do
         is_owner_object @post ##your object
       end
 
@@ -40,6 +40,8 @@ module Api
       # POST /posts
       def create
         @post = Post.new(post_params)
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
+
         set_category @post.category_id
 
         if @post.save
@@ -51,6 +53,7 @@ module Api
 
       # PATCH/PUT /posts/1
       def update
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
         if @post.update(post_params)
           render json: @post
         else
@@ -64,11 +67,17 @@ module Api
         @post.save
       end
 
+      # DELETE /posts/:id/attached/:id
+      def destroy_attached
+        attachment = ActiveStorage::Attachment.find(params[:attached_id])
+        attachment.purge # or use purge_later
+      end
+
       private
         # Use callbacks to share common setup or constraints between actions.
         def comment_pagination_params
-          @comment_page = params[:comment_page].present? ? params[:comment_page] : 1
-          @comment_per = params[:comment_per].present? ? params[:comment_per] : Pagination.per
+          @comment_page = params[:comment_page].presence || 1
+          @comment_per = params[:comment_per].presence || Pagination.per
         end
 
         def set_post
@@ -82,7 +91,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def post_params
-            params.require(:post).permit(:body, :category_id, files: []).merge(user_id: @current_user.id)
+            params.require(:post).permit(:body, :category_id).merge(user_id: @current_user.id)
         end
     end
   end

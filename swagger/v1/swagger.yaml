@@ -416,32 +416,31 @@ paths:
         '404':
           description: Not Found Category
     post:
-      summary: multipart form
+      summary: create post
       tags:
-      - Post - multipart/form-data
+      - Post
       security:
       - Bearer: []
       consumes:
-      - multipart/form-data
+      - application/json
       parameters:
       - name: Authorization
         in: header
         type: string
         description: JWT token for Authorization
-      - name: post[body]
-        in: formData
-        type: string
+      - name: body
+        in: body
         required: true
-      - name: post[category_id]
-        in: formData
-        type: integer
-        required: true
-      - name: post[files][]
-        in: formData
-        type: file
-      - name: post[files][]
-        in: formData
-        type: file
+        schema:
+          type: object
+          properties:
+            post:
+              type: object
+              properties:
+                body:
+                  type: string
+                category_id:
+                  type: integer
       produces:
       - application/json
       responses:
@@ -558,6 +557,92 @@ paths:
           description: Forbidden Unathorized
         '404':
           description: Not Found Category
+  "/api/v1/posts/":
+    post:
+      summary: create multipart form
+      tags:
+      - Post - multipart/form-data
+      security:
+      - Bearer: []
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: post[body]
+        in: formData
+        type: string
+        required: true
+      - name: post[category_id]
+        in: formData
+        type: integer
+        required: true
+      - name: post[files][]
+        in: formData
+        type: file
+      responses:
+        '201':
+          description: Successful
+  "/api/v1/posts/{id}/":
+    put:
+      summary: update multipart form
+      tags:
+      - Post - multipart/form-data
+      security:
+      - Bearer: []
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: id
+        in: path
+        type: string
+        description: id
+        required: true
+      - name: post[body]
+        in: formData
+        type: string
+        required: true
+      - name: post[files][]
+        in: formData
+        type: file
+      responses:
+        '200':
+          description: Successful
+  "/api/v1/posts/{id}/attached/{attached_id}":
+    delete:
+      summary: delete post attached file
+      tags:
+      - Post - multipart/form-data
+      security:
+      - Bearer: []
+      consumes:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        type: string
+        description: JWT token for Authorization
+      - name: id
+        in: path
+        type: string
+        description: id
+        required: true
+      - name: attached_id
+        in: path
+        type: string
+        description: attached_id
+        required: true
+      produces:
+      - application/json
+      responses:
+        '204':
+          description: Successful
   "/api/v1/users":
     get:
       summary: list users
