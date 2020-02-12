@@ -40,7 +40,7 @@ module Api
       # POST /posts
       def create
         @post = Post.new(post_params)
-        @post.files.attach(params[:post][:files])
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
 
         set_category @post.category_id
 
@@ -53,7 +53,7 @@ module Api
 
       # PATCH/PUT /posts/1
       def update
-        @post.files.attach(params[:post][:files])
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
         if @post.update(post_params)
           render json: @post
         else

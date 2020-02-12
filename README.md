@@ -29,6 +29,8 @@ How to Run
         ```bash
             docker-compose run --no-deps web bundle exec rspec --format documentation
             docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+            docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
         ```
         > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
         ```bash
