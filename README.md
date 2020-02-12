@@ -113,7 +113,7 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-- [ ] File upload to Local path with active storage 
+- [x] File upload to Local path with active storage 
     - [x] create or add attached file
     - [x] delete
 - [ ] docker-compose
