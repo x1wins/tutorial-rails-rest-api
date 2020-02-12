@@ -33,6 +33,24 @@ RSpec.describe 'Posts API', type: :request do
         end
         run_test!
       end
+
+      response(201, 'Successful') do
+        let(:user){
+          create(:user)
+        }
+        let(:build_post){
+          build(:post)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:'post[body]') { build_post.body }
+        let(:'post[category_id]') { build_post.category.id }
+        let(:'post[files][]') { }
+
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        run_test!
+      end
     end
   end
 
