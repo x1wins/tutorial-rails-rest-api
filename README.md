@@ -622,6 +622,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
 
 ### Active Storage
 #### Setup
+> https://cameronbothner.com/activestorage-beyond-rails-views/
     ```bash
         rails active_storage:install
         rake db:migrate
