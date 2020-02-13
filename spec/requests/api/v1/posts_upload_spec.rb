@@ -1,13 +1,10 @@
 require 'swagger_helper'
 
-RSpec.describe 'Posts API', type: :request do
+RSpec.describe 'Posts File API', type: :request do
   include ApiHelper
 
   let(:uploadfile){
     Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/sample.txt"))
-  }
-  let(:uploadfile_avatar){
-    Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/user.png"))
   }
 
   path '/api/v1/posts/' do
@@ -105,36 +102,6 @@ RSpec.describe 'Posts API', type: :request do
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
         let(:attached_id) { post.files.first.id }
-        run_test!
-      end
-    end
-  end
-
-  path '/api/v1/users/' do
-    post('create user') do
-      tags 'User - multipart/form-data'
-      consumes 'multipart/form-data'
-      parameter name: 'user[name]', in: :formData, type: :string, required: true
-      parameter name: 'user[username]', in: :formData, type: :string, required: true
-      parameter name: 'user[email]', in: :formData, type: :string, required: true
-      parameter name: 'user[password]', in: :formData, type: :string, required: true
-      parameter name: 'user[password_confirmation]', in: :formData, type: :string, required: true
-      parameter name: 'user[avatar]', in: :formData, type: :file
-      produces 'application/json'
-      let(:build_user){
-        build(:user)
-      }
-      response(201, 'User created') do
-        let(:'user[name]') { build_user.name }
-        let(:'user[username]') { build_user.username }
-        let(:'user[email]') { build_user.email }
-        let(:'user[password]') { build_user.password }
-        let(:'user[password_confirmation]') { build_user.password_confirmation }
-        let(:'user[avatar]') { uploadfile_avatar }
-        after do |example|
-          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
-        end
-
         run_test!
       end
     end

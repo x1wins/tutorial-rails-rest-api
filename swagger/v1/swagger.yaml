@@ -643,42 +643,6 @@ paths:
       responses:
         '204':
           description: Successful
-  "/api/v1/users/":
-    post:
-      summary: create user
-      tags:
-      - User - multipart/form-data
-      consumes:
-      - multipart/form-data
-      parameters:
-      - name: user[name]
-        in: formData
-        type: string
-        required: true
-      - name: user[username]
-        in: formData
-        type: string
-        required: true
-      - name: user[email]
-        in: formData
-        type: string
-        required: true
-      - name: user[password]
-        in: formData
-        type: string
-        required: true
-      - name: user[password_confirmation]
-        in: formData
-        type: string
-        required: true
-      - name: user[avatar]
-        in: formData
-        type: file
-      produces:
-      - application/json
-      responses:
-        '201':
-          description: User created
   "/api/v1/users":
     get:
       summary: list users
@@ -779,11 +743,11 @@ paths:
     put:
       summary: update user
       tags:
-      - User
+      - User - multipart/form-data
       security:
       - Bearer: []
       consumes:
-      - application/json
+      - multipart/form-data
       parameters:
       - name: Authorization
         in: header
@@ -801,25 +765,29 @@ paths:
           required:
           - _username
         required: true
-      - name: body
-        in: body
+      - name: user[name]
+        in: formData
+        type: string
         required: true
-        schema:
-          type: object
-          properties:
-            user:
-              type: object
-              properties:
-                name:
-                  type: string
-                username:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-                password_confirmation:
-                  type: string
+      - name: user[username]
+        in: formData
+        type: string
+        required: true
+      - name: user[email]
+        in: formData
+        type: string
+        required: true
+      - name: user[password]
+        in: formData
+        type: string
+        required: true
+      - name: user[password_confirmation]
+        in: formData
+        type: string
+        required: true
+      - name: user[avatar]
+        in: formData
+        type: file
       produces:
       - application/json
       responses:
@@ -863,6 +831,42 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden Unathorized
+  "/api/v1/users/":
+    post:
+      summary: create user
+      tags:
+      - User - multipart/form-data
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: user[name]
+        in: formData
+        type: string
+        required: true
+      - name: user[username]
+        in: formData
+        type: string
+        required: true
+      - name: user[email]
+        in: formData
+        type: string
+        required: true
+      - name: user[password]
+        in: formData
+        type: string
+        required: true
+      - name: user[password_confirmation]
+        in: formData
+        type: string
+        required: true
+      - name: user[avatar]
+        in: formData
+        type: file
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: User created
 securityDefinitions:
   Bearer:
     description: Generate JWT
