@@ -23,8 +23,13 @@ How to Run
         ````bash
             docker-compose run web bundle exec rake db:test:load && \
             docker-compose run web bundle exec rake db:migrate && \
-            docker-compose run web bundle exec rake db:seed
+            docker-compose run web bundle exec rake db:seed --trace
         ````
+        > db reset
+        ```bash
+            docker-compose run web bundle exec rake db:reset --trace
+            tail -f log/development.log ### if you wanna show sql log
+        ```
         > Testing
         ```bash
             docker-compose run --no-deps web bundle exec rspec --format documentation
@@ -113,10 +118,9 @@ TODO
   - [ ] model tracking https://github.com/paper-trail-gem/paper_trail 
   - [x] ELK https://github.com/deviantony/docker-elk
 - [x] Versioning http://railscasts.com/episodes/350-rest-api-versioning?view=asciicast
-- [ ] File upload to Local path with active storage https://edgeguides.rubyonrails.org/active_storage_overview.html https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
-    - [x] create
-    - [ ] update
-    - [ ] delete
+- [x] File upload to Local path with active storage 
+    - [x] create or add attached file
+    - [x] delete
 - [ ] docker-compose
     - [ ] staging
     - [ ] production
@@ -208,7 +212,7 @@ module CategoryHelper
     end
     categories
   end
-  def clear_cache
+  def clear_cache_categories
     keys = $redis.keys "*categories*"
     keys.each {|key| $redis.del key}
   end
@@ -241,7 +245,7 @@ class Category < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :title, presence: true
   validates :body, presence: true
-  after_save :clear_cache
+  after_save :clear_cache_categories
 end
 ```    
 ```ruby
@@ -568,7 +572,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
     class Category < ApplicationRecord
       include CategoryHelper
       ...your code
-      after_save :clear_cache
+      after_save :clear_cache_categories
     end
 ```
 
@@ -588,7 +592,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
         end
         categories
       end
-      def clear_cache
+      def clear_cache_categories
         keys = $redis.keys "*categories*"
         keys.each {|key| $redis.del key}
       end
@@ -599,7 +603,97 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
 ### Active Storage
 #### Setup
 > https://cameronbothner.com/activestorage-beyond-rails-views/
-    ```bash
-        rails active_storage:install
-        rake db:migrate
-    ```
+https://edgeguides.rubyonrails.org/active_storage_overview.html  
+https://edgeguides.rubyonrails.org/active_storage_overview.html#has-many-attached
+    
+```bash
+    rails active_storage:install
+    rake db:migrate
+```
+
+> storage.yml
+you wiil make dir /storage with ```mkdir /storage```
+```yml
+    test:
+      service: Disk
+      root: /storage/test
+    
+    local:
+      service: Disk
+      root: /storage
+```
+
+> routes.rb
+```ruby
+    Rails.application.routes.draw do
+      namespace :api do
+        namespace :v1 do
+          # your code will be here ...
+          # DELETE /posts/attached/:attached_id
+          delete '/posts/:id/attached/:attached_id', to: 'posts#destroy_attached'
+        end
+      end
+    end
+```
+
+> posts_controller.rb  
+```@post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?```is null check and add files
+```ruby
+      # posts_controller
+      # POST /posts
+      def create
+        @post = Post.new(post_params)
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
+
+        set_category @post.category_id
+
+        if @post.save
+          render json: @post, status: :created, location: api_v1_post_url(@post)
+        else
+          render json: @post.errors, status: :unprocessable_entity
+        end
+      end
+
+      # PATCH/PUT /posts/1
+      def update
+        @post.files.attach(params[:post][:files]) if params.dig(:post, :files).present?
+        if @post.update(post_params)
+          render json: @post
+        else
+          render json: @post.errors, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /posts/:id/attached/:id
+      def destroy_attached
+        attachment = ActiveStorage::Attachment.find(params[:attached_id])
+        attachment.purge # or use purge_later
+      end
+```
+
+> post.rb
+```ruby
+    class Post < ApplicationRecord
+      # your code will be here ...
+      has_many_attached :files
+    end
+
+```
+
+```ruby
+    class PostSerializer < ActiveModel::Serializer
+      include Rails.application.routes.url_helpers
+      attributes :id, :body, :files, :comments_pagination
+      def files
+        return unless object.files.attachments
+        file_urls = object.files.map do |file|
+          {
+              id: file.id,
+              url: rails_blob_url(file)
+          }
+        end
+        file_urls
+      end
+      # your code will be here ...     
+    end
+```
