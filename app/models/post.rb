@@ -10,6 +10,6 @@ class Post < ApplicationRecord
   scope :published, -> { where(published: true) }
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :body, presence: true
-  after_save :clear_cache
+  after_save :clear_cache_categories
   after_save :clear_cache_posts
 end

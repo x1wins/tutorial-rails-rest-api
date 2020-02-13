@@ -207,7 +207,7 @@ module CategoryHelper
     end
     categories
   end
-  def clear_cache
+  def clear_cache_categories
     keys = $redis.keys "*categories*"
     keys.each {|key| $redis.del key}
   end
@@ -240,7 +240,7 @@ class Category < ApplicationRecord
   scope :by_date, -> { order('created_at DESC, id DESC') }
   validates :title, presence: true
   validates :body, presence: true
-  after_save :clear_cache
+  after_save :clear_cache_categories
 end
 ```    
 ```ruby
@@ -567,7 +567,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
     class Category < ApplicationRecord
       include CategoryHelper
       ...your code
-      after_save :clear_cache
+      after_save :clear_cache_categories
     end
 ```
 
@@ -587,7 +587,7 @@ $redis = Redis::Namespace.new("tutorial_post", :redis => Redis.new(:host => '127
         end
         categories
       end
-      def clear_cache
+      def clear_cache_categories
         keys = $redis.keys "*categories*"
         keys.each {|key| $redis.del key}
       end

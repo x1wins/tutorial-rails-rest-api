@@ -14,7 +14,7 @@ module CategoryHelper
     end
     categories
   end
-  def clear_cache
+  def clear_cache_categories
     keys = $redis.keys "*categories*"
     keys.each {|key| $redis.del key}
   end
