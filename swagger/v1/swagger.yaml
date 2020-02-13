@@ -643,6 +643,42 @@ paths:
       responses:
         '204':
           description: Successful
+  "/api/v1/users/":
+    post:
+      summary: create user
+      tags:
+      - User - multipart/form-data
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: user[name]
+        in: formData
+        type: string
+        required: true
+      - name: user[username]
+        in: formData
+        type: string
+        required: true
+      - name: user[email]
+        in: formData
+        type: string
+        required: true
+      - name: user[password]
+        in: formData
+        type: string
+        required: true
+      - name: user[password_confirmation]
+        in: formData
+        type: string
+        required: true
+      - name: user[avatar]
+        in: formData
+        type: file
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: User created
   "/api/v1/users":
     get:
       summary: list users

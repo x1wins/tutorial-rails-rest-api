@@ -106,4 +106,35 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
   end
+
+  path '/api/v1/users/' do
+    post('create user') do
+      tags 'User - multipart/form-data'
+      consumes 'multipart/form-data'
+      parameter name: 'user[name]', in: :formData, type: :string, required: true
+      parameter name: 'user[username]', in: :formData, type: :string, required: true
+      parameter name: 'user[email]', in: :formData, type: :string, required: true
+      parameter name: 'user[password]', in: :formData, type: :string, required: true
+      parameter name: 'user[password_confirmation]', in: :formData, type: :string, required: true
+      parameter name: 'user[avatar]', in: :formData, type: :file
+      produces 'application/json'
+      let(:build_user){
+        build(:user)
+      }
+      response(201, 'User created') do
+        let(:body) { {user: {name: build_user.name, username:build_user.username, email: build_user.email, password: build_user.password, password_confirmation: build_user.password} } }
+        let(:'user[avatar]') { user.avatar }
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
+        it do
+          data = JSON.parse(response.body)
+          expect(data.class).to be(Hash)
+          expect(response.status).to eq(201)
+        end
+        run_test!
+      end
+    end
+  end
+
 end
