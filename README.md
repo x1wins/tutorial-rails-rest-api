@@ -494,10 +494,11 @@ production:
 ```
 
 #### lograge.rb with custom config
-https://github.com/roidrage/lograge
-https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
+https://github.com/roidrage/lograge <br/>
+https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html <br/>
+<br/>
 [lograge.rb](/config/lograge.rb) <br/>
-[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration <br/>
 
 > override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
 ```ruby
