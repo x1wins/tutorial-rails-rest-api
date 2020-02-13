@@ -1,8 +1,11 @@
 class PostSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :id, :body, :files, :comments_pagination
+  attributes :id, :body, :category, :files, :comments_pagination
   has_one :user
   has_many :comments
+  def category
+    object.category
+  end
   def files
     return unless object.files.attachments
     file_urls = object.files.map do |file|
