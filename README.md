@@ -94,9 +94,16 @@ TODO
 - [x] User scaffold
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
+    - [ ] avator file upload
+    - [ ] delete username
+    - [ ] add unique key to name 
 - [x] Category scaffold
+    - [ ] fix post.category serialize
 - [x] Post scaffold
+    - [ ] add title column
 - [x] Comment scaffold
+    - [ ] add depth
+    - [ ] file upload
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [x] Swager https://github.com/rswag/rswag
