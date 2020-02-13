@@ -4,7 +4,11 @@ class PostSerializer < ActiveModel::Serializer
   has_one :user
   has_many :comments
   def category
-    object.category
+    {
+        id: object.category.id,
+        title: object.category.title,
+        body: object.category.body
+    }
   end
   def files
     return unless object.files.attachments
