@@ -23,8 +23,13 @@ How to Run
         ````bash
             docker-compose run web bundle exec rake db:test:load && \
             docker-compose run web bundle exec rake db:migrate && \
-            docker-compose run web bundle exec rake db:seed
+            docker-compose run web bundle exec rake db:seed --trace
         ````
+        > db reset
+        ```bash
+            docker-compose run web bundle exec rake db:reset --trace
+            tail -f log/development.log ### if you wanna show sql log
+        ```
         > Testing
         ```bash
             docker-compose run --no-deps web bundle exec rspec --format documentation
