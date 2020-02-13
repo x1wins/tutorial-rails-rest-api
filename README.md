@@ -370,6 +370,25 @@ end
         rake db:seed
     ```    
 
+### model alter
+1. remove column
+```bash
+    rails g migration RemoveColumnFromTables column:type
+```
+2. add column
+```bash
+    rails g migration AddColumnFromTables column:type
+```
+3. add unique to name
+```bash
+    rails g migration AddUniqueNameToUsers
+```
+> sample - add unique to user.name in generate file
+```ruby
+  add_index :table_name, :column_name, unique: true
+```
+
+
 ### Testing
 #### Facker gem
 
