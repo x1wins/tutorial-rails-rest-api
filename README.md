@@ -95,8 +95,7 @@ TODO
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
     - [ ] avator file upload
-    - [ ] delete username
-    - [ ] add unique key to name 
+    - [ ] generate uninque username https://alexcastano.com/generate-unique-usernames-for-ruby-on-rails/
 - [x] Category scaffold
     - [ ] fix post.category serialize
 - [x] Post scaffold
