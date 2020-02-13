@@ -193,6 +193,7 @@ RSpec.describe 'Posts API', type: :request do
               post: {
                   type: :object,
                   properties: {
+                      title: { type: :string },
                       body: { type: :string },
                       category_id: { type: :integer }
                   }
@@ -208,7 +209,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: build_post.body, category_id: build_post.category.id} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body, category_id: build_post.category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -221,7 +222,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { "Bearer invalid token" }
-        let(:body) { {post: {body: build_post.body, category_id: build_post.category.id} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body, category_id: build_post.category.id} } }
 
 
         after do |example|
@@ -241,7 +242,7 @@ RSpec.describe 'Posts API', type: :request do
         let(:category){
           create(:category, published: false)
         }
-        let(:body) { {post: {body: build_post.body, category_id: category.id} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body, category_id: category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -257,7 +258,7 @@ RSpec.describe 'Posts API', type: :request do
           create(:category)
         }
         let(:Authorization) { authenticated_header(user: user) }
-        let(:body) { {post: {body: "", category_id: category.id} } }
+        let(:body) { {post: {title: "", body: "", category_id: category.id} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -383,6 +384,7 @@ RSpec.describe 'Posts API', type: :request do
               post: {
                   type: :object,
                   properties: {
+                      title: { type: :string },
                       body: { type: :string }
                   }
               }
@@ -402,7 +404,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -419,7 +421,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -436,7 +438,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { "Bearer invalid token" }
         let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -457,7 +459,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: user) }
         let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -480,7 +482,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
-        let(:body) { {post: {body: build_post.body} } }
+        let(:body) { {post: {title: build_post.title, body: build_post.body} } }
 
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }

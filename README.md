@@ -375,7 +375,13 @@ end
     ```bash
         rake db:seed
     ```    
+### Post
+1. add title column
+```bash
+    rails g migration AddTitleToPosts title:string
+```
 
+    
 ### Testing
 #### Facker gem
 

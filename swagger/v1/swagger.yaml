@@ -437,6 +437,8 @@ paths:
             post:
               type: object
               properties:
+                title:
+                  type: string
                 body:
                   type: string
                 category_id:
@@ -515,6 +517,8 @@ paths:
             post:
               type: object
               properties:
+                title:
+                  type: string
                 body:
                   type: string
       produces:
@@ -571,6 +575,10 @@ paths:
         in: header
         type: string
         description: JWT token for Authorization
+      - name: post[title]
+        in: formData
+        type: string
+        required: true
       - name: post[body]
         in: formData
         type: string
@@ -603,6 +611,10 @@ paths:
         in: path
         type: string
         description: id
+        required: true
+      - name: post[title]
+        in: formData
+        type: string
         required: true
       - name: post[body]
         in: formData
