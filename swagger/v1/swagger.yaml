@@ -579,7 +579,7 @@ paths:
         in: formData
         type: integer
         required: true
-      - name: post[files][]
+      - name: post[files]
         in: formData
         type: file
       responses:
@@ -608,7 +608,7 @@ paths:
         in: formData
         type: string
         required: true
-      - name: post[files][]
+      - name: post[files]
         in: formData
         type: file
       responses:
