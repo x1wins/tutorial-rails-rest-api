@@ -49,11 +49,11 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   }
 
   let(:valid_attributes) {
-    {body: "sample body", user_id: user.id, category_id: category.id}
+    {title: "sample body", body: "sample body", user_id: user.id, category_id: category.id}
   }
 
   let(:invalid_attributes) {
-    {body: "", user_id: user.id, category_id: category.id}
+    {title: "", body: "", user_id: user.id, category_id: category.id}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        {body: "sample body 222", user_id: user.id}
+        {title: "hello world", body: "sample body 222", user_id: user.id}
       }
 
       it "updates the requested post" do

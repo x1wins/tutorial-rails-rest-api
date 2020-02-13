@@ -13,6 +13,7 @@ RSpec.describe 'Posts API', type: :request do
       security [Bearer: []]
       consumes 'multipart/form-data'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
+      parameter name: 'post[title]', in: :formData, type: :string, required: true
       parameter name: 'post[body]', in: :formData, type: :string, required: true
       parameter name: 'post[category_id]', in: :formData, type: :integer, required: true
       parameter name: 'post[files][]', in: :formData, type: :file
@@ -24,6 +25,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:'post[title]') { build_post.title }
         let(:'post[body]') { build_post.body }
         let(:'post[category_id]') { build_post.category.id }
         let(:'post[files][]') { uploadfile }
@@ -42,6 +44,7 @@ RSpec.describe 'Posts API', type: :request do
           build(:post)
         }
         let(:Authorization) { authenticated_header(user: user) }
+        let(:'post[title]') { build_post.title }
         let(:'post[body]') { build_post.body }
         let(:'post[category_id]') { build_post.category.id }
         let(:'post[files][]') { }
@@ -61,6 +64,7 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'multipart/form-data'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
+      parameter name: 'post[title]', in: :formData, type: :string, required: true
       parameter name: 'post[body]', in: :formData, type: :string, required: true
       parameter name: 'post[files][]', in: :formData, type: :file
       response(200, 'Successful') do
@@ -75,6 +79,7 @@ RSpec.describe 'Posts API', type: :request do
         }
         let(:Authorization) { authenticated_header(user: post.user) }
         let(:id) { post.id }
+        let(:'post[title]') { build_post.title }
         let(:'post[body]') { build_post.body }
         let(:'post[files][]') { uploadfile }
 
