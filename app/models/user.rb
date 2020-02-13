@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
-  has_many_attached :avatar
+  has_one_attached :avatar
   before_create :default_roles
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
