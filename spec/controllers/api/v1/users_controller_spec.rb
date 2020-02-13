@@ -50,7 +50,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
-    it "returns a success response - not admin role" do
+    it "returns a forbidden response - not admin role" do
       user = User.create! valid_attributes
       authenticated_header(request: request, user: user)
 
