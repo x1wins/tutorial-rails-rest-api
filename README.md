@@ -94,9 +94,15 @@ TODO
 - [x] User scaffold
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
+    - [ ] avator file upload
+    - [ ] generate uninque username https://alexcastano.com/generate-unique-usernames-for-ruby-on-rails/
 - [x] Category scaffold
+    - [ ] fix post.category serialize
 - [x] Post scaffold
+    - [ ] add title column
 - [x] Comment scaffold
+    - [ ] add depth
+    - [ ] file upload
 - [x] Model Serializer https://itnext.io/a-quickstart-guide-to-using-serializer-with-your-ruby-on-rails-api-d5052dea52c5
 - [x] Rspec https://relishapp.com/rspec/rspec-rails/docs/gettingstarted
 - [x] Swager https://github.com/rswag/rswag
@@ -494,12 +500,44 @@ production:
 ```
 
 #### lograge.rb with custom config
-https://github.com/roidrage/lograge
-https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html
-[lograge.rb](/config/lograge.rb) <br/>
-[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration
+https://github.com/roidrage/lograge <br/>
+https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html <br/>
+[lograge.rb](/config/initializers/lograge.rb) <br/>
+```ruby
+    Rails.application.configure do
+      enable = Rails.configuration.elk['enable']
+      protocal = Rails.configuration.elk['protocal']
+      host = Rails.configuration.elk['host']
+      port = Rails.configuration.elk['port']
+    
+      if enable
+        config.autoflush_log = true
+        config.lograge.base_controller_class = 'ActionController::API'
+        config.lograge.enabled = true
+        config.lograge.formatter = Lograge::Formatters::Logstash.new
+        config.lograge.logger = LogStashLogger.new(type: protocal, host: host, port: port, sync: true)
+        config.lograge.custom_options = lambda do |event|
+          exceptions = %w(controller action format id)
+          {
+              type: :rails,
+              environment: Rails.env,
+              remote_ip: event.payload[:ip],
+              email: event.payload[:email],
+              user_id: event.payload[:user_id],
+              request: {
+                  headers: event.payload[:headers],
+                  params: event.payload[:params].except(*exceptions)
+              }
+          }
+        end
+      end
+    
+    end
+```
 
-> override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
+[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration <br/>
+> override append_info_to_payload for lograge, 
+append_info_to_payload method put parameter to payload[]
 ```ruby
         class ApplicationController < ActionController::API
           #...leave out the details
