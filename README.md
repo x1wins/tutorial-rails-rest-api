@@ -496,11 +496,42 @@ production:
 #### lograge.rb with custom config
 https://github.com/roidrage/lograge <br/>
 https://ericlondon.com/2017/01/26/integrate-rails-logs-with-elasticsearch-logstash-kibana-in-docker-compose.html <br/>
-<br/>
-[lograge.rb](/config/lograge.rb) <br/>
-[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration <br/>
+[lograge.rb](/config/initializers/lograge.rb) <br/>
+```ruby
+    Rails.application.configure do
+      enable = Rails.configuration.elk['enable']
+      protocal = Rails.configuration.elk['protocal']
+      host = Rails.configuration.elk['host']
+      port = Rails.configuration.elk['port']
+    
+      if enable
+        config.autoflush_log = true
+        config.lograge.base_controller_class = 'ActionController::API'
+        config.lograge.enabled = true
+        config.lograge.formatter = Lograge::Formatters::Logstash.new
+        config.lograge.logger = LogStashLogger.new(type: protocal, host: host, port: port, sync: true)
+        config.lograge.custom_options = lambda do |event|
+          exceptions = %w(controller action format id)
+          {
+              type: :rails,
+              environment: Rails.env,
+              remote_ip: event.payload[:ip],
+              email: event.payload[:email],
+              user_id: event.payload[:user_id],
+              request: {
+                  headers: event.payload[:headers],
+                  params: event.payload[:params].except(*exceptions)
+              }
+          }
+        end
+      end
+    
+    end
+```
 
-> override append_info_to_payload for lograge, append_info_to_payload method put parameter to payload[]
+[application.rb](/config/application.rb) https://guides.rubyonrails.org/v4.2/configuring.html#custom-configuration <br/>
+> override append_info_to_payload for lograge, 
+append_info_to_payload method put parameter to payload[]
 ```ruby
         class ApplicationController < ActionController::API
           #...leave out the details
