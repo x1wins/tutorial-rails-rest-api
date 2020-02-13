@@ -26,9 +26,9 @@ require 'rails_helper'
 RSpec.describe Api::V1::UsersController, type: :controller do
   include ApiHelper
 
-  # let(:user){
-  #   create(:user)
-  # }
+  let(:admin){
+    create(:admin)
+  }
 
   let(:valid_attributes) {
     {name: "aa", username:"aas", email: "x1wins@changwoo.net", password: "password123", password_confirmation: "password123"}
@@ -44,12 +44,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   let(:valid_session) { {} }
 
   describe "GET #index" do
-    it "returns a success response" do
+    it "returns a success response - admin role" do
+      authenticated_header(request: request, user: admin)
+
+      get :index, params: {}, session: valid_session
+      expect(response).to be_successful
+    end
+    it "returns a forbidden response - not admin role" do
       user = User.create! valid_attributes
       authenticated_header(request: request, user: user)
 
       get :index, params: {}, session: valid_session
-      expect(response).to be_successful
+      expect(response).to be_forbidden
     end
   end
 

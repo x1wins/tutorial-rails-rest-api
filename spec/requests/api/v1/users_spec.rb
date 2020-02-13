@@ -14,10 +14,10 @@ RSpec.describe 'Users API', type: :request do
       produces 'application/json'
 
       response(200, 'Successful') do
-        let(:user){
-          create(:user)
+        let(:admin){
+          create(:admin)
         }
-        let(:Authorization) { authenticated_header(user: user) }
+        let(:Authorization) { authenticated_header(user: admin) }
         let(:page) { '1' }
         after do |example|
           example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
@@ -28,6 +28,18 @@ RSpec.describe 'Users API', type: :request do
       response(401, 'Unauthorized') do
         let(:Authorization) { "invalid token" }
         let(:page) { '1' }
+        run_test!
+      end
+
+      response(403, 'Forbidden Unathorized - Required admin role') do
+        let(:user){
+          create(:user)
+        }
+        let(:Authorization) { authenticated_header(user: user) }
+        let(:page) { '1' }
+        after do |example|
+          example.metadata[:response][:examples] = { 'application/json' => JSON.parse(response.body, symbolize_names: true) }
+        end
         run_test!
       end
     end
