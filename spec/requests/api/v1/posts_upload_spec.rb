@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe 'Posts API', type: :request do
+RSpec.describe 'Posts File API', type: :request do
   include ApiHelper
 
   let(:uploadfile){
@@ -120,4 +120,5 @@ RSpec.describe 'Posts API', type: :request do
       end
     end
   end
+
 end

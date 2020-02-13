@@ -21,6 +21,7 @@ module Api
       # POST /users
       def create
         @user = User.new(user_params)
+        @user.avatar.attach(params[:user][:avatar]) if params.dig(:user, :avatar).present?
         if @user.save
           render json: @user, status: :created, location: api_v1_user_url(@user.username)
         else
@@ -31,6 +32,7 @@ module Api
 
       # PUT /users/{username}
       def update
+        @user.avatar.attach(params[:user][:avatar]) if params.dig(:user, :avatar).present?
         if @user.update(user_params)
           render json: @user
         else
