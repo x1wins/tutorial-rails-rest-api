@@ -6,7 +6,6 @@ FactoryBot.define do
     email    { Faker::Internet.email }
     password { Faker::Internet.password }
     password_confirmation { password }
-    avatar { Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/user.png")) }
     trait :admin do
       after(:create) { |user| user.admin_roles }
     end
