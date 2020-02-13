@@ -3,6 +3,9 @@ module Api
     class UsersController < ApplicationController
       before_action :authorize_request, except: :create
       before_action :find_user, except: %i[create index]
+      before_action except: [:index] do
+        is_role :admin
+      end
       before_action only: [:show, :update, :destroy] do
         is_owner @user.id ##your object
       end
