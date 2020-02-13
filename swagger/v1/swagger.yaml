@@ -670,6 +670,8 @@ paths:
           description: Successful
         '401':
           description: Unauthorized
+        '403':
+          description: Forbidden Unathorized - Required admin role
     post:
       summary: create user
       tags:
