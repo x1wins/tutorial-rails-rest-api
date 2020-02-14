@@ -1,6 +1,7 @@
 # tutorial-rails-rest-api
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* you must add redis cloud add-on <br/>
 
 How to Run
 ----------
@@ -777,6 +778,7 @@ i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* you must add redis cloud add-on <br/>
 
 #### Docker compose
 Step 1 - git clone
