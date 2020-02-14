@@ -1,5 +1,7 @@
 # tutorial-rails-rest-api
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 How to Run
 ----------
 
@@ -10,7 +12,7 @@ How to Run
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
     > You can run with ```docker-compose``` or non docker-compose
-    1. docker-compose
+    ### docker-compose
         > server run
         ````
             docker-compose up --build -d
@@ -49,7 +51,7 @@ How to Run
         ```bash
             docker-compose run --no-deps web bundle exec rake routes
         ```
-    2. non docker-compose
+    ### non docker-compose
         > mkdir upload folder
         ```bash
             mkdir ~/storage
@@ -154,6 +156,9 @@ How what to do
     * [how to added cache](#how-to-added-cache)    
 * [Active Storage](#active-storage)
     * [Setup](#setup)    
+* [Deploy](#deploy)
+    * [Heorku](#herolku)
+    * [Docker compose](#docker-compose)
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
@@ -759,3 +764,24 @@ you wiil make dir /storage with ```mkdir /storage```
       # your code will be here ...     
     end
 ```
+
+### Deploy
+#### Heorku
+> https://devcenter.heroku.com/articles/rediscloud
+```bash
+    heroku rake db:migrate --app tutorial-rails-rest-api
+    heroku rake db:seed --app tutorial-rails-rest-api
+    heroku logs --tail --app tutorial-rails-rest-api
+```
+i did deploy to heroku. let's break it down with swagger UI <br/>
+https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+#### Docker compose
+Step 1 - git clone
+```bash
+    git cloone https://github.com/x1wins/tutorial-rails-rest-api.git
+```
+Step 2 - docker-compose up <br>
+[Docker-compose](docker-compose)
