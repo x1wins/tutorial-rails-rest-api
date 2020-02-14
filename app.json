@@ -2,6 +2,6 @@
   "name": "Tutorial Post",
   "description": "Tutorial category, post, comment, user, rest api with rails, rspec, JWT",
   "repository": "https://github.com/x1wins/tutorial-rails-rest-api",
-  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "logo": "https://github.com/x1wins/tutorial-rails-rest-api/blob/master/tutorial-post-logo.png",
   "keywords": ["rails", "post", "category", "comment", "forum", "bbs"]
 }
