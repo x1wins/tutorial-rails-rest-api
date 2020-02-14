@@ -12,83 +12,86 @@ How to Run
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
-    > You can run with ```docker-compose``` or non docker-compose
-    ### docker-compose
-        > server run
-        ````
-            docker-compose up --build -d
-        ````
-        > mkdir upload folder
-        ```bash
-            mkdir ~/storage
-        ```
-        > db setup
-        ````bash
-            docker-compose run web bundle exec rake db:test:load && \
-            docker-compose run web bundle exec rake db:migrate && \
-            docker-compose run web bundle exec rake db:seed --trace
-        ````
-        > db reset
-        ```bash
-            docker-compose run web bundle exec rake db:reset --trace
-            tail -f log/development.log ### if you wanna show sql log
-        ```
-        > Testing
-        ```bash
-            docker-compose run --no-deps web bundle exec rspec --format documentation
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
-        ```
-        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-        ```bash
-            docker-compose run --no-deps web bundle exec rake rswag
-        ```
-        > rails console
-        ```bash
-            docker-compose exec web bin/rails c
-        ```
-        > routes
-        ```bash
-            docker-compose run --no-deps web bundle exec rake routes
-        ```
-    ### non docker-compose
-        > mkdir upload folder
-        ```bash
-            mkdir ~/storage
-        ```
-        > bundle
-        ```bash
-            bundle install
-        ```
-        > postgresql run
-        ```bash
-            rake docker:pg:init
-            rake docker:pg:run
-        ```
-        > migrate
-        ```bash
-            rake db:migrate RAILS_ENV=test
-            rake db:migrate
-            rake db:seed
-        ```
-        > redis run
-        ```bash
-           docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
-           redis-cli -h localhost -p 7001
-        ```
-        > server run
-        ```bash
-            rails s
-        ```      
-        > Testing
-        ```bash
-            bundle exec rpsec --format documentation
-        ```
-        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-        ```bash
-            rake rswag 
-        ```
+> You can run with ```docker-compose``` or non docker-compose
+    
+### docker-compose
+> server run
+````
+    docker-compose up --build -d
+````
+        
+> mkdir upload folder
+```bash
+    mkdir ~/storage
+```
+> db setup
+````bash
+    docker-compose run web bundle exec rake db:test:load && \
+    docker-compose run web bundle exec rake db:migrate && \
+    docker-compose run web bundle exec rake db:seed --trace
+````
+> db reset
+```bash
+    docker-compose run web bundle exec rake db:reset --trace
+    tail -f log/development.log ### if you wanna show sql log
+```
+> Testing
+```bash
+    docker-compose run --no-deps web bundle exec rspec --format documentation
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
+```
+> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+```bash
+    docker-compose run --no-deps web bundle exec rake rswag
+```
+> rails console
+```bash
+    docker-compose exec web bin/rails c
+```
+> routes
+```bash
+    docker-compose run --no-deps web bundle exec rake routes
+```
+        
+### non docker-compose
+> mkdir upload folder
+```bash
+    mkdir ~/storage
+```
+> bundle
+```bash
+    bundle install
+```
+> postgresql run
+```bash
+    rake docker:pg:init
+    rake docker:pg:run
+```
+> migrate
+```bash
+    rake db:migrate RAILS_ENV=test
+    rake db:migrate
+    rake db:seed
+```
+> redis run
+```bash
+   docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
+   redis-cli -h localhost -p 7001
+```
+> server run
+```bash
+    rails s
+```      
+> Testing
+```bash
+    bundle exec rpsec --format documentation
+```
+> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+```bash
+    rake rswag 
+```
 
 TODO
 ----
