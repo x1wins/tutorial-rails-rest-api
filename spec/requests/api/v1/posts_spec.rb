@@ -121,6 +121,8 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/post'
+
         let(:user){
           create(:user)
         }
@@ -280,6 +282,8 @@ RSpec.describe 'Posts API', type: :request do
       parameter name: :comment_per, in: :query, type: :integer, description: 'Per page number For Comment'
       produces 'application/json'
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/post'
+
         let(:total_count) { 12 }
         let(:comment_count) { 15 }
         let(:category){

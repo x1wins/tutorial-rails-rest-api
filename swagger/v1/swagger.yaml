@@ -411,6 +411,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '404':
@@ -486,6 +488,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '404':
@@ -887,3 +891,29 @@ securityDefinitions:
     type: apiKey
     name: Authorization
     in: header
+definitions:
+  post:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      body:
+        type: string
+      category:
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+      files:
+      - id:
+          type: integer
+        url:
+          type: string
+    required:
+    - id
+    - title
+    - body

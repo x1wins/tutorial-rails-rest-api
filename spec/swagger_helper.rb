@@ -27,6 +27,28 @@ RSpec.configure do |config|
               name: :Authorization,
               in: :header
           }
+      },
+      definitions: {
+          post: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  title: { type: :string },
+                  body: { type: :string },
+                  category: {
+                      id: { type: :integer },
+                      title: { type: :string },
+                      body: { type: :string }
+                  },
+                  files: [
+                      {
+                          id: { type: :integer },
+                          url: { type: :string }
+                      }
+                  ]
+              },
+              required: [ 'id', 'title', 'body' ]
+          }
       }
     }
   }
