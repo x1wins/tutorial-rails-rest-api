@@ -491,10 +491,15 @@ end
     
 ### Codegen
 > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
-    
+
+> https://github.com/swagger-api/swagger-codegen/wiki/FAQ#how-can-i-generate-an-android-sdk    
 ```bash
     brew install swagger-codegen
-    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
+    mkdir -p /var/tmp/java/okhttp-gson/
+    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml \
+      -l java --library=okhttp-gson \
+      -D hideGenerationTimestamp=true \
+      -o /var/tmp/java/okhttp-gson/  
 ```        
     
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
