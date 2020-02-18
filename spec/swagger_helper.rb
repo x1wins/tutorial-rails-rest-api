@@ -44,10 +44,15 @@ RSpec.configure do |config|
               properties: {
                   id: { type: :integer },
                   title: { type: :string },
-                  body: { type: :string }
+                  body: { type: :string },
+                  posts: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/post'
+                      }
+                  }
               }
           },
-          posts: ['$ref' => '#/definitions/post'],
           post: {
               type: :object,
               properties: {
@@ -80,9 +85,49 @@ RSpec.configure do |config|
               properties: {
                   id: { type: :integer },
                   body: { type: :string },
-                  user: { '$ref' => '#/definitions/user' },
+                  user: { '$ref' => '#/definitions/user' }
               },
               required: [ 'id', 'body' ]
+          },
+          pagination: {
+              type: :object,
+              properties: {
+                  current_page: { type: :integer },
+                  next_page: { type: :integer },
+                  prev_page: { type: :integer },
+                  total_pages: { type: :integer },
+                  total_count: { type: :integer }
+              }
+          },
+          categories: {
+              type: :array,
+              items: {
+                  '$ref' => '#/definitions/category'
+              }
+          },
+          posts: {
+              type: :object,
+              properties: {
+                  posts: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/post'
+                      }
+                  },
+                  posts_pagination: { '$ref' => '#/definitions/pagination' }
+              }
+          },
+          comments: {
+              type: :array,
+              items: {
+                  '$ref' => '#/definitions/comment'
+              }
+          },
+          users: {
+              type: :array,
+              items: {
+                  '$ref' => '#/definitions/user'
+              }
           }
       }
     }

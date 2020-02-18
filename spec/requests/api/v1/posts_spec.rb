@@ -121,7 +121,7 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(200, 'Successful') do
-        schema '$ref' => '#/definitions/post'
+        schema '$ref' => '#/definitions/posts'
 
         let(:user){
           create(:user)

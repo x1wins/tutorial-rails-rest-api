@@ -914,8 +914,10 @@ definitions:
         type: string
       body:
         type: string
-  posts:
-  - "$ref": "#/definitions/post"
+      posts:
+        type: array
+        items:
+          "$ref": "#/definitions/post"
   post:
     type: object
     properties:
@@ -958,3 +960,37 @@ definitions:
     required:
     - id
     - body
+  pagination:
+    type: object
+    properties:
+      current_page:
+        type: integer
+      next_page:
+        type: integer
+      prev_page:
+        type: integer
+      total_pages:
+        type: integer
+      total_count:
+        type: integer
+  categories:
+    type: array
+    items:
+      "$ref": "#/definitions/category"
+  posts:
+    type: object
+    properties:
+      posts:
+        type: array
+        items:
+          "$ref": "#/definitions/post"
+      posts_pagination:
+        "$ref": "#/definitions/pagination"
+  comments:
+    type: array
+    items:
+      "$ref": "#/definitions/comment"
+  users:
+    type: array
+    items:
+      "$ref": "#/definitions/user"
