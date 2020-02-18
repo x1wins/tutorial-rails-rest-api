@@ -506,6 +506,7 @@ Caused by: android.os.NetworkOnMainThreadException
 https://www.toptal.com/android/android-threading-all-you-need-to-know
 
 sample
+https://i.stack.imgur.com/ytin1.png
 https://gist.github.com/just-kip/1376527af60c74b07bef7bd7f136ff56
 ```java
         AsyncTask<Post, Void, Post> asyncTask = new AsyncTask<Post, Void, Post>() {
