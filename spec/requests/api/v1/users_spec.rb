@@ -47,21 +47,7 @@ RSpec.describe 'Users API', type: :request do
     post('create user') do
       tags 'User'
       consumes 'application/json'
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              user: {
-                  type: :object,
-                  properties: {
-                      name: { type: :string },
-                      username: { type: :string },
-                      email: { type: :string },
-                      password: { type: :string },
-                      password_confirmation: { type: :string }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/user_param' }
       produces 'application/json'
 
       let(:build_user){
@@ -164,21 +150,7 @@ RSpec.describe 'Users API', type: :request do
           },
           required: ['_username']
       }
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              user: {
-                  type: :object,
-                  properties: {
-                      name: { type: :string },
-                      username: { type: :string },
-                      email: { type: :string },
-                      password: { type: :string },
-                      password_confirmation: { type: :string }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/user_param' }
       produces 'application/json'
       response(200, 'Successful') do
         let(:user){

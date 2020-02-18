@@ -81,15 +81,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            category:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
+          "$ref": "#/definitions/category_param"
       produces:
       - application/json
       responses:
@@ -163,13 +155,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            category:
-              type: object
-              properties:
-                body:
-                  type: string
+          "$ref": "#/definitions/category_param"
       produces:
       - application/json
       responses:
@@ -260,15 +246,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            comment:
-              type: object
-              properties:
-                body:
-                  type: string
-                post_id:
-                  type: string
+          "$ref": "#/definitions/comment_param"
       produces:
       - application/json
       responses:
@@ -332,13 +310,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            comment:
-              type: object
-              properties:
-                body:
-                  type: string
+          "$ref": "#/definitions/comment_param"
       produces:
       - application/json
       responses:
@@ -696,21 +668,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            user:
-              type: object
-              properties:
-                name:
-                  type: string
-                username:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-                password_confirmation:
-                  type: string
+          "$ref": "#/definitions/user_param"
       produces:
       - application/json
       responses:
