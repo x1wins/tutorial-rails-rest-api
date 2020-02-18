@@ -560,6 +560,15 @@ https://stackoverflow.com/questions/5528850/how-do-you-connect-localhost-in-the-
 //    private String basePath = "http://localhost:3000";
     private String basePath = "http://10.0.2.2:3000";     
     
+swagger-annotations Unable to pre-dex
+https://stackoverflow.com/questions/43997544/execution-failed-for-task-java-lang-runtimeexceptionunable-to-pre-dex
+```groovy
+dexOptions {
+    javaMaxHeapSize "2g" // set it to 4g will bring unable to start JavaVirtualMachine
+    preDexLibraries = false
+  }
+```
+    
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
 
 #### elk.yml config
