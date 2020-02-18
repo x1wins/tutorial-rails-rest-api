@@ -369,18 +369,7 @@ RSpec.describe 'Posts API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              post: {
-                  type: :object,
-                  properties: {
-                      title: { type: :string },
-                      body: { type: :string }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/post_param' }
       produces 'application/json'
 
       response(200, 'Successful - update after multuplart file upload') do

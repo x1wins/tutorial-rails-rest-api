@@ -526,15 +526,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
+          "$ref": "#/definitions/post_param"
       produces:
       - application/json
       responses:
