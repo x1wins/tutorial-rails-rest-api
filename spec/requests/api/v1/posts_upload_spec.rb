@@ -42,6 +42,7 @@ RSpec.describe 'Posts File API', type: :request do
       end
 
       response(201, 'Successful') do
+        schema '$ref' => '#/definitions/posts'
         let(:user){
           create(:user)
         }
@@ -75,6 +76,7 @@ RSpec.describe 'Posts File API', type: :request do
       parameter name: 'post[body]', in: :formData, type: :string, required: true
       parameter name: 'post[files]', in: :formData, type: :file
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/post'
         let(:user){
           create(:user)
         }

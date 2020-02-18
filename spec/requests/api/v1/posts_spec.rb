@@ -122,7 +122,6 @@ RSpec.describe 'Posts API', type: :request do
 
       response(200, 'Successful') do
         schema '$ref' => '#/definitions/posts'
-
         let(:user){
           create(:user)
         }
@@ -204,6 +203,7 @@ RSpec.describe 'Posts API', type: :request do
       }
       produces 'application/json'
       response(201, 'Successful') do
+        schema '$ref' => '#/definitions/post'
         let(:user){
           create(:user)
         }
@@ -283,7 +283,6 @@ RSpec.describe 'Posts API', type: :request do
       produces 'application/json'
       response(200, 'Successful') do
         schema '$ref' => '#/definitions/post'
-
         let(:total_count) { 12 }
         let(:comment_count) { 15 }
         let(:category){
@@ -417,6 +416,7 @@ RSpec.describe 'Posts API', type: :request do
       end
 
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/post'
         let(:post){
           create(:post)
         }

@@ -46,10 +46,7 @@ RSpec.configure do |config|
                   title: { type: :string },
                   body: { type: :string },
                   posts: {
-                      type: :array,
-                      items: {
-                          '$ref' => '#/definitions/post'
-                      }
+                      '$ref' => '#/definitions/posts'
                   }
               }
           },
@@ -76,7 +73,8 @@ RSpec.configure do |config|
                       items: {
                           '$ref' => '#/definitions/comment'
                       }
-                  }
+                  },
+                  comments_pagination: { '$ref' => '#/definitions/pagination' }
               },
               required: [ 'id', 'title', 'body' ]
           },
@@ -100,9 +98,15 @@ RSpec.configure do |config|
               }
           },
           categories: {
-              type: :array,
-              items: {
-                  '$ref' => '#/definitions/category'
+              type: :object,
+              properties: {
+                  categories: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/category'
+                      }
+                  },
+                  categories_pagination: { '$ref' => '#/definitions/pagination' }
               }
           },
           posts: {
@@ -118,9 +122,15 @@ RSpec.configure do |config|
               }
           },
           comments: {
-              type: :array,
-              items: {
-                  '$ref' => '#/definitions/comment'
+              type: :object,
+              properties: {
+                  comments: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/comment'
+                      }
+                  },
+                  comments_pagination: { '$ref' => '#/definitions/pagination' }
               }
           },
           users: {

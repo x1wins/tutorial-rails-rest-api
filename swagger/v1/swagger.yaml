@@ -69,6 +69,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/categories"
         '401':
           description: Unauthorized
     post:
@@ -102,6 +104,8 @@ paths:
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '401':
           description: Unauthorized
         '403':
@@ -140,6 +144,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '401':
           description: Unauthorized
         '404':
@@ -178,6 +184,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '403':
           description: Forbidden Unathorized
     delete:
@@ -238,6 +246,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comments"
         '401':
           description: Unauthorized
         '404':
@@ -273,6 +283,8 @@ paths:
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '401':
           description: Unauthorized
         '422':
@@ -301,6 +313,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '401':
           description: Unauthorized
         '404':
@@ -339,6 +353,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '403':
           description: Forbidden Unathorized
     delete:
@@ -450,6 +466,8 @@ paths:
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '404':
@@ -530,6 +548,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '403':
@@ -597,6 +617,8 @@ paths:
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/posts"
   "/api/v1/posts/{id}/":
     put:
       summary: update multipart form
@@ -630,6 +652,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
   "/api/v1/posts/{id}/attached/{attached_id}":
     delete:
       summary: delete post attached file
@@ -811,6 +835,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/user"
         '401':
           description: Unauthorized
         '403':
@@ -885,6 +911,8 @@ paths:
       responses:
         '201':
           description: User created
+          schema:
+            "$ref": "#/definitions/user"
 securityDefinitions:
   Bearer:
     description: Generate JWT
@@ -915,9 +943,7 @@ definitions:
       body:
         type: string
       posts:
-        type: array
-        items:
-          "$ref": "#/definitions/post"
+        "$ref": "#/definitions/posts"
   post:
     type: object
     properties:
@@ -944,6 +970,8 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/comment"
+      comments_pagination:
+        "$ref": "#/definitions/pagination"
     required:
     - id
     - title
@@ -974,9 +1002,14 @@ definitions:
       total_count:
         type: integer
   categories:
-    type: array
-    items:
-      "$ref": "#/definitions/category"
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          "$ref": "#/definitions/category"
+      categories_pagination:
+        "$ref": "#/definitions/pagination"
   posts:
     type: object
     properties:
@@ -987,9 +1020,14 @@ definitions:
       posts_pagination:
         "$ref": "#/definitions/pagination"
   comments:
-    type: array
-    items:
-      "$ref": "#/definitions/comment"
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          "$ref": "#/definitions/comment"
+      comments_pagination:
+        "$ref": "#/definitions/pagination"
   users:
     type: array
     items:

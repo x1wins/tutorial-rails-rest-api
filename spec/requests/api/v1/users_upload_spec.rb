@@ -22,6 +22,7 @@ RSpec.describe 'Users Avatar API', type: :request do
         build(:user, avatar: uploadfile_avatar)
       }
       response(201, 'User created') do
+        schema '$ref' => '#/definitions/user'
         let(:'user[name]') { build_user.name }
         let(:'user[username]') { build_user.username }
         let(:'user[email]') { build_user.email }
@@ -58,6 +59,7 @@ RSpec.describe 'Users Avatar API', type: :request do
       parameter name: 'user[avatar]', in: :formData, type: :file
       produces 'application/json'
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/user'
         let(:user){
           create(:user, avatar: uploadfile_avatar)
         }
