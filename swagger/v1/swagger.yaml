@@ -16,18 +16,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            email:
-              type: string
-              required: true
-              description: Email for Login
-              example: hello@changwoo.org
-            password:
-              type: string
-              required: true
-              description: Password for Login
-              example: hello1234
+          "$ref": "#/definitions/auth_param"
       responses:
         '200':
           description: Ok
@@ -909,8 +898,14 @@ definitions:
     properties:
       email:
         type: string
+        required: true
+        description: Email for Login
+        example: hello@changwoo.org
       password:
         type: string
+        required: true
+        description: Password for Login
+        example: hello1234
   user_param:
     type: object
     properties:

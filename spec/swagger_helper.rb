@@ -32,8 +32,8 @@ RSpec.configure do |config|
           auth_param: {
               type: :object,
               properties: {
-                  email: { type: :string },
-                  password: { type: :string }
+                  email: { type: :string, required: true, description: 'Email for Login', example: 'hello@changwoo.org' },
+                  password: { type: :string, required: true, description: 'Password for Login', example: 'hello1234' }
               }
           },
           user_param: {
