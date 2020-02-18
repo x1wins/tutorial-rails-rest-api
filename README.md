@@ -1,7 +1,8 @@
 # tutorial-rails-rest-api
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-* you must add redis cloud add-on <br/>
+* you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
+* demo site : https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 
 How to Run
 ----------
