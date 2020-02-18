@@ -46,8 +46,12 @@ RSpec.configure do |config|
                   title: { type: :string },
                   body: { type: :string },
                   posts: {
-                      '$ref' => '#/definitions/posts'
-                  }
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/post'
+                      }
+                  },
+                  posts_pagination: { '$ref' => '#/definitions/pagination' }
               }
           },
           post: {
