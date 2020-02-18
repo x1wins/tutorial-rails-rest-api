@@ -1,0 +1,12 @@
+{
+  "name": "Tutorial Post",
+  "description": "Tutorial category, post, comment, user, rest api with rails, rspec, JWT",
+  "repository": "https://github.com/x1wins/tutorial-rails-rest-api",
+  "logo": "https://raw.githubusercontent.com/x1wins/tutorial-rails-rest-api/master/tutorial-post-logo.png",
+  "keywords": ["rails", "post", "category", "comment", "forum", "bbs", "nested-model", "rspec", "rest-api", "JWT","Tutorial Post rest api server"],
+  "website": "https://www.changwoo.org",
+  "addons": [
+    "heroku-postgresql",
+    "rediscloud"
+  ]
+}

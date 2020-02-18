@@ -1,5 +1,9 @@
 # tutorial-rails-rest-api
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
+* demo site : https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
+
 How to Run
 ----------
 
@@ -9,83 +13,86 @@ How to Run
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
 1. Setup
-    > You can run with ```docker-compose``` or non docker-compose
-    1. docker-compose
-        > server run
-        ````
-            docker-compose up --build -d
-        ````
-        > mkdir upload folder
-        ```bash
-            mkdir ~/storage
-        ```
-        > db setup
-        ````bash
-            docker-compose run web bundle exec rake db:test:load && \
-            docker-compose run web bundle exec rake db:migrate && \
-            docker-compose run web bundle exec rake db:seed --trace
-        ````
-        > db reset
-        ```bash
-            docker-compose run web bundle exec rake db:reset --trace
-            tail -f log/development.log ### if you wanna show sql log
-        ```
-        > Testing
-        ```bash
-            docker-compose run --no-deps web bundle exec rspec --format documentation
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
-            docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
-        ```
-        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-        ```bash
-            docker-compose run --no-deps web bundle exec rake rswag
-        ```
-        > rails console
-        ```bash
-            docker-compose exec web bin/rails c
-        ```
-        > routes
-        ```bash
-            docker-compose run --no-deps web bundle exec rake routes
-        ```
-    2. non docker-compose
-        > mkdir upload folder
-        ```bash
-            mkdir ~/storage
-        ```
-        > bundle
-        ```bash
-            bundle install
-        ```
-        > postgresql run
-        ```bash
-            rake docker:pg:init
-            rake docker:pg:run
-        ```
-        > migrate
-        ```bash
-            rake db:migrate RAILS_ENV=test
-            rake db:migrate
-            rake db:seed
-        ```
-        > redis run
-        ```bash
-           docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
-           redis-cli -h localhost -p 7001
-        ```
-        > server run
-        ```bash
-            rails s
-        ```      
-        > Testing
-        ```bash
-            bundle exec rpsec --format documentation
-        ```
-        > Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-        ```bash
-            rake rswag 
-        ```
+> You can run with ```docker-compose``` or non docker-compose
+    
+### docker-compose
+> server run
+````
+    docker-compose up --build -d
+````
+        
+> mkdir upload folder
+```bash
+    mkdir ~/storage
+```
+> db setup
+````bash
+    docker-compose run web bundle exec rake db:test:load && \
+    docker-compose run web bundle exec rake db:migrate && \
+    docker-compose run web bundle exec rake db:seed --trace
+````
+> db reset
+```bash
+    docker-compose run web bundle exec rake db:reset --trace
+    tail -f log/development.log ### if you wanna show sql log
+```
+> Testing
+```bash
+    docker-compose run --no-deps web bundle exec rspec --format documentation
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+    docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
+```
+> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+```bash
+    docker-compose run --no-deps web bundle exec rake rswag
+```
+> rails console
+```bash
+    docker-compose exec web bin/rails c
+```
+> routes
+```bash
+    docker-compose run --no-deps web bundle exec rake routes
+```
+        
+### non docker-compose
+> mkdir upload folder
+```bash
+    mkdir ~/storage
+```
+> bundle
+```bash
+    bundle install
+```
+> postgresql run
+```bash
+    rake docker:pg:init
+    rake docker:pg:run
+```
+> migrate
+```bash
+    rake db:migrate RAILS_ENV=test
+    rake db:migrate
+    rake db:seed
+```
+> redis run
+```bash
+   docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
+   redis-cli -h localhost -p 7001
+```
+> server run
+```bash
+    rails s
+```      
+> Testing
+```bash
+    bundle exec rpsec --format documentation
+```
+> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+```bash
+    rake rswag 
+```
 
 TODO
 ----
@@ -94,12 +101,12 @@ TODO
 - [x] User scaffold
     - [x] User scaffold and JWT for user authenticate Gem https://github.com/x1wins/jwt-rails
     - [x] User role http://railscasts.com/episodes/189-embedded-association?view=asciicast https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
-    - [ ] avator file upload
+    - [x] avatar file upload
     - [ ] generate uninque username https://alexcastano.com/generate-unique-usernames-for-ruby-on-rails/
 - [x] Category scaffold
-    - [ ] fix post.category serialize
+    - [x] fix post.category serialize
 - [x] Post scaffold
-    - [ ] add title column
+    - [x] add title column
 - [x] Comment scaffold
     - [ ] add depth
     - [ ] file upload
@@ -154,6 +161,9 @@ How what to do
     * [how to added cache](#how-to-added-cache)    
 * [Active Storage](#active-storage)
     * [Setup](#setup)    
+* [Deploy](#deploy)
+    * [Heorku](#herolku)
+    * [Docker compose](#docker-compose)
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
@@ -759,3 +769,25 @@ you wiil make dir /storage with ```mkdir /storage```
       # your code will be here ...     
     end
 ```
+
+### Deploy
+#### Heorku
+> https://devcenter.heroku.com/articles/rediscloud
+```bash
+    heroku rake db:migrate --app tutorial-rails-rest-api
+    heroku rake db:seed --app tutorial-rails-rest-api
+    heroku logs --tail --app tutorial-rails-rest-api
+```
+i did deploy to heroku. let's break it down with swagger UI <br/>
+https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* you must add redis cloud add-on <br/>
+
+#### Docker compose
+Step 1 - git clone
+```bash
+    git cloone https://github.com/x1wins/tutorial-rails-rest-api.git
+```
+Step 2 - docker-compose up <br>
+[Docker-compose](docker-compose)
