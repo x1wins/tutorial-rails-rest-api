@@ -29,25 +29,60 @@ RSpec.configure do |config|
           }
       },
       definitions: {
+          user: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  name: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string },
+                  avatar: { type: :string }
+              }
+          },
+          category: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  title: { type: :string },
+                  body: { type: :string }
+              }
+          },
+          posts: ['$ref' => '#/definitions/post'],
           post: {
               type: :object,
               properties: {
                   id: { type: :integer },
                   title: { type: :string },
                   body: { type: :string },
-                  category: {
-                      id: { type: :integer },
-                      title: { type: :string },
-                      body: { type: :string }
-                  },
-                  files: [
-                      {
-                          id: { type: :integer },
-                          url: { type: :string }
+                  user: { '$ref' => '#/definitions/user' },
+                  category: { '$ref' => '#/definitions/category' },
+                  files: {
+                      type: :array,
+                      items: {
+                          type: :object,
+                          properties: {
+                              id: { type: :integer },
+                              url: { type: :string }
+                          }
                       }
-                  ]
+                  },
+                  comments: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/comment'
+                      }
+                  }
               },
               required: [ 'id', 'title', 'body' ]
+          },
+          comment: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  body: { type: :string },
+                  user: { '$ref' => '#/definitions/user' },
+              },
+              required: [ 'id', 'body' ]
           }
       }
     }
