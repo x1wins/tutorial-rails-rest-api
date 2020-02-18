@@ -12,8 +12,8 @@ RSpec.describe 'Authentication API', type: :request do
               password: { type: :string, required: true, description: 'Password for Login', example: 'hello1234' }
           }
       }
-
       response(200, 'Ok') do
+        schema '$ref' => '#/definitions/auth'
         let(:user){
           create(:user)
         }

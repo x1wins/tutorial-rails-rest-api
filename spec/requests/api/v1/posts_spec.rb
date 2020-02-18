@@ -188,19 +188,7 @@ RSpec.describe 'Posts API', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              post: {
-                  type: :object,
-                  properties: {
-                      title: { type: :string },
-                      body: { type: :string },
-                      category_id: { type: :integer }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/post_param' }
       produces 'application/json'
       response(201, 'Successful') do
         schema '$ref' => '#/definitions/post'

@@ -29,6 +29,54 @@ RSpec.configure do |config|
           }
       },
       definitions: {
+          auth_param: {
+              type: :object,
+              properties: {
+                  email: { type: :string },
+                  password: { type: :string }
+              }
+          },
+          user_param: {
+              type: :object,
+              properties: {
+                  name: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string },
+                  password: { type: :string },
+                  password_confirmation: { type: :string }
+              }
+          },
+          category_param: {
+              type: :object,
+              properties: {
+                  title: { type: :string },
+                  body: { type: :string }
+              }
+          },
+          post_param: {
+              type: :object,
+              properties: {
+                  title: { type: :string },
+                  body: { type: :string },
+                  category_id: { type: :integer }
+              }
+          },
+          comment_param: {
+              type: :object,
+              properties: {
+                  body: { type: :string },
+                  post_id: { type: :integer }
+              }
+          },
+          auth: {
+              type: :object,
+              properties: {
+                  token: { type: :string },
+                  exp: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string }
+              }
+          },
           user: {
               type: :object,
               properties: {
@@ -93,12 +141,13 @@ RSpec.configure do |config|
           },
           pagination: {
               type: :object,
+              'x-nullable': true,
               properties: {
-                  current_page: { type: :integer },
-                  next_page: { type: :integer },
-                  prev_page: { type: :integer },
-                  total_pages: { type: :integer },
-                  total_count: { type: :integer }
+                  current_page: { type: :integer, 'x-nullable': true },
+                  next_page: { type: :integer, 'x-nullable': true },
+                  prev_page: { type: :integer, 'x-nullable': true },
+                  total_pages: { type: :integer, 'x-nullable': true },
+                  total_count: { type: :integer, 'x-nullable': true }
               }
           },
           categories: {

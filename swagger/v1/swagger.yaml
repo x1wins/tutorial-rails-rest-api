@@ -31,6 +31,8 @@ paths:
       responses:
         '200':
           description: Ok
+          schema:
+            "$ref": "#/definitions/auth"
         '401':
           description: Unauthorized
   "/api/v1/categories":
@@ -450,17 +452,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
-                category_id:
-                  type: integer
+          "$ref": "#/definitions/post_param"
       produces:
       - application/json
       responses:
@@ -920,6 +912,60 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
+  auth_param:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  user_param:
+    type: object
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      password_confirmation:
+        type: string
+  category_param:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+  post_param:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+      category_id:
+        type: integer
+  comment_param:
+    type: object
+    properties:
+      body:
+        type: string
+      post_id:
+        type: integer
+  auth:
+    type: object
+    properties:
+      token:
+        type: string
+      exp:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
   user:
     type: object
     properties:
@@ -994,17 +1040,23 @@ definitions:
     - body
   pagination:
     type: object
+    x-nullable: true
     properties:
       current_page:
         type: integer
+        x-nullable: true
       next_page:
         type: integer
+        x-nullable: true
       prev_page:
         type: integer
+        x-nullable: true
       total_pages:
         type: integer
+        x-nullable: true
       total_count:
         type: integer
+        x-nullable: true
   categories:
     type: object
     properties:
