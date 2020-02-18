@@ -27,6 +27,171 @@ RSpec.configure do |config|
               name: :Authorization,
               in: :header
           }
+      },
+      definitions: {
+          auth_param: {
+              type: :object,
+              properties: {
+                  email: { type: :string, required: true, description: 'Email for Login', example: 'hello@changwoo.org' },
+                  password: { type: :string, required: true, description: 'Password for Login', example: 'hello1234' }
+              }
+          },
+          user_param: {
+              type: :object,
+              properties: {
+                  name: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string },
+                  password: { type: :string },
+                  password_confirmation: { type: :string }
+              }
+          },
+          category_param: {
+              type: :object,
+              properties: {
+                  title: { type: :string },
+                  body: { type: :string }
+              }
+          },
+          post_param: {
+              type: :object,
+              properties: {
+                  title: { type: :string },
+                  body: { type: :string },
+                  category_id: { type: :integer }
+              }
+          },
+          comment_param: {
+              type: :object,
+              properties: {
+                  body: { type: :string },
+                  post_id: { type: :integer }
+              }
+          },
+          auth: {
+              type: :object,
+              properties: {
+                  token: { type: :string },
+                  exp: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string }
+              }
+          },
+          user: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  name: { type: :string },
+                  username: { type: :string },
+                  email: { type: :string },
+                  avatar: { type: :string }
+              }
+          },
+          category: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  title: { type: :string },
+                  body: { type: :string },
+                  posts: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/post'
+                      }
+                  },
+                  posts_pagination: { '$ref' => '#/definitions/pagination' }
+              }
+          },
+          post: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  title: { type: :string },
+                  body: { type: :string },
+                  user: { '$ref' => '#/definitions/user' },
+                  category: { '$ref' => '#/definitions/category' },
+                  files: {
+                      type: :array,
+                      items: {
+                          type: :object,
+                          properties: {
+                              id: { type: :integer },
+                              url: { type: :string }
+                          }
+                      }
+                  },
+                  comments: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/comment'
+                      }
+                  },
+                  comments_pagination: { '$ref' => '#/definitions/pagination' }
+              },
+              required: [ 'id', 'title', 'body' ]
+          },
+          comment: {
+              type: :object,
+              properties: {
+                  id: { type: :integer },
+                  body: { type: :string },
+                  user: { '$ref' => '#/definitions/user' }
+              },
+              required: [ 'id', 'body' ]
+          },
+          pagination: {
+              type: :object,
+              'x-nullable': true,
+              properties: {
+                  current_page: { type: :integer, 'x-nullable': true },
+                  next_page: { type: :integer, 'x-nullable': true },
+                  prev_page: { type: :integer, 'x-nullable': true },
+                  total_pages: { type: :integer, 'x-nullable': true },
+                  total_count: { type: :integer, 'x-nullable': true }
+              }
+          },
+          categories: {
+              type: :object,
+              properties: {
+                  categories: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/category'
+                      }
+                  },
+                  categories_pagination: { '$ref' => '#/definitions/pagination' }
+              }
+          },
+          posts: {
+              type: :object,
+              properties: {
+                  posts: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/post'
+                      }
+                  },
+                  posts_pagination: { '$ref' => '#/definitions/pagination' }
+              }
+          },
+          comments: {
+              type: :object,
+              properties: {
+                  comments: {
+                      type: :array,
+                      items: {
+                          '$ref' => '#/definitions/comment'
+                      }
+                  },
+                  comments_pagination: { '$ref' => '#/definitions/pagination' }
+              }
+          },
+          users: {
+              type: :array,
+              items: {
+                  '$ref' => '#/definitions/user'
+              }
+          }
       }
     }
   }

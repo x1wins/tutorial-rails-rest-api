@@ -93,6 +93,7 @@ RSpec.describe 'Cateogories API', type: :request do
       end
 
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/categories'
         let(:user){
           create(:user)
         }
@@ -127,20 +128,10 @@ RSpec.describe 'Cateogories API', type: :request do
       security [Bearer: []]
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              category: {
-                  type: :object,
-                  properties: {
-                      title: { type: :string },
-                      body: { type: :string }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/category_param' }
       produces 'application/json'
       response(201, 'Successful') do
+        schema '$ref' => '#/definitions/category'
         let(:admin){
           create(:admin)
         }
@@ -212,6 +203,7 @@ RSpec.describe 'Cateogories API', type: :request do
       parameter name: :post_per, in: :query, type: :integer, description: 'Per page number For Post'
       produces 'application/json'
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/category'
         let(:user){
           create(:user)
         }
@@ -269,19 +261,10 @@ RSpec.describe 'Cateogories API', type: :request do
       consumes 'application/json'
       parameter name: :Authorization, in: :header, type: :string, description: 'JWT token for Authorization'
       parameter name: 'id', in: :path, type: :string, description: 'id'
-      parameter name: :body, in: :body, required: true, schema: {
-          type: :object,
-          properties: {
-              category: {
-                  type: :object,
-                  properties: {
-                      body: { type: :string }
-                  }
-              }
-          }
-      }
+      parameter name: :body, in: :body, required: true, schema: {'$ref' => '#/definitions/category_param' }
       produces 'application/json'
       response(200, 'Successful') do
+        schema '$ref' => '#/definitions/category'
         let(:admin){
           create(:admin)
         }

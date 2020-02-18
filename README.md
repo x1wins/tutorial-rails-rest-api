@@ -501,11 +501,84 @@ end
     
 ### Codegen
 > We developed server side code and We shoud need Client code. you can use Swagger-Codegen https://github.com/swagger-api/swagger-codegen#swagger-code-generator
-    
+
+> https://github.com/swagger-api/swagger-codegen/wiki/FAQ#how-can-i-generate-an-android-sdk    
 ```bash
     brew install swagger-codegen
-    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml -l swift5 -o ./swift 
-```        
+    mkdir -p /var/tmp/java/okhttp-gson/
+    swagger-codegen generate -i http://localhost:3000/api-docs/v1/swagger.yaml \
+      -l java --library=okhttp-gson \
+      -D hideGenerationTimestamp=true \
+      -o /var/tmp/java/okhttp-gson/  
+```   
+
+Caused by: android.os.NetworkOnMainThreadException
+https://www.toptal.com/android/android-threading-all-you-need-to-know
+
+sample
+https://i.stack.imgur.com/ytin1.png
+https://gist.github.com/just-kip/1376527af60c74b07bef7bd7f136ff56
+```java
+        AsyncTask<Post, Void, Post> asyncTask = new AsyncTask<Post, Void, Post>() {
+            @Override
+            protected Post doInBackground(Post... params) {
+                try {
+                    ApiClient defaultClient = Configuration.getDefaultApiClient();
+                    String authorization = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1ODIwOTg3NzF9.JGPR2oOOeGcjSocU4Ohvw1bg49ZjTQ9tQ3FtxmqmPDM"; // String | JWT token for Authorization
+                    ApiKeyAuth Bearer = (ApiKeyAuth) defaultClient.getAuthentication("Bearer");
+                    Bearer.setApiKey(authorization);
+                    PostApi apiInstance = new PostApi();
+                    String id = "1"; // String | id
+                    Integer commentPage = 1; // Integer | Page number for Comment
+                    Integer commentPer = 10; // Integer | Per page number For Comment
+                    Post result;
+                    try {
+                        result = apiInstance.apiV1PostsIdGet(id, authorization, commentPage, commentPer);
+//                        System.out.println(result);
+                    } catch (ApiException e) {
+                        System.err.println("Exception when calling PostApi#apiV1PostsIdGet");
+                        e.printStackTrace();
+                        result = new Post();
+                    }
+                    return result;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new Post();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Post post) {
+                super.onPostExecute(post);
+                if (post != null) {
+                    mEmailView.setText(post.getBody());
+                    System.out.print(post);
+                }
+            }
+        };
+
+        asyncTask.execute();
+```
+
+https://www.sitepoint.com/consuming-web-apis-in-android-with-okhttp/
+<uses-permission android:name="android.permission.INTERNET"/>
+
+
+No Network Security Config specified, using platform default
+Use 10.0.2.2 to access your actual machine.
+https://stackoverflow.com/questions/5528850/how-do-you-connect-localhost-in-the-android-emulator
+//    private String basePath = "https://tutorial-rails-rest-api.herokuapp.com";
+//    private String basePath = "http://localhost:3000";
+    private String basePath = "http://10.0.2.2:3000";     
+    
+swagger-annotations Unable to pre-dex
+https://stackoverflow.com/questions/43997544/execution-failed-for-task-java-lang-runtimeexceptionunable-to-pre-dex
+```groovy
+dexOptions {
+    javaMaxHeapSize "2g" // set it to 4g will bring unable to start JavaVirtualMachine
+    preDexLibraries = false
+  }
+```
     
 ### Log For ELK stack (Elastic Search, Logstash, Kibana)
 

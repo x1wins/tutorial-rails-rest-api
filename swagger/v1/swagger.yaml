@@ -16,21 +16,12 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            email:
-              type: string
-              required: true
-              description: Email for Login
-              example: hello@changwoo.org
-            password:
-              type: string
-              required: true
-              description: Password for Login
-              example: hello1234
+          "$ref": "#/definitions/auth_param"
       responses:
         '200':
           description: Ok
+          schema:
+            "$ref": "#/definitions/auth"
         '401':
           description: Unauthorized
   "/api/v1/categories":
@@ -69,6 +60,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/categories"
         '401':
           description: Unauthorized
     post:
@@ -88,20 +81,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            category:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
+          "$ref": "#/definitions/category_param"
       produces:
       - application/json
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '401':
           description: Unauthorized
         '403':
@@ -140,6 +127,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '401':
           description: Unauthorized
         '404':
@@ -166,18 +155,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            category:
-              type: object
-              properties:
-                body:
-                  type: string
+          "$ref": "#/definitions/category_param"
       produces:
       - application/json
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/category"
         '403':
           description: Forbidden Unathorized
     delete:
@@ -238,6 +223,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comments"
         '401':
           description: Unauthorized
         '404':
@@ -259,20 +246,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            comment:
-              type: object
-              properties:
-                body:
-                  type: string
-                post_id:
-                  type: string
+          "$ref": "#/definitions/comment_param"
       produces:
       - application/json
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '401':
           description: Unauthorized
         '422':
@@ -301,6 +282,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '401':
           description: Unauthorized
         '404':
@@ -327,18 +310,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            comment:
-              type: object
-              properties:
-                body:
-                  type: string
+          "$ref": "#/definitions/comment_param"
       produces:
       - application/json
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/comment"
         '403':
           description: Forbidden Unathorized
     delete:
@@ -411,6 +390,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/posts"
         '401':
           description: Unauthorized
         '404':
@@ -432,22 +413,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
-                category_id:
-                  type: integer
+          "$ref": "#/definitions/post_param"
       produces:
       - application/json
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '404':
@@ -486,6 +459,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '404':
@@ -512,20 +487,14 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            post:
-              type: object
-              properties:
-                title:
-                  type: string
-                body:
-                  type: string
+          "$ref": "#/definitions/post_param"
       produces:
       - application/json
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
         '401':
           description: Unauthorized
         '403':
@@ -593,6 +562,8 @@ paths:
       responses:
         '201':
           description: Successful
+          schema:
+            "$ref": "#/definitions/posts"
   "/api/v1/posts/{id}/":
     put:
       summary: update multipart form
@@ -626,6 +597,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/post"
   "/api/v1/posts/{id}/attached/{attached_id}":
     delete:
       summary: delete post attached file
@@ -695,21 +668,7 @@ paths:
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            user:
-              type: object
-              properties:
-                name:
-                  type: string
-                username:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-                password_confirmation:
-                  type: string
+          "$ref": "#/definitions/user_param"
       produces:
       - application/json
       responses:
@@ -807,6 +766,8 @@ paths:
       responses:
         '200':
           description: Successful
+          schema:
+            "$ref": "#/definitions/user"
         '401':
           description: Unauthorized
         '403':
@@ -881,9 +842,194 @@ paths:
       responses:
         '201':
           description: User created
+          schema:
+            "$ref": "#/definitions/user"
 securityDefinitions:
   Bearer:
     description: Generate JWT
     type: apiKey
     name: Authorization
     in: header
+definitions:
+  auth_param:
+    type: object
+    properties:
+      email:
+        type: string
+        required: true
+        description: Email for Login
+        example: hello@changwoo.org
+      password:
+        type: string
+        required: true
+        description: Password for Login
+        example: hello1234
+  user_param:
+    type: object
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      password_confirmation:
+        type: string
+  category_param:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+  post_param:
+    type: object
+    properties:
+      title:
+        type: string
+      body:
+        type: string
+      category_id:
+        type: integer
+  comment_param:
+    type: object
+    properties:
+      body:
+        type: string
+      post_id:
+        type: integer
+  auth:
+    type: object
+    properties:
+      token:
+        type: string
+      exp:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+  user:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+      avatar:
+        type: string
+  category:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      body:
+        type: string
+      posts:
+        type: array
+        items:
+          "$ref": "#/definitions/post"
+      posts_pagination:
+        "$ref": "#/definitions/pagination"
+  post:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      body:
+        type: string
+      user:
+        "$ref": "#/definitions/user"
+      category:
+        "$ref": "#/definitions/category"
+      files:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            url:
+              type: string
+      comments:
+        type: array
+        items:
+          "$ref": "#/definitions/comment"
+      comments_pagination:
+        "$ref": "#/definitions/pagination"
+    required:
+    - id
+    - title
+    - body
+  comment:
+    type: object
+    properties:
+      id:
+        type: integer
+      body:
+        type: string
+      user:
+        "$ref": "#/definitions/user"
+    required:
+    - id
+    - body
+  pagination:
+    type: object
+    x-nullable: true
+    properties:
+      current_page:
+        type: integer
+        x-nullable: true
+      next_page:
+        type: integer
+        x-nullable: true
+      prev_page:
+        type: integer
+        x-nullable: true
+      total_pages:
+        type: integer
+        x-nullable: true
+      total_count:
+        type: integer
+        x-nullable: true
+  categories:
+    type: object
+    properties:
+      categories:
+        type: array
+        items:
+          "$ref": "#/definitions/category"
+      categories_pagination:
+        "$ref": "#/definitions/pagination"
+  posts:
+    type: object
+    properties:
+      posts:
+        type: array
+        items:
+          "$ref": "#/definitions/post"
+      posts_pagination:
+        "$ref": "#/definitions/pagination"
+  comments:
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          "$ref": "#/definitions/comment"
+      comments_pagination:
+        "$ref": "#/definitions/pagination"
+  users:
+    type: array
+    items:
+      "$ref": "#/definitions/user"
