@@ -4,7 +4,7 @@ RSpec.describe 'Users Avatar API', type: :request do
   include ApiHelper
 
   let(:uploadfile_avatar){
-    Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/user.png"))
+    Rack::Test::UploadedFile.new(Rails.root.join("spec/factories/avatar0.png"))
   }
 
   path '/api/v1/users/' do
