@@ -3,7 +3,8 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :username, :email, :avatar
   def avatar
     if object.avatar.attachment
-      rails_blob_url(object.avatar)
+      url = rails_blob_url(object.avatar)
+      url.sub 'localhost', '10.0.2.2'
     else
       "https://www.gravatar.com/avatar/00000000000000000000000000000000"
     end
