@@ -1,8 +1,10 @@
 # tutorial-rails-rest-api
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-* you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
+* (Auto config) you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
 * demo site : https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
+* you must change ```local path``` of **active storage** config to a such like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml) if you use heroku. because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+    * If you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes
 
 How to Run
 ----------
@@ -12,8 +14,8 @@ How to Run
         * [elk.yml config](#elkyml-config)
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
-     * Upoload
-        * default is local
+     * Upoload config
+        * default is local storage
         * how to setup local storage
             ```bash
             mkdir ~/storage
