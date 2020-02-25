@@ -7,11 +7,19 @@
 How to Run
 ----------
 
-1. Prerequisites
+* Prerequisites
     * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
         * [elk.yml config](#elkyml-config)
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
+     * Upoload
+        * default is local
+        * how to setup local storage
+            ```bash
+            mkdir ~/storage
+            ```
+        * Update [storage.yml](/config/storage.yml) if you want change local to S3 or GCS or AzureStorage or cloud storage.
+
 1. Setup
 > You can run with ```docker-compose``` or non docker-compose
     
@@ -258,7 +266,7 @@ class Category < ApplicationRecord
   belongs_to :user
   has_many :posts
   scope :published, -> { where(published: true) }
-  scope :by_date, -> { order('created_at DESC, id DESC') }
+  scope :by_date, -> { order('id DESC') }
   validates :title, presence: true
   validates :body, presence: true
   after_save :clear_cache_categories
@@ -354,7 +362,7 @@ end
           has_one :user
           has_many :comments
           def comments
-            object.comments.where(published: true).order('created_at DESC, id DESC')
+            object.comments.where(published: true).order('id DESC')
           end
         end
     ```
