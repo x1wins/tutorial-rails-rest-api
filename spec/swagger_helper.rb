@@ -74,7 +74,8 @@ RSpec.configure do |config|
                   token: { type: :string },
                   exp: { type: :string },
                   username: { type: :string },
-                  email: { type: :string }
+                  email: { type: :string },
+                  avatar: { type: :string }
               }
           },
           user: {
