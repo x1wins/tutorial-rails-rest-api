@@ -946,6 +946,10 @@ definitions:
     properties:
       id:
         type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       title:
         type: string
       body:
@@ -978,6 +982,10 @@ definitions:
     properties:
       id:
         type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       body:
         type: string
       user:
