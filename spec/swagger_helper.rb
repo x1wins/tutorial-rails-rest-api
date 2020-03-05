@@ -71,6 +71,7 @@ RSpec.configure do |config|
           auth: {
               type: :object,
               properties: {
+                  id: { type: :integer },
                   token: { type: :string },
                   exp: { type: :string },
                   username: { type: :string },

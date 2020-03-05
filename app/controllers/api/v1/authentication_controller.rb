@@ -10,7 +10,7 @@ module Api
           token = JsonWebToken.encode(user_id: @user.id)
           time = Time.now + 24.hours.to_i
           user_serializer =  UserSerializer.new(@user)
-          render json: { token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
+          render json: { id: @user.id, token: token, exp: time.strftime("%m-%d-%Y %H:%M"),
                          username: @user.username, email: @user.email, avatar: user_serializer.avatar}, status: :ok
         else
           render json: { error: 'unauthorized' }, status: :unauthorized
