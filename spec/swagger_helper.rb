@@ -107,6 +107,8 @@ RSpec.configure do |config|
               type: :object,
               properties: {
                   id: { type: :integer },
+                  created_at: { type: :string },
+                  updated_at: { type: :string },
                   title: { type: :string },
                   body: { type: :string },
                   user: { '$ref' => '#/definitions/user' },
@@ -135,6 +137,8 @@ RSpec.configure do |config|
               type: :object,
               properties: {
                   id: { type: :integer },
+                  created_at: { type: :string },
+                  updated_at: { type: :string },
                   body: { type: :string },
                   user: { '$ref' => '#/definitions/user' }
               },

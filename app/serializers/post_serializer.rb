@@ -1,6 +1,6 @@
 class PostSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :id, :title, :body, :category, :files, :created_at, :updated_at, :comments_pagination
+  attributes :id, :created_at, :updated_at, :title, :body, :category, :files, :comments_pagination
   has_one :user
   has_many :comments
   def category
