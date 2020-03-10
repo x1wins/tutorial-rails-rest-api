@@ -71,6 +71,7 @@ RSpec.configure do |config|
           auth: {
               type: :object,
               properties: {
+                  id: { type: :integer },
                   token: { type: :string },
                   exp: { type: :string },
                   username: { type: :string },
@@ -107,6 +108,8 @@ RSpec.configure do |config|
               type: :object,
               properties: {
                   id: { type: :integer },
+                  created_at: { type: :string },
+                  updated_at: { type: :string },
                   title: { type: :string },
                   body: { type: :string },
                   user: { '$ref' => '#/definitions/user' },
@@ -135,6 +138,8 @@ RSpec.configure do |config|
               type: :object,
               properties: {
                   id: { type: :integer },
+                  created_at: { type: :string },
+                  updated_at: { type: :string },
                   body: { type: :string },
                   user: { '$ref' => '#/definitions/user' }
               },

@@ -903,6 +903,8 @@ definitions:
   auth:
     type: object
     properties:
+      id:
+        type: integer
       token:
         type: string
       exp:
@@ -946,6 +948,10 @@ definitions:
     properties:
       id:
         type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       title:
         type: string
       body:
@@ -978,6 +984,10 @@ definitions:
     properties:
       id:
         type: integer
+      created_at:
+        type: string
+      updated_at:
+        type: string
       body:
         type: string
       user:
