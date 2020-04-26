@@ -65,6 +65,36 @@ How to Run
 ```bash
     docker-compose run --no-deps web bundle exec rake routes
 ```
+
+> cloudary config
+>> Gemfile
+```ruby
+gem 'cloudinary', require: false
+gem 'activestorage-cloudinary-service'
+```
+
+```bash
+docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
+```
+
+>> add in storage.yml
+```bash
+cloudinary:
+  service: Cloudinary
+  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+```
+>> add with ```bin/rails credentials:edit```
+```bash
+cloudinary:
+  service: Cloudinary
+  cloud_name: tutorial-post
+  api_key: 325916948955939
+  api_secret: wDODumMwmoYmYc823nWcFWh7Mzo
+```
+
+https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
         
 ### non docker-compose
 > mkdir upload folder
