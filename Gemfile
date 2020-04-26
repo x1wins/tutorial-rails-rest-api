@@ -72,5 +72,5 @@ gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rails'
 gem 'redis-rack-cache'
-gem 'cloudinary', require: false
+gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
