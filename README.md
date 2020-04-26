@@ -67,11 +67,17 @@ How to Run
 ```
 
 > cloudary config
+>> Gemfile
+```ruby
+gem 'cloudinary', require: false
+gem 'activestorage-cloudinary-service'
+```
+
 ```bash
 docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
 ```
 
-add in storage.yml
+>> add in storage.yml
 ```bash
 cloudinary:
   service: Cloudinary
@@ -79,7 +85,7 @@ cloudinary:
   api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
   api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
 ```
-add with ```bin/rails credentials:edit```
+>> add with ```bin/rails credentials:edit```
 ```bash
 cloudinary:
   service: Cloudinary
