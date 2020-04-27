@@ -894,6 +894,15 @@ you wiil make dir /storage with ```mkdir /storage```
 > master.key
 heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
 
+> console with heroku
+heroku run rails console --app tutorial-rails-rest-api
+
+> cloudinary url config in heroku
+heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
+
+> restart
+heroku restart --app tutorial-rails-rest-api
+
 i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
 
