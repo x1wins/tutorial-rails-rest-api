@@ -891,6 +891,9 @@ you wiil make dir /storage with ```mkdir /storage```
     heroku rake db:seed --app tutorial-rails-rest-api
     heroku logs --tail --app tutorial-rails-rest-api
 ```
+> master.key
+heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
+
 i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
 
