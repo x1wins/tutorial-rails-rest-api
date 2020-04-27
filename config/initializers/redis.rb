@@ -1,6 +1,6 @@
 # config/initializers/redis.rb
 redis_url = ENV["REDIS_URL"]
-if
+if redis_url
   uri = URI.parse(redis_url)
   redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password,
                     :connect_timeout => 10,
