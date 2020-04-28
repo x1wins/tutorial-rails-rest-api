@@ -74,7 +74,7 @@ module Api
 
         def post_pagination_params
           @post_page = params[:post_page].presence || 1
-          @post_per = params[:post_per].presence || Pagination.per
+          @post_per = params[:post_per].presence || 0
         end
     end
   end
