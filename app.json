@@ -7,7 +7,6 @@
   "website": "https://www.changwoo.org",
   "addons": [
     "heroku-postgresql",
-    "heroku-redis",
-    "cloudinary"
+    "heroku-redis"
   ]
 }

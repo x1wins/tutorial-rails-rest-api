@@ -69,12 +69,34 @@ How to Run
 > cloudary config
 >> Gemfile
 ```ruby
-gem 'cloudinary', require: false
+gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
 ```
 
 ```bash
 docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
+```
+
+> Changing master.key
+```bash
+$ rm config/master.key config/credentials.yml.enc
+
+# non docker
+$ EDITOR=vim web bin/rails credentials:edit   
+
+# docker-compose
+$ docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
+```
+```bash
+Adding config/master.key to store the encryption key: c7713a458177982b0d951fd50649b674
+
+Save this in a password manager your team can access.
+
+If you lose the key, no one, including you, can access anything encrypted with it.
+
+      create  config/master.key
+
+File encrypted and saved.
 ```
 
 >> add in storage.yml
@@ -885,23 +907,35 @@ you wiil make dir /storage with ```mkdir /storage```
 
 ### Deploy
 #### Heorku
-> https://devcenter.heroku.com/articles/rediscloud
+> migration
 ```bash
     heroku rake db:migrate --app tutorial-rails-rest-api
     heroku rake db:seed --app tutorial-rails-rest-api
+```
+> log
+```bash
     heroku logs --tail --app tutorial-rails-rest-api
 ```
+
 > master.key
-heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
+```bash
+    heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
+```
 
 > console with heroku
-heroku run rails console --app tutorial-rails-rest-api
+```bash
+    heroku run rails console --app tutorial-rails-rest-api
+```
 
 > cloudinary url config in heroku
-heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
+```bash
+    heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
+```
 
 > restart
-heroku restart --app tutorial-rails-rest-api
+```bash
+    heroku restart --app tutorial-rails-rest-api
+```
 
 i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
