@@ -11,6 +11,5 @@ class Post < ApplicationRecord
   scope :by_date, -> { order('id DESC') }
   validates :title, presence: true
   validates :body, presence: true
-  after_save :clear_cache_categories
   after_save :clear_cache_posts
 end
