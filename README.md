@@ -14,11 +14,11 @@ How to Run
         * [elk.yml config](#elkyml-config)
         * [lograge.rb with custom config](#logragerb-with-custom-config)
         * [ELK Setup](/rails_log_with_elk_setup.md)
-     * Upoload config
+    * Upoload config
         * default is local storage
         * how to setup local storage
             ```bash
-            mkdir ~/storage
+                mkdir ~/storage
             ```
         * Update [storage.yml](/config/storage.yml) if you want change local to S3 or GCS or AzureStorage or cloud storage.
 
