@@ -12,7 +12,7 @@ Feature
 * supported docker-compose
 * supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
-* supported [rspec](#testing-with-rspec)
+* supported [rspec](#Testing-with-rspec)
 * used ruby:2.6.0 with [Dockerfile](/Dockerfile)
 * used rails 6
 * used ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
