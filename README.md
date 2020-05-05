@@ -19,7 +19,7 @@ Feature
 * used ```gem 'active_model_serializers'``` for json response
 * used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
 * used ```gem 'kaminari'``` for pagination
-* you must [change **master.key**](#changing-master-key) 
+* you must [change **master.key**](#Changing-master.key) 
 * you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
     * if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
 
