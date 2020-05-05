@@ -210,7 +210,7 @@ Deploy on Production server
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * Heroku
-    0. install CLI https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+    1. install CLI https://devcenter.heroku.com/articles/heroku-cli#download-and-install
         ```bash
             brew tap heroku/brew && brew install heroku
         ```
