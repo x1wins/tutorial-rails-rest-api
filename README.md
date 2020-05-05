@@ -1,160 +1,263 @@
 # tutorial-rails-rest-api
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-* (Auto config) you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
-* demo site : https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
-* you must change ```local path``` of **active storage** config to a such like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml) if you use heroku. because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
-    * If you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes
 
-How to Run
-----------
+Demo site
+---------
+https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 
-* Prerequisites
-    * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
-        * [elk.yml config](#elkyml-config)
-        * [lograge.rb with custom config](#logragerb-with-custom-config)
-        * [ELK Setup](/rails_log_with_elk_setup.md)
-    * Upoload config
-        * default is local storage
-        * how to setup local storage
+Feature
+-------
+* required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
+    * if you use heroku. there will be auto added heroku redis(free) add-on, heroku postgresql(free) add-on
+* supported docker-compose
+* supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
+* supported [rspec](#Testing-with-rspec)
+* used ruby:2.6.0 with [Dockerfile](/Dockerfile)
+* used rails 6
+* used ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
+* used ```gem 'active_model_serializers'``` for json response
+* used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
+* used ```gem 'kaminari'``` for pagination
+* you must [change **master.key**](#Changing-masterkey) 
+* you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
+    * if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+
+
+Prerequisites
+-------------
+* [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+    * [elk.yml config](#elkyml-config)
+    * [lograge.rb with custom config](#logragerb-with-custom-config)
+    * [ELK Setup](/rails_log_with_elk_setup.md)
+* Storage config for Upoload - **default config is cloudinary**
+    * local
+        * Added ```~/storage``` path for saving uploaded file
             ```bash
                 mkdir ~/storage
             ```
         * Update [storage.yml](/config/storage.yml) if you want change local to S3 or GCS or AzureStorage or cloud storage.
-
-1. Setup
-> You can run with ```docker-compose``` or non docker-compose
+    * cloudinary
+        * https://cloudinary.com/documentation/rails_activestorage
+        * https://github.com/0sc/activestorage-cloudinary-service
+        * add api key
+            1. Add gemfile
+                ```bash
+                    gem 'cloudinary'
+                    gem 'activestorage-cloudinary-service'
+                ```
+            1. open ```config/storage.yml```
+                ```yaml
+                    cloudinary:
+                      service: Cloudinary
+                      cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+                      api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+                      api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+                ```
+            1. #### Changing master.key
+                1. Delete old master.key and credentials.yml.enc https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
+                    ```bash
+                        $ rm config/master.key config/credentials.yml.enc
+                    ```
+                2. create new master.key and credentials.yml.enc
+                    * docker-compose
+                        ```bash
+                        $    docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
+                        ```
+                    * Non docker-compose
+                        ```bash
+                            $ EDITOR=vim web bin/rails credentials:edit   
+                        ```
+                    * result
+                        ```bash
+                            Adding config/master.key to store the encryption key: c7713a458177982b0d951fd50649b674
+                            
+                            Save this in a password manager your team can access.
+                            
+                            If you lose the key, no one, including you, can access anything encrypted with it.
+                            
+                                  create  config/master.key
+                            
+                            File encrypted and saved.
+                        ```
+            2. open ```rails credentials:edit``` or ```docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit```
+                * you can join free plan [Cloudinary](https://cloudinary.com) and get PROJECT_NAME, API_KEY, API_SECRET
+                ```yaml
+                    cloudinary:
+                      cloud_name: PROJECT_NAME
+                      api_key: API_KEY
+                      api_secret: API_SECRET
+                ```
+* redis
+    * [docker-compose.yml config](/docker-compose.yml)
+* postgresql
+    * [docker-compose.yml config](/docker-compose.yml)
     
-### docker-compose
-> server run
-````
-    docker-compose up --build -d
-````
-        
-> mkdir upload folder
-```bash
-    mkdir ~/storage
-```
-> db setup
-````bash
-    docker-compose run web bundle exec rake db:test:load && \
-    docker-compose run web bundle exec rake db:migrate && \
-    docker-compose run web bundle exec rake db:seed --trace
-````
-> db reset
-```bash
-    docker-compose run web bundle exec rake db:reset --trace
-    tail -f log/development.log ### if you wanna show sql log
-```
-> Testing
-```bash
-    docker-compose run --no-deps web bundle exec rspec --format documentation
-    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
-    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
-    docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
-```
-> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-```bash
-    docker-compose run --no-deps web bundle exec rake rswag
-```
-> rails console
-```bash
-    docker-compose exec web bin/rails c
-```
-> routes
-```bash
-    docker-compose run --no-deps web bundle exec rake routes
-```
+How to Run **Tutorial rails rest api Project** in your local
+------------------------------------------------------------
+* You can choice for run with ```docker-compose``` or Non docker-compose. I recommend you shold better use docker-compose
+    * download from github
+        ```bash
+            git clone https://github.com/x1wins/tutorial-rails-rest-api.git
+        ```
+    * #### docker-compose
+        1. Build and Run with Background demon
+            ````
+                docker-compose up --build -d
+            ````
+        2. Database Setup
+            ````bash
+                docker-compose run web bundle exec rake db:test:load && \
+                docker-compose run web bundle exec rake db:migrate && \
+                docker-compose run web bundle exec rake db:seed --trace
+            ````
+        3. Another docker-compose Command for ```rails``` and ```rake```
+            * Database Reset
+                ```bash
+                    docker-compose run web bundle exec rake db:reset --trace
+                ```
+            * Log 
+                * Development enviroment
+                    ```bash
+                        tail -f log/development.log # if you wanna show sql log
+                    ```
+                * Production enviroment
+                    ```bash
+                        tail -f log/production.log 
+                    ```
+            * #### Testing with rspec
+                ```bash
+                    docker-compose run --no-deps web bundle exec rspec --format documentation
+                    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+                    docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+                    docker-compose run --no-deps web bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
+                ```
+            * Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+                ```bash
+                    docker-compose run --no-deps web bundle exec rake rswag
+                ```
+            * rails console
+                ```bash
+                    docker-compose exec web bin/rails c
+                ```
+            * routes
+                ```bash
+                    docker-compose run --no-deps web bundle exec rake routes
+                ```
+    * Non docker-compose
+        1. bundle
+           ```bash
+               bundle install
+           ```
+        2. postgresql run
+           ```bash
+               rake docker:pg:init
+               rake docker:pg:run
+           ```
+        3. migrate
+           ```bash
+               rake db:migrate RAILS_ENV=test
+               rake db:migrate
+               rake db:seed
+           ```
+        4. redis run
+           ```bash
+              docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
+              redis-cli -h localhost -p 7001
+           ```
+        5. server run
+           ```bash
+               rails s
+           ```
+        6. Another Command for ```rails``` and ```rake```
+            * Database Reset
+                ```bash
+                    rake db:reset --trace
+                ```
+            * Log 
+                * Development enviroment
+                    ```bash
+                        tail -f log/development.log # if you wanna show sql log
+                    ```
+                * Production enviroment
+                    ```bash
+                        tail -f log/production.log 
+                    ```
+            * Testing
+               ```bash
+                   bundle exec rspec --format documentation
+                   bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
+                   bundle exec rspec --format documentation spec/requests/api/v1/posts_spec.rb
+                   bundle exec rspec --format documentation spec/controllers/api/v1/posts_controller_spec.rb
+               ```
+            * Rswag for documentation ```http://localhost:3000/api-docs/index.html```
+                ```bash
+                   rake rswag 
+                ```
+            * rails console
+                ```bash
+                    rails c
+                ```
+            * routes
+                ```bash
+                    rake routes
+                ```
 
-> cloudary config
->> Gemfile
-```ruby
-gem 'cloudinary'
-gem 'activestorage-cloudinary-service'
-```
 
-```bash
-docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
-```
-
-> Changing master.key
-```bash
-$ rm config/master.key config/credentials.yml.enc
-
-# non docker
-$ EDITOR=vim web bin/rails credentials:edit   
-
-# docker-compose
-$ docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
-```
-```bash
-Adding config/master.key to store the encryption key: c7713a458177982b0d951fd50649b674
-
-Save this in a password manager your team can access.
-
-If you lose the key, no one, including you, can access anything encrypted with it.
-
-      create  config/master.key
-
-File encrypted and saved.
-```
-
->> add in storage.yml
-```bash
-cloudinary:
-  service: Cloudinary
-  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
-  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
-  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
-```
->> add with ```bin/rails credentials:edit```
-```bash
-cloudinary:
-  service: Cloudinary
-  cloud_name: tutorial-post
-  api_key: 325916948955939
-  api_secret: wDODumMwmoYmYc823nWcFWh7Mzo
-```
-
-https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
-        
-### non docker-compose
-> mkdir upload folder
-```bash
-    mkdir ~/storage
-```
-> bundle
-```bash
-    bundle install
-```
-> postgresql run
-```bash
-    rake docker:pg:init
-    rake docker:pg:run
-```
-> migrate
-```bash
-    rake db:migrate RAILS_ENV=test
-    rake db:migrate
-    rake db:seed
-```
-> redis run
-```bash
-   docker run --rm --name my-redis-container -p 6379:6379 -d redis redis-server --appendonly yes
-   redis-cli -h localhost -p 7001
-```
-> server run
-```bash
-    rails s
-```      
-> Testing
-```bash
-    bundle exec rpsec --format documentation
-```
-> Rswag for documentation ```http://localhost:3000/api-docs/index.html```
-```bash
-    rake rswag 
-```
+Deploy on Production server
+---------------------------
+> i did deploy to heroku. let's break it down with swagger UI <br/>
+https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* Heroku
+    1. install CLI https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+        ```bash
+            brew tap heroku/brew && brew install heroku
+        ```
+    1. migration
+        ```bash
+            heroku rake db:migrate --app tutorial-rails-rest-api
+            heroku rake db:seed --app tutorial-rails-rest-api
+        ```
+    2. log
+        ```bash
+            heroku logs --tail --app tutorial-rails-rest-api
+        ```
+    3. master.key
+        ```bash
+            heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
+        ```
+    4. console with heroku
+        ```bash
+            heroku run rails console --app tutorial-rails-rest-api
+        ```
+    5. cloudinary url config in heroku
+        ```bash
+            heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
+        ```
+    6. restart
+        ```bash
+            heroku restart --app tutorial-rails-rest-api
+        ```
+* Docker compose in your server
+    1. ssh
+        ```bash
+            ssh -i ~/your.pem ec2-user@ec2-your-code.compute.amazonaws.com
+        ```
+    1. install git, docker with yum on aws ec2 instance https://www.changwoo.org/x1wins@changwoo.net/2019-09-19/aws-setting-with-docker-git-cfac5c7d1b 
+        ```bash
+            sudo yum update -y
+            sudo yum install docker
+            sudo service docker start
+            sudo usermod -a -G docker ec2-user
+            sudo yum install git
+        ```
+    2. git clone
+        ```bash
+            git clone https://github.com/x1wins/tutorial-rails-rest-api.git
+            cd tutorial-rails-rest-api/
+        ```
+    3. [docker-compose](#docker-compose)
 
 TODO
 ----
@@ -200,8 +303,8 @@ TODO
     - [ ] staging
     - [ ] production
     
-How what to do
---------------
+Tutorial Index - Rails rest api for post
+----------------------------------------
 * [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
 * [Nested Model](#nested-model)
 * [add published](#add-published)
@@ -224,7 +327,7 @@ How what to do
 * [Active Storage](#active-storage)
     * [Setup](#setup)    
 * [Deploy](#deploy)
-    * [Heorku](#herolku)
+    * [heroku](#heroku)
     * [Docker compose](#docker-compose)
 
 ### Build Json with active_model_serializers Gem
@@ -905,48 +1008,3 @@ you wiil make dir /storage with ```mkdir /storage```
     end
 ```
 
-### Deploy
-#### Heorku
-> migration
-```bash
-    heroku rake db:migrate --app tutorial-rails-rest-api
-    heroku rake db:seed --app tutorial-rails-rest-api
-```
-> log
-```bash
-    heroku logs --tail --app tutorial-rails-rest-api
-```
-
-> master.key
-```bash
-    heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
-```
-
-> console with heroku
-```bash
-    heroku run rails console --app tutorial-rails-rest-api
-```
-
-> cloudinary url config in heroku
-```bash
-    heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
-```
-
-> restart
-```bash
-    heroku restart --app tutorial-rails-rest-api
-```
-
-i did deploy to heroku. let's break it down with swagger UI <br/>
-https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-* you must add redis cloud add-on <br/>
-
-#### Docker compose
-Step 1 - git clone
-```bash
-    git cloone https://github.com/x1wins/tutorial-rails-rest-api.git
-```
-Step 2 - docker-compose up <br>
-[Docker-compose](docker-compose)
