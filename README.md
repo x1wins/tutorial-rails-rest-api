@@ -8,7 +8,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 Feature
 -------
 * required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
-    * if you use heroku. there will be auto added heorku redis(free) add-on, heorku postgresql(free) add-on
+    * if you use heroku. there will be auto added heroku redis(free) add-on, heroku postgresql(free) add-on
 * supported docker-compose
 * supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
@@ -327,7 +327,7 @@ Tutorial Index - Rails rest api for post
 * [Active Storage](#active-storage)
     * [Setup](#setup)    
 * [Deploy](#deploy)
-    * [Heorku](#herolku)
+    * [heroku](#heroku)
     * [Docker compose](#docker-compose)
 
 ### Build Json with active_model_serializers Gem
