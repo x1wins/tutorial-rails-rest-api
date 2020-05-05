@@ -1,46 +1,57 @@
-# tutorial-rails-rest-api
+# Tutorial rails rest api
 
+we always need rest api server with json response for client.
+I try developing best practice **Restful Api** with rails or another framework.
+this tutorial use **Ruby on Rails**.
+I hope no one more suffer from many developing method such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc
 
-Demo site
----------
+* [Demo](#Demo)
+* [Feature](#Feature)
+* [Prerequisites](#Prerequisites)
+* [How to Install and Run **Tutorial rails rest api Project** in your local](#How-to-Install-and-Run-Tutorial-rails-rest-api-Project-in-your-local)
+* [Deploy on Production server](#Deploy-on-Production-server)
+* [TODO](TODO)
+* [Tutorial Index - Rails rest api for post](#Tutorial-Index-Rails-rest-api-for-post)
+
+## Demo
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 
-Feature
--------
-* required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
-    * if you use heroku. there will be auto added heroku redis(free) add-on, heroku postgresql(free) add-on
-* supported docker-compose
-* supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+## Feature
+* supported Unit Testing with [Rspec](#Testing-with-rspec)
+* supported Document with Rswag ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
+* supported Docker-compose
+* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) if you use heroku. there will be auto added heroku redis(free) add-on, heroku postgresql(free) add-on
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
-* supported [rspec](#Testing-with-rspec)
-* used ruby:2.6.0 with [Dockerfile](/Dockerfile)
-* used rails 6
-* used ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
+* used Ruby:2.6.0 with [Dockerfile](/Dockerfile)
+* used Rails 6
+* used Active Storage for Upload file with Cloudiry free plan [(**Required config key**)](/Cloudinary)
 * used ```gem 'active_model_serializers'``` for json response
 * used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
 * used ```gem 'kaminari'``` for pagination
-* you must [change **master.key**](#Changing-masterkey) 
-* you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
-    * if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+* used [postgresql](/docker-compose.yml) with Active record
+* used [redis](/docker-compose.yml) for cache
 
-
-Prerequisites
--------------
+## Prerequisites
 * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
     * [elk.yml config](#elkyml-config)
     * [lograge.rb with custom config](#logragerb-with-custom-config)
     * [ELK Setup](/rails_log_with_elk_setup.md)
-* Storage config for Upoload - **default config is cloudinary**
-    * local
-        * Added ```~/storage``` path for saving uploaded file
+* Storage config for Upoload **you have to config of storage**
+    > Default storage config is Cloudinary. but i did not push master.key
+    **you have to generate [change **master.key**](#Changing-masterkey)** and add your storage config
+    you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
+    >> if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+    * Local
+        * Add ```~/storage``` path for saving uploaded file
             ```bash
                 mkdir ~/storage
             ```
-        * Update [storage.yml](/config/storage.yml) if you want change local to S3 or GCS or AzureStorage or cloud storage.
-    * cloudinary
+        * Update ```config.active_storage.service = :local``` in [development.rb](/config/environments/development.rb), [production.rb](/config/environments/production.rb)
+        * Added local config in [storage.yml](/config/storage.yml)
+    * #### Cloudinary
         * https://cloudinary.com/documentation/rails_activestorage
         * https://github.com/0sc/activestorage-cloudinary-service
-        * add api key
+        * Added api key 
             1. Add gemfile
                 ```bash
                     gem 'cloudinary'
@@ -62,7 +73,7 @@ Prerequisites
                 2. create new master.key and credentials.yml.enc
                     * docker-compose
                         ```bash
-                        $    docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
+                            $ docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
                         ```
                     * Non docker-compose
                         ```bash
@@ -88,19 +99,21 @@ Prerequisites
                       api_key: API_KEY
                       api_secret: API_SECRET
                 ```
-* redis
+* Redis
     * [docker-compose.yml config](/docker-compose.yml)
-* postgresql
+    * [redis.rb](/config/initializers/redis.rb)
+    * [redis.yml](/config/redis.yml)
+* Postgresql
     * [docker-compose.yml config](/docker-compose.yml)
+    * [database.yml](/config/database.yml)
     
-How to Run **Tutorial rails rest api Project** in your local
-------------------------------------------------------------
-* You can choice for run with ```docker-compose``` or Non docker-compose. I recommend you shold better use docker-compose
+## How to Install and Run Tutorial rails rest api Project in your local
+* You can choice for run with ```docker-compose``` or ```Non docker-compose```. You shold better use ```docker-compose```
     * download from github
         ```bash
             git clone https://github.com/x1wins/tutorial-rails-rest-api.git
         ```
-    * #### docker-compose
+    * ### docker-compose
         1. Build and Run with Background demon
             ````
                 docker-compose up --build -d
@@ -144,7 +157,7 @@ How to Run **Tutorial rails rest api Project** in your local
                 ```bash
                     docker-compose run --no-deps web bundle exec rake routes
                 ```
-    * Non docker-compose
+    * ### Non docker-compose
         1. bundle
            ```bash
                bundle install
