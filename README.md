@@ -19,7 +19,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * supported Unit Testing with [Rspec](#Testing-with-rspec)
 * supported Document with Rswag ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
 * supported Docker-compose
-* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) if you use heroku. there will be auto added ```heroku redis free plan add-on```, ```heroku postgresql free plan add-on```
+* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
 * used Ruby:2.6.0 with [Dockerfile](/Dockerfile)
 * used Rails 6
@@ -31,10 +31,6 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * used [redis](/docker-compose.yml) for cache
 
 ## Prerequisites
-* [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
-    * [elk.yml config](#elkyml-config)
-    * [lograge.rb with custom config](#logragerb-with-custom-config)
-    * [ELK Setup](/rails_log_with_elk_setup.md)
 * Storage config for Upoload **you have to config of storage**
     > Default storage config is Cloudinary. but i did not push master.key
     **you have to generate [change **master.key**](#Changing-masterkey)** and add your storage config
@@ -220,6 +216,7 @@ Deploy on Production server
 ---------------------------
 > i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
+there will be auto added ```Heroku Redis free plan add-on```, ```Heroku Postgresql free plan add-on```, ```Cloudinary free plan add-on```
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * Heroku
     1. install CLI https://devcenter.heroku.com/articles/heroku-cli#download-and-install
