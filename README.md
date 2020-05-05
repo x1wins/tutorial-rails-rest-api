@@ -4,6 +4,7 @@ We always need rest api server with json response for client.<br/>
 I try developing best practice **Restful Api** with rails or another framework. This tutorial use **Ruby on Rails** [Api-only Applications](https://guides.rubyonrails.org/api_app.html).<br/>
 I hope no one more suffer from many developing methods such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
 
+# Index
 * [Demo](#Demo)
 * [Feature](#Feature)
 * [Prerequisites](#Prerequisites)
@@ -19,7 +20,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * supported Unit Testing with [Rspec](#Testing-with-rspec)
 * supported Document with Rswag ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
 * supported Docker-compose
-* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+* supported [Heroku](#Deploy-on-Production-server) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
 * used Ruby:2.6.0 with [Dockerfile](/Dockerfile)
 * used Rails 6
@@ -31,76 +32,43 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * used [redis](/docker-compose.yml) for cache
 
 ## Prerequisites
-* Storage config for Upoload **you have to config of storage**
-    > Default storage config is Cloudinary. but i did not push master.key
-    **you have to generate [change **master.key**](#Changing-masterkey)** and add your storage config
-    you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
-    >> if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
-    * Local
-        * Add ```~/storage``` path for saving uploaded file
+> Default storage config is Cloudinary. but i did not push master.key<br/>
+**you have to generate [**master.key**](#Changing-masterkey)** and add your storage config
+1. #### Changing master.key
+    1. Delete old master.key and credentials.yml.enc https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
+        ```bash
+            $ rm config/master.key config/credentials.yml.enc
+        ```
+    2. create new master.key and credentials.yml.enc
+        * docker-compose
             ```bash
-                mkdir ~/storage
+                $ docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
             ```
-        * Update ```config.active_storage.service = :local``` in [development.rb](/config/environments/development.rb), [production.rb](/config/environments/production.rb)
-        * Added local config in [storage.yml](/config/storage.yml)
-    * #### Cloudinary
-        * https://cloudinary.com/documentation/rails_activestorage
-        * https://github.com/0sc/activestorage-cloudinary-service
-        * Added api key 
-            1. Add gemfile
-                ```bash
-                    gem 'cloudinary'
-                    gem 'activestorage-cloudinary-service'
-                ```
-            1. open ```config/storage.yml```
-                ```yaml
-                    cloudinary:
-                      service: Cloudinary
-                      cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
-                      api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
-                      api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
-                ```
-            1. #### Changing master.key
-                1. Delete old master.key and credentials.yml.enc https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
-                    ```bash
-                        $ rm config/master.key config/credentials.yml.enc
-                    ```
-                2. create new master.key and credentials.yml.enc
-                    * docker-compose
-                        ```bash
-                            $ docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit
-                        ```
-                    * Non docker-compose
-                        ```bash
-                            $ EDITOR=vim web bin/rails credentials:edit   
-                        ```
-                    * result
-                        ```bash
-                            Adding config/master.key to store the encryption key: c7713a458177982b0d951fd50649b674
-                            
-                            Save this in a password manager your team can access.
-                            
-                            If you lose the key, no one, including you, can access anything encrypted with it.
-                            
-                                  create  config/master.key
-                            
-                            File encrypted and saved.
-                        ```
-            2. open ```rails credentials:edit``` or ```docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit```
-                * you can join free plan [Cloudinary](https://cloudinary.com) and get PROJECT_NAME, API_KEY, API_SECRET
-                ```yaml
-                    cloudinary:
-                      cloud_name: PROJECT_NAME
-                      api_key: API_KEY
-                      api_secret: API_SECRET
-                ```
-* Redis
-    * [docker-compose.yml config](/docker-compose.yml)
-    * [redis.rb](/config/initializers/redis.rb)
-    * [redis.yml](/config/redis.yml)
-* Postgresql
-    * [docker-compose.yml config](/docker-compose.yml)
-    * [database.yml](/config/database.yml)
+        * Non docker-compose
+            ```bash
+                $ EDITOR=vim web bin/rails credentials:edit   
+            ```
+        * result
+            ```bash
+                Adding config/master.key to store the encryption key: c7713a458177982b0d951fd50649b674
+                
+                Save this in a password manager your team can access.
+                
+                If you lose the key, no one, including you, can access anything encrypted with it.
+                
+                      create  config/master.key
+                
+                File encrypted and saved.
+            ```
+2. #### Clodinary config
+    > open ```EDITOR=vim rails credentials:edit``` or ```docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit```
+    * you can join free plan [Cloudinary](https://cloudinary.com) and get PROJECT_NAME, API_KEY, API_SECRET
+    ```yaml
+        cloudinary:
+          cloud_name: PROJECT_NAME
+          api_key: API_KEY
+          api_secret: API_SECRET
+    ```
     
 ## How to Install and Run Tutorial rails rest api Project in your local
 * You can choice for run with ```docker-compose``` or ```Non docker-compose```. You shold better use ```docker-compose```
@@ -212,8 +180,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
                 ```
 
 
-Deploy on Production server
----------------------------
+# Deploy on Production server
 > i did deploy to heroku. let's break it down with swagger UI <br/>
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
 there will be auto added ```Heroku Redis free plan add-on```, ```Heroku Postgresql free plan add-on```, ```Cloudinary free plan add-on```
@@ -321,6 +288,7 @@ TODO
     
 Tutorial Index - Rails rest api for post
 ----------------------------------------
+* [Storage config for Upoload](#Storage-config-for-Upoload)
 * [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
 * [Nested Model](#nested-model)
 * [add published](#add-published)
@@ -341,7 +309,46 @@ Tutorial Index - Rails rest api for post
     * [config](#config)
     * [how to added cache](#how-to-added-cache)    
 * [Active Storage](#active-storage)
-    * [Setup](#setup)    
+    * [Setup](#setup)  
+* Redis
+    * [docker-compose.yml config](/docker-compose.yml)
+    * [redis.rb](/config/initializers/redis.rb)
+    * [redis.yml](/config/redis.yml)
+* Postgresql
+    * [docker-compose.yml config](/docker-compose.yml)
+    * [database.yml](/config/database.yml)      
+    
+    
+
+### Storage config for Upoload
+> you can change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
+>> if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+* Local
+    * Add ```~/storage``` path for saving uploaded file
+        ```bash
+            mkdir ~/storage
+        ```
+    * Update ```config.active_storage.service = :local``` in [development.rb](/config/environments/development.rb), [production.rb](/config/environments/production.rb)
+    * Added local config in [storage.yml](/config/storage.yml)
+* #### Cloudinary
+    * https://cloudinary.com/documentation/rails_activestorage
+    * https://github.com/0sc/activestorage-cloudinary-service
+    * Added api key 
+        1. Add gemfile
+            ```bash
+                gem 'cloudinary'
+                gem 'activestorage-cloudinary-service'
+            ```
+        2. open ```config/storage.yml```
+            ```yaml
+                cloudinary:
+                  service: Cloudinary
+                  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+                  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+                  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+            ```
+        3. [Changing **master.key**](#Changing-masterkey)    
+        4. [Clodinary config](#Clodinary-config)    
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
