@@ -1,17 +1,17 @@
 # Tutorial rails rest api
 
-we always need rest api server with json response for client.
-I try developing best practice **Restful Api** with rails or another framework.
-this tutorial use **Ruby on Rails**.
-I hope no one more suffer from many developing method such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc
+we always need rest api server with json response for client.<br/>
+I try developing best practice **Restful Api** with rails or another framework.<br/>
+this tutorial use **Ruby on Rails**.<br/>
+I hope no one more suffer from many developing method such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
 
 * [Demo](#Demo)
 * [Feature](#Feature)
 * [Prerequisites](#Prerequisites)
 * [How to Install and Run **Tutorial rails rest api Project** in your local](#How-to-Install-and-Run-Tutorial-rails-rest-api-Project-in-your-local)
 * [Deploy on Production server](#Deploy-on-Production-server)
-* [TODO](TODO)
-* [Tutorial Index - Rails rest api for post](#Tutorial-Index-Rails-rest-api-for-post)
+* [TODO](#TODO)
+* [Tutorial Index - Rails rest api for post](#Tutorial-index---rails-rest-api-for-post)
 
 ## Demo
 https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
@@ -20,7 +20,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * supported Unit Testing with [Rspec](#Testing-with-rspec)
 * supported Document with Rswag ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
 * supported Docker-compose
-* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) if you use heroku. there will be auto added heroku redis(free) add-on, heroku postgresql(free) add-on
+* supported Heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) if you use heroku. there will be auto added ```heroku redis free plan add-on```, ```heroku postgresql free plan add-on```
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
 * used Ruby:2.6.0 with [Dockerfile](/Dockerfile)
 * used Rails 6
