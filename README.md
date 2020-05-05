@@ -38,7 +38,6 @@ Prerequisites
             ```
         * Update [storage.yml](/config/storage.yml) if you want change local to S3 or GCS or AzureStorage or cloud storage.
     * cloudinary
-        * vim config/master.key
         * https://cloudinary.com/documentation/rails_activestorage
         * https://github.com/0sc/activestorage-cloudinary-service
         * add api key
@@ -82,6 +81,7 @@ Prerequisites
                             File encrypted and saved.
                         ```
             2. open ```rails credentials:edit``` or ```docker-compose run --rm -e EDITOR=vim web bin/rails credentials:edit```
+                * you can join free plan [Cloudinary](https://cloudinary.com) and get PROJECT_NAME, API_KEY, API_SECRET
                 ```yaml
                     cloudinary:
                       cloud_name: PROJECT_NAME
