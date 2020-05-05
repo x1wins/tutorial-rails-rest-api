@@ -339,9 +339,6 @@ Tutorial Index - Rails rest api for post
     * [how to added cache](#how-to-added-cache)    
 * [Active Storage](#active-storage)
     * [Setup](#setup)    
-* [Deploy](#deploy)
-    * [heroku](#heroku)
-    * [Docker compose](#docker-compose)
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
