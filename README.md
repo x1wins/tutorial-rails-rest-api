@@ -8,7 +8,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 Feature
 -------
 * required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
-    * if you use heroku. there will be auto added redis cloud(free) add-on, heorku postgresql(free) add-on
+    * if you use heroku. there will be auto added heorku redis(free) add-on, heorku postgresql(free) add-on
 * supported docker-compose
 * supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
@@ -19,7 +19,7 @@ Feature
 * used ```gem 'active_model_serializers'``` for json response
 * used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
 * used ```gem 'kaminari'``` for pagination
-* you must change **master.key** 
+* you must [change **master.key**](#changing-master-key) 
 * you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
     * if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
 
@@ -55,7 +55,7 @@ Prerequisites
                       api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
                       api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
                 ```
-            1. Changing master.key
+            1. #### Changing master.key
                 1. Delete old master.key and credentials.yml.enc https://www.chrisblunt.com/rails-on-docker-rails-encrypted-secrets-with-docker/
                     ```bash
                         $ rm config/master.key config/credentials.yml.enc
@@ -125,7 +125,7 @@ How to Run **Tutorial rails rest api Project** in your local
                     ```bash
                         tail -f log/production.log 
                     ```
-            * ##### Testing with rspec
+            * #### Testing with rspec
                 ```bash
                     docker-compose run --no-deps web bundle exec rspec --format documentation
                     docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
