@@ -1,8 +1,8 @@
 # Tutorial rails rest api
 
-we always need rest api server with json response for client.<br/>
+We always need rest api server with json response for client.<br/>
 I try developing best practice **Restful Api** with rails or another framework.<br/>
-this tutorial use **Ruby on Rails**.<br/>
+This tutorial use **Ruby on Rails** [Api-only Applications](https://guides.rubyonrails.org/api_app.html).<br/>
 I hope no one more suffer from many developing method such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
 
 * [Demo](#Demo)
