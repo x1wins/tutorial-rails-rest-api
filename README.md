@@ -1,10 +1,28 @@
 # tutorial-rails-rest-api
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-* (Auto config) you must add redis cloud(free) add-on, heorku postgresql(free) add-on <br/>
-* demo site : https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
-* you must change ```local path``` of **active storage** config to a such like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml) if you use heroku. because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
-    * If you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes
+
+Demo site
+---------
+https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
+
+Feature
+-------
+* required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
+    * if you use heroku. click [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) there will be auto added redis cloud(free) add-on, heorku postgresql(free) add-on
+* supported docker-compose
+* supported heroku 
+* supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
+* supported [rspec](#testing-with-rspec)
+* used ruby:2.6.0 with [Dockerfile](/Dockerfile)
+* used rails 6
+* used ```gem 'rswag-api'``` ```gem 'rswag-ui'``` ```gem 'rswag-specs'```https://github.com/rswag/rswag
+* used ```gem 'active_model_serializers'``` for json response
+* used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
+* used ```gem 'kaminari'``` for pagination
+* you must change **master.key** 
+* you must change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
+    * if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
+
 
 Prerequisites
 -------------
@@ -107,7 +125,7 @@ How to Run **Tutorial rails rest api Project** in your local
                     ```bash
                         tail -f log/production.log 
                     ```
-            * Testing
+            * ##### Testing with rspec
                 ```bash
                     docker-compose run --no-deps web bundle exec rspec --format documentation
                     docker-compose run --no-deps web bundle exec rspec --format documentation spec/requests/api/v1/upload_spec.rb
