@@ -1,9 +1,8 @@
 # Tutorial rails rest api
 
 We always need rest api server with json response for client.<br/>
-I try developing best practice **Restful Api** with rails or another framework.<br/>
-This tutorial use **Ruby on Rails** [Api-only Applications](https://guides.rubyonrails.org/api_app.html).<br/>
-I hope no one more suffer from many developing method such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
+I try developing best practice **Restful Api** with rails or another framework. This tutorial use **Ruby on Rails** [Api-only Applications](https://guides.rubyonrails.org/api_app.html).<br/>
+I hope no one more suffer from many developing methods such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
 
 * [Demo](#Demo)
 * [Feature](#Feature)
@@ -24,7 +23,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
 * used Ruby:2.6.0 with [Dockerfile](/Dockerfile)
 * used Rails 6
-* used Active Storage for Upload file with Cloudiry free plan [(**Required config key**)](/Cloudinary)
+* used Active Storage for Upload file with Cloudiry free plan [(**Required config key**)](#Cloudinary)
 * used ```gem 'active_model_serializers'``` for json response
 * used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
 * used ```gem 'kaminari'``` for pagination
