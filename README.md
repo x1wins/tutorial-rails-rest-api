@@ -26,7 +26,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * used Rails 6
 * used Active Storage for Upload file with Cloudiry free plan [(**Required config key**)](#Cloudinary)
 * used ```gem 'active_model_serializers'``` for json response
-* used ```gem 'jwt-rails', '~> 0.0.1'``` for token based authentication
+* used ```gem 'jwt-rails', '~> 0.0.1'``` for token based [Authentication](#Authentication), [Authorize](#Authorize)
 * used ```gem 'kaminari'``` for pagination
 * used [postgresql](/docker-compose.yml) with Active record
 * used [redis](/docker-compose.yml) for cache
@@ -289,6 +289,8 @@ TODO
 Tutorial Index - Rails rest api for post
 ----------------------------------------
 * [Storage config for Upoload](#Storage-config-for-Upoload)
+* [Authentication](#Authentication)
+* [Authorize](#Authorize)
 * [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
 * [Nested Model](#nested-model)
 * [add published](#add-published)
@@ -318,8 +320,6 @@ Tutorial Index - Rails rest api for post
     * [docker-compose.yml config](/docker-compose.yml)
     * [database.yml](/config/database.yml)      
     
-    
-
 ### Storage config for Upoload
 > you can change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
 >> if you use heroku and you upload file on local path of Ephemeral Disk. Uploaded file will be gone in a few minutes because heroku hard drive is [Ephemeral Disk](https://devcenter.heroku.com/articles/active-storage-on-heroku#ephemeral-disk)
@@ -349,6 +349,58 @@ Tutorial Index - Rails rest api for post
             ```
         3. [Changing **master.key**](#Changing-masterkey)    
         4. [Clodinary config](#Clodinary-config)    
+
+
+### Authentication
+```ruby
+    class ApplicationController < ActionController::API
+      def authorize_request
+        header = request.headers['Authorization']
+        header = header.split(' ').last if header
+        begin
+          @decoded = JsonWebToken.decode(header)
+          @current_user = User.find(@decoded[:user_id])
+          is_banned @current_user
+        rescue ActiveRecord::RecordNotFound => e
+          render json: { errors: e.message }, status: :unauthorized
+        rescue JWT::DecodeError => e
+          render json: { errors: e.message }, status: :unauthorized
+        end
+      end
+    end
+    
+    # How to Use
+    class PostsController < ApplicationController
+        before_action :authorize_request
+    end
+```
+
+### Authorize
+```ruby
+    class ApplicationController < ActionController::API
+      def is_owner user_id
+        unless user_id == @current_user.id
+          render json: nil, status: :forbidden
+          return
+        end
+      end
+    
+      def is_owner_object data
+        if data.nil? or data.user_id.nil?
+          return render status: :not_found
+        else
+          is_owner data.user_id
+        end
+      end
+    end
+    
+    # How to Use
+    class PostsController < ApplicationController
+        before_action only: [:update, :destroy, :destroy_attached] do
+          is_owner_object @post ##your object
+        end
+    end        
+```   
 
 ### Build Json with active_model_serializers Gem
 1. Gemfile
