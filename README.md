@@ -8,9 +8,9 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 Feature
 -------
 * required postgresql, redis config. [docker-compose.yml](/docker-compose.yml)
-    * if you use heroku. click [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) there will be auto added redis cloud(free) add-on, heorku postgresql(free) add-on
+    * if you use heroku. there will be auto added redis cloud(free) add-on, heorku postgresql(free) add-on
 * supported docker-compose
-* supported heroku 
+* supported heroku [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 * supported [ELK](#log-for-elk-stack-elastic-search-logstash-kibana) for logs with ```gem 'lograge'```
 * supported [rspec](#testing-with-rspec)
 * used ruby:2.6.0 with [Dockerfile](/Dockerfile)
