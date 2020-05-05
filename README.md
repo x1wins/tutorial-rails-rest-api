@@ -137,13 +137,13 @@ How to Run **Tutorial rails rest api Project** in your local
                     docker-compose run --no-deps web bundle exec rake rswag
                 ```
             * rails console
-            ```bash
-                docker-compose exec web bin/rails c
-            ```
+                ```bash
+                    docker-compose exec web bin/rails c
+                ```
             * routes
-            ```bash
-                docker-compose run --no-deps web bundle exec rake routes
-            ```
+                ```bash
+                    docker-compose run --no-deps web bundle exec rake routes
+                ```
     * Non docker-compose
         1. bundle
            ```bash
