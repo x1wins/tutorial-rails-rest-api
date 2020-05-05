@@ -226,31 +226,37 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
         ```bash
             brew tap heroku/brew && brew install heroku
         ```
-    1. migration
+    2. Login heroku
+        > https://dashboard.heroku.com/apps/YOUR_PORJECT_NAME/deploy/heroku-git
         ```bash
-            heroku rake db:migrate --app tutorial-rails-rest-api
-            heroku rake db:seed --app tutorial-rails-rest-api
+            heroku login
+            heroku git:clone -a YOUR_PORJECT_NAME
+            cd YOUR_PORJECT_NAME
         ```
-    2. log
+    3. migration
+        > [/db/seeds/development.rb](/db/seeds/development.rb)
+        > [/db/seeds/production.rb](/db/seeds/production.rb)
         ```bash
-            heroku logs --tail --app tutorial-rails-rest-api
+            heroku rake db:migrate --app YOUR_PORJECT_NAME
+            heroku rake db:seed --app YOUR_PORJECT_NAME
         ```
-    3. master.key
-        ```bash
-            heroku config:set RAILS_MASTER_KEY=asdf1234 --app tutorial-rails-rest-api
-        ```
-    4. console with heroku
-        ```bash
-            heroku run rails console --app tutorial-rails-rest-api
-        ```
-    5. cloudinary url config in heroku
-        ```bash
-            heroku config:add CLOUDINARY_URL=cloudinary://user:password@project --app tutorial-rails-rest-api
-        ```
-    6. restart
-        ```bash
-            heroku restart --app tutorial-rails-rest-api
-        ```
+    4. Another cmd        
+        1. master.key
+            ```bash
+                heroku config:set RAILS_MASTER_KEY=asdf1234 --app YOUR_PORJECT_NAME
+            ```
+        2. restart
+            ```bash
+                heroku restart --app YOUR_PORJECT_NAME
+            ```
+        3. log
+            ```bash
+                heroku logs --tail --app YOUR_PORJECT_NAME
+            ```
+        4. console with heroku
+            ```bash
+                heroku run rails console --app YOUR_PORJECT_NAME
+            ```
 * Docker compose in your server
     1. ssh
         ```bash
@@ -269,7 +275,8 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
             git clone https://github.com/x1wins/tutorial-rails-rest-api.git
             cd tutorial-rails-rest-api/
         ```
-    3. [docker-compose](#docker-compose)
+    3. [change **master.key**](#Changing-masterkey)
+    4. [docker-compose](#docker-compose)
 
 TODO
 ----
