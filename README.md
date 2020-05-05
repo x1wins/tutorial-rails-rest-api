@@ -240,7 +240,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
             heroku restart --app tutorial-rails-rest-api
         ```
 * Docker compose in your server
-    0. ssh
+    1. ssh
         ```bash
             ssh -i ~/your.pem ec2-user@ec2-your-code.compute.amazonaws.com
         ```
@@ -257,7 +257,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html <br/>
             git clone https://github.com/x1wins/tutorial-rails-rest-api.git
             cd tutorial-rails-rest-api/
         ```
-    3. [docker-compose](docker-compose)
+    3. [docker-compose](#docker-compose)
 
 TODO
 ----
