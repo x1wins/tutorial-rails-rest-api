@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
+gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -45,32 +45,32 @@ gem 'docker-postgres-rails', '~> 0.0.1'
 
 gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '>= 0.10.10'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.9', '>= 3.9.0'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 5.1.1'
   gem 'faker'
 end
 
 # https://github.com/rswag/rswag
-gem 'rswag-api'
-gem 'rswag-ui'
+gem 'rswag-api', '>= 2.2.0'
+gem 'rswag-ui', '>= 2.2.0'
 
 group :development, :test do
-  gem 'rswag-specs'
+  gem 'rswag-specs', '>= 2.2.0'
 end
 
-gem 'kaminari'
+gem 'kaminari', '>= 1.1.1'
 
-gem 'lograge'
+gem 'lograge', '>= 0.11.2'
 gem 'logstash-event'
 gem 'logstash-logger'
 
 gem 'redis'
 gem 'redis-namespace'
-gem 'redis-rails'
+gem 'redis-rails', '>= 5.0.2'
 gem 'redis-rack-cache'
 gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
