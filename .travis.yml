@@ -7,14 +7,15 @@ env:
   DOCKER_COMPOSE_VERSION: 1.25.2
 
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+  - sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - docker-compose --version
 
 before_script:
-  - docker-compose up -d --build
+  - docker-compose up --build -d
   - docker-compose run web bundle exec rake db:test:load && docker-compose run web bundle exec rake db:migrate && docker-compose run web bundle exec rake db:seed --trace
+  
 script:
   - docker-compose run --no-deps web bundle exec rspec --format documentation
   - docker-compose run --no-deps web bundle exec rake rswag
