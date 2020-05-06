@@ -8,9 +8,8 @@ before_install:
   - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 before_script:
-  - docker-compose up -d
-  - docker-compose run web bundle exec rake db:test:load && docker-compose run web bundle exec rake db:migrate && docker-compose run web bundle exec rake db:seed --trace
-  
+  - docker-compose run web bundle exec rake db:test:load
+
 script:
   - docker-compose run --no-deps web bundle exec rspec --format documentation
   - docker-compose run --no-deps web bundle exec rake rswag
