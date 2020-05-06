@@ -39,12 +39,11 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
         * [add gem](#add-gem)    
         * [config](#config)
         * [how to added cache](#how-to-added-cache)    
-    * [Active Storage](#active-storage)
-        * [Setup](#setup)  
-    * Redis
         * [docker-compose.yml config](/docker-compose.yml)
         * [redis.rb](/config/initializers/redis.rb)
         * [redis.yml](/config/redis.yml)
+    * [Active Storage](#active-storage)
+        * [Setup](#setup)  
     * Postgresql
         * [docker-compose.yml config](/docker-compose.yml)
         * [database.yml](/config/database.yml)      
