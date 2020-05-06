@@ -6,15 +6,44 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
 
 # Index
 * [Demo](#Demo)
+    * [https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html](https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html)
 * [Feature](#Feature)
 * [Prerequisites](#Prerequisites)
 * [How to Install and Run **Tutorial rails rest api Project** in your local](#How-to-Install-and-Run-Tutorial-rails-rest-api-Project-in-your-local)
 * [Deploy on Production server](#Deploy-on-Production-server)
 * [TODO](#TODO)
 * [Tutorial Index - Rails rest api for post](#Tutorial-index---rails-rest-api-for-post)
-
-## Demo
-https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
+    * [Storage config for Upoload](#Storage-config-for-Upoload)
+    * [Authentication](#Authentication)
+    * [Authorize](#Authorize)
+    * [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
+    * [Nested Model](#nested-model)
+    * [add published](#add-published)
+    * [Category](#category)
+    * [Testing](#testing)
+        * [Facker gem](#facker-gem)
+        * [CURL](#curl)
+        * [Unit Testing with Rspec](/unit_testing_with_rspec.md)
+    * [rswag for API Documentation](#rswag-for-api-documentation)
+    * [Codegen](#codegen)
+    * [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
+        * [elk.yml config](#elkyml-config)
+        * [lograge.rb with custom config](#logragerb-with-custom-config)
+        * [ELK Setup](/rails_log_with_elk_setup.md)
+    * [Redis](#redis)    
+        * [server run](#server-run)    
+        * [add gem](#add-gem)    
+        * [config](#config)
+        * [how to added cache](#how-to-added-cache)    
+    * [Active Storage](#active-storage)
+        * [Setup](#setup)  
+    * Redis
+        * [docker-compose.yml config](/docker-compose.yml)
+        * [redis.rb](/config/initializers/redis.rb)
+        * [redis.yml](/config/redis.yml)
+    * Postgresql
+        * [docker-compose.yml config](/docker-compose.yml)
+        * [database.yml](/config/database.yml)      
 
 ## Feature
 * supported Unit Testing with [Rspec](#Testing-with-rspec)
@@ -286,39 +315,7 @@ TODO
     - [ ] staging
     - [ ] production
     
-Tutorial Index - Rails rest api for post
-----------------------------------------
-* [Storage config for Upoload](#Storage-config-for-Upoload)
-* [Authentication](#Authentication)
-* [Authorize](#Authorize)
-* [Build Json with active_model_serializers Gem](#build-json-with-active_model_serializers-gem) 
-* [Nested Model](#nested-model)
-* [add published](#add-published)
-* [Category](#category)
-* [Testing](#testing)
-    * [Facker gem](#facker-gem)
-    * [CURL](#curl)
-    * [Unit Testing with Rspec](/unit_testing_with_rspec.md)
-* [rswag for API Documentation](#rswag-for-api-documentation)
-* [Codegen](#codegen)
-* [Log For ELK stack (Elastic Search, Logstash, Kibana)](#log-for-elk-stack-elastic-search-logstash-kibana)
-    * [elk.yml config](#elkyml-config)
-    * [lograge.rb with custom config](#logragerb-with-custom-config)
-    * [ELK Setup](/rails_log_with_elk_setup.md)
-* [Redis](#redis)    
-    * [server run](#server-run)    
-    * [add gem](#add-gem)    
-    * [config](#config)
-    * [how to added cache](#how-to-added-cache)    
-* [Active Storage](#active-storage)
-    * [Setup](#setup)  
-* Redis
-    * [docker-compose.yml config](/docker-compose.yml)
-    * [redis.rb](/config/initializers/redis.rb)
-    * [redis.yml](/config/redis.yml)
-* Postgresql
-    * [docker-compose.yml config](/docker-compose.yml)
-    * [database.yml](/config/database.yml)      
+## Tutorial Index - Rails rest api for post
     
 ### Storage config for Upoload
 > you can change **active storage** config to such a like ***cloud storage*** ```S3 or GCS``` in [storage.yml](/config/storage.yml)
