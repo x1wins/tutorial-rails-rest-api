@@ -1,8 +1,9 @@
+[![Heroku](http://heroku-badge.herokuapp.com/?app=tutorial-rails-rest-api&root=api-docs/index.html)](https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html)
 [![Inline docs](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api.svg?branch=master)](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api)
 [![HitCount](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api.svg)](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
 # Tutorial rails rest api
-
 We always need rest api server with json response for client.<br/>
 I try developing best practice **Restful Api** with rails or another framework. This tutorial use **Ruby on Rails** [Api-only Applications](https://guides.rubyonrails.org/api_app.html).<br/>
 I hope no one more suffer from many developing methods such a **Unit testing with Rspec**, **Token base Authenticate and Authorized**, **Api Documentation**, **Storage config for upload**, **Log collecting** .. etc<br/>
