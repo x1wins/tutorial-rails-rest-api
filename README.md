@@ -1,3 +1,6 @@
+[![Inline docs](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api.svg?branch=master)](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api)
+[![HitCount](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api.svg)](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api)
+
 # Tutorial rails rest api
 
 We always need rest api server with json response for client.<br/>
@@ -30,6 +33,7 @@ https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html
 * used ```gem 'kaminari'``` for pagination
 * used [postgresql](/docker-compose.yml) with Active record
 * used [redis](/docker-compose.yml) for cache
+* used https://app.snyk.io/ for security
 
 ## Prerequisites
 > Default storage config is Cloudinary. but i did not push master.key<br/>
