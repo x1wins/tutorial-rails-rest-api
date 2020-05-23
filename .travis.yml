@@ -1,0 +1,27 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker -v
+  - docker-compose -v
+
+install:
+  - docker-compose build
+
+before_script:
+  - docker-compose run --rm --no-deps web echo 'Gems now pre-installed.'
+  - # Use 'run ...` instead of 'exec ...` so that entrypoint's customized bundle install runs completely.
+  - docker-compose up -d
+  - # The detached `up` also runs entrypoint — but because it's detached,
+  - # bundle install doesn't finish before shell moves on to next commands.
+  - docker ps
+  - docker-compose run web bundle exec rake db:test:load
+
+script:
+  - docker-compose run --no-deps web bundle exec rspec --format documentation
+  - docker-compose run --no-deps web bundle exec rake rswag
+
+after_script:
+  - docker-compose down
