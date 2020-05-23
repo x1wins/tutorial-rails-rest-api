@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/x1wins/tutorial-rails-rest-api.svg?branch=master)](https://travis-ci.com/x1wins/tutorial-rails-rest-api)
 [![Heroku](http://heroku-badge.herokuapp.com/?app=tutorial-rails-rest-api&root=api-docs/index.html)](https://tutorial-rails-rest-api.herokuapp.com/api-docs/index.html)
 [![Inline docs](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api.svg?branch=master)](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api)
 [![HitCount](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api.svg)](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api)
