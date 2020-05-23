@@ -1,14 +1,22 @@
-env:
-  - DOCKER_COMPOSE_VERSION=1.25.2
+language: ruby
+
+services:
+  - docker
 
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  - sudo chmod +x /usr/local/bin/docker-compose
-  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - docker -v
+  - docker-compose -v
+
+install:
+  - docker-compose build
 
 before_script:
-  - docker-compose run web bundle exec rake db:test:load
+  - docker-compose run --rm --no-deps web echo 'Gems now pre-installed.'
+  - # Use 'run ...` instead of 'exec ...` so that entrypoint's customized bundle install runs completely.
+  - docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+  - # The detached `up` also runs entrypoint — but because it's detached,
+  - # bundle install doesn't finish before shell moves on to next commands.
+  - docker ps
 
 script:
   - docker-compose run --no-deps web bundle exec rspec --format documentation
