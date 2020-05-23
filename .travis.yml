@@ -13,7 +13,7 @@ install:
 before_script:
   - docker-compose run --rm --no-deps web echo 'Gems now pre-installed.'
   - # Use 'run ...` instead of 'exec ...` so that entrypoint's customized bundle install runs completely.
-  - docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+  - docker-compose up -d
   - # The detached `up` also runs entrypoint — but because it's detached,
   - # bundle install doesn't finish before shell moves on to next commands.
   - docker ps
