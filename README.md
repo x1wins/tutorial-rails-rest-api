@@ -1087,3 +1087,12 @@ you wiil make dir /storage with ```mkdir /storage```
     end
 ```
 
+# apache bench mark 
+https://gist.github.com/kelvinn/6a1c51b8976acf25bd78
+    ```bash
+        ab -c 10 -n 10000 \
+        -T application/json \
+        -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1OTA0MzExOTN9.GtlH3xbINMNSKAU00np5njGtDWEcXXOHZ2zbjKsgr24" \
+        http://localhost:3000/api/v1/posts?category_id=1&page=1    
+    ```
+  
