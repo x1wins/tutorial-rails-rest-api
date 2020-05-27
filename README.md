@@ -130,6 +130,11 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
                 ```bash
                     docker-compose run --no-deps web bundle
                 ```
+            * How to remove <none> images after building
+                https://forums.docker.com/t/how-to-remove-none-images-after-building/7050
+                ```bash
+                    docker rmi $(docker images -f “dangling=true” -q)
+                ```
             * Database Reset
                 ```bash
                     docker-compose run web bundle exec rake db:reset --trace
