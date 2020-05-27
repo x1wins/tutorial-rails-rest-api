@@ -269,7 +269,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers
+  active_model_serializers (>= 0.10.10)
   activestorage-cloudinary-service
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
@@ -277,13 +277,13 @@ DEPENDENCIES
   cloudinary
   database_cleaner
   docker-postgres-rails (~> 0.0.1)
-  factory_bot_rails
+  factory_bot_rails (>= 5.1.1)
   faker
   jwt
   jwt-rails (~> 0.0.1)
   kaminari
   listen (>= 3.0.5, < 3.2)
-  lograge
+  lograge (>= 0.11.2)
   logstash-event
   logstash-logger
   pg (>= 0.18, < 2.0)
@@ -291,12 +291,12 @@ DEPENDENCIES
   rails (~> 6.0.2, >= 6.0.2.1)
   redis
   redis-namespace
-  redis-rack-cache
-  redis-rails
-  rspec-rails (~> 3.5)
-  rswag-api
-  rswag-specs
-  rswag-ui
+  redis-rack-cache (>= 2.2.1)
+  redis-rails (>= 5.0.2)
+  rspec-rails (~> 3.9, >= 3.9.0)
+  rswag-api (>= 2.2.0)
+  rswag-specs (>= 2.2.0)
+  rswag-ui (>= 2.2.0)
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
