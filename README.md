@@ -3,6 +3,9 @@
 [![Inline docs](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api.svg?branch=master)](http://inch-ci.org/github/x1wins/tutorial-rails-rest-api)
 [![HitCount](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api.svg)](http://hits.dwyl.com/x1wins/tutorial-rails-rest-api)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
+[![Known Vulnerabilities](https://snyk.io/test/github/x1wins/tutorial-rails-rest-api/badge.svg)](https://snyk.io/test/github/x1wins/tutorial-rails-rest-api)
+
+
 
 # Tutorial rails rest api
 We always need rest api server with json response for client.<br/>
