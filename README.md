@@ -112,9 +112,9 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
         ```
     * ### docker-compose
         1. Build and Run with Background demon
-            ````
+            ```bash
                 docker-compose up --build -d
-            ````
+            ```
         2. Database Setup
             ````bash
                 docker-compose run web bundle exec rake db:test:load && \
@@ -122,6 +122,11 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
                 docker-compose run web bundle exec rake db:seed --trace
             ````
         3. Another docker-compose Command for ```rails``` and ```rake```
+            * How do I update Gemfile.lock on my Docker host?
+                https://stackoverflow.com/a/37927979/1399891
+                ```bash
+                    docker-compose run --no-deps web bundle
+                ```
             * Database Reset
                 ```bash
                     docker-compose run web bundle exec rake db:reset --trace
