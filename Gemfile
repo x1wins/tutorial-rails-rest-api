@@ -48,18 +48,18 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers', '>= 0.10.10'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.9', '>= 3.9.0'
+  gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.1.1'
+  gem 'factory_bot_rails', '>= 5.2.0'
   gem 'faker'
 end
 
 # https://github.com/rswag/rswag
-gem 'rswag-api', '>= 2.2.0'
-gem 'rswag-ui', '>= 2.2.0'
+gem 'rswag-api', '>= 2.3.1'
+gem 'rswag-ui', '>= 2.3.1'
 
 group :development, :test do
-  gem 'rswag-specs', '>= 2.2.0'
+  gem 'rswag-specs', '>= 2.3.1'
 end
 
 gem 'kaminari', '>= 1.1.1'
