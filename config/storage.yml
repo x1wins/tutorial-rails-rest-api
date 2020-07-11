@@ -12,12 +12,28 @@ local:
 #  cloud_name: <%= ENV['CLOUDINARY_CLOUD_NAME'] %>
 #  api_key:    <%= ENV['CLOUDINARY_API_KEY'] %>
 #  api_secret: <%= ENV['CLOUDINARY_API_SECRET'] %>
+# cloudinary://APIKey:APISecret@Cloudname
+# CLOUDINARY_URL=cloudinary://666943398939854:wxs4tIE31NBD3tznII3bRI306n0@hxckhbuje
+# (\w+)://(\w+):(\w+)@(\w+)
+# (\w+)://(\w+):(\w+)@(\w+)
+# text = 'cloudinary://666943398939854:wxs4tIE31NBD3tznII3bRI306n0@hxckhbuje'
+# text.scan(/(\w+):\/\/(\w+):(\w+)@(\w+)/).each {|match| puts match }
+  #cloudinary
+  #666943398939854
+  #wxs4tIE31NBD3tznII3bRI306n0
+  #hxckhbuje
+  #=> [["cloudinary", "666943398939854", "wxs4tIE31NBD3tznII3bRI306n0", "hxckhbuje"]]
+# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[0]
+# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[2] APIKey
+# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[3] APISecret
+# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[4] Cloudname
+
 
 cloudinary:
   service: Cloudinary
-  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
-  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
-  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+  cloud_name: <%= ENV['CLOUDINARY_URL'].match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[4] || Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+  api_key: <%= ENV['CLOUDINARY_URL'].match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[2] || Rails.application.credentials.dig(:cloudinary, :api_key) %>
+  api_secret: <%= ENV['CLOUDINARY_URL'].match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[3] || Rails.application.credentials.dig(:cloudinary, :api_secret) %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
