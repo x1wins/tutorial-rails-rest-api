@@ -14,19 +14,6 @@ local:
 #  api_secret: <%= ENV['CLOUDINARY_API_SECRET'] %>
 # cloudinary://APIKey:APISecret@Cloudname
 # CLOUDINARY_URL=cloudinary://666943398939854:wxs4tIE31NBD3tznII3bRI306n0@hxckhbuje
-# (\w+)://(\w+):(\w+)@(\w+)
-# (\w+)://(\w+):(\w+)@(\w+)
-# text = 'cloudinary://666943398939854:wxs4tIE31NBD3tznII3bRI306n0@hxckhbuje'
-# text.scan(/(\w+):\/\/(\w+):(\w+)@(\w+)/).each {|match| puts match }
-  #cloudinary
-  #666943398939854
-  #wxs4tIE31NBD3tznII3bRI306n0
-  #hxckhbuje
-  #=> [["cloudinary", "666943398939854", "wxs4tIE31NBD3tznII3bRI306n0", "hxckhbuje"]]
-# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[0]
-# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[2] APIKey
-# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[3] APISecret
-# text.match(/(\w+):\/\/(\w+):(\w+)@(\w+)/)[4] Cloudname
 
 
 cloudinary:
