@@ -25,8 +25,6 @@ services:
       - ~/storage:/storage
     ports:
       - "3000:3000"
-    environment:
-      - CLOUDINARY_URL=cloudinary://666943398939854:wxs4tIE31NBD3tznII3bRI306n0@hxckhbuje
     depends_on:
       - db
       - redis
