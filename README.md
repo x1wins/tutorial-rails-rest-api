@@ -5,6 +5,8 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 [![Known Vulnerabilities](https://snyk.io/test/github/x1wins/tutorial-rails-rest-api/badge.svg)](https://snyk.io/test/github/x1wins/tutorial-rails-rest-api)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 
 
 # Tutorial rails rest api
