@@ -118,6 +118,12 @@ I hope no one more suffer from many developing methods such a **Unit testing wit
             ```bash
                 docker-compose up --build -d
             ```
+           * Update ```Gemfile.lock```
+                > https://stackoverflow.com/a/37927979/1399891
+                ```yaml
+                     docker-compose run --no-deps web bundle
+                     docker-compose up --build -d
+                ``` 
         2. Database Setup
             ````bash
                 docker-compose run web bundle exec rake db:test:load && \
