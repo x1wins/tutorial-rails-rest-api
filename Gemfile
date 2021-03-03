@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -50,7 +50,7 @@ gem 'active_model_serializers', '>= 0.10.10'
 group :development, :test do
   gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.2.0'
+  gem 'factory_bot_rails', '>= 6.1.0'
   gem 'faker'
 end
 
@@ -62,7 +62,7 @@ group :development, :test do
   gem 'rswag-specs', '>= 2.3.1'
 end
 
-gem 'kaminari', '>= 1.1.1'
+gem 'kaminari', '>= 1.2.1'
 
 gem 'lograge', '>= 0.11.2'
 gem 'logstash-event'
