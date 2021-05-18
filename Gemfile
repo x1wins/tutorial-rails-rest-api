@@ -50,7 +50,7 @@ gem 'active_model_serializers', '>= 0.10.10'
 group :development, :test do
   gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.2.0'
+  gem 'factory_bot_rails', '>= 6.1.0'
   gem 'faker'
 end
 
@@ -62,7 +62,7 @@ group :development, :test do
   gem 'rswag-specs', '>= 2.3.1'
 end
 
-gem 'kaminari', '>= 1.1.1'
+gem 'kaminari', '>= 1.2.1'
 
 gem 'lograge', '>= 0.11.2'
 gem 'logstash-event'
