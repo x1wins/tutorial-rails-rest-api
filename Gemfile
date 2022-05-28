@@ -50,7 +50,7 @@ gem 'active_model_serializers', '>= 0.10.10'
 group :development, :test do
   gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.2.0'
+  gem 'factory_bot_rails', '>= 6.1.0'
   gem 'faker'
 end
 
