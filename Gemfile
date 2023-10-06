@@ -45,7 +45,7 @@ gem 'docker-postgres-rails', '~> 0.0.1'
 
 gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
-gem 'active_model_serializers', '>= 0.10.10'
+gem 'active_model_serializers', '>= 0.10.14'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
