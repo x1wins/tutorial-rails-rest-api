@@ -55,11 +55,11 @@ group :development, :test do
 end
 
 # https://github.com/rswag/rswag
-gem 'rswag-api', '>= 2.3.1'
-gem 'rswag-ui', '>= 2.3.1'
+gem 'rswag-api', '>= 2.11.0'
+gem 'rswag-ui', '>= 2.11.0'
 
 group :development, :test do
-  gem 'rswag-specs', '>= 2.3.1'
+  gem 'rswag-specs', '>= 2.11.0'
 end
 
 gem 'kaminari', '>= 1.1.1'
