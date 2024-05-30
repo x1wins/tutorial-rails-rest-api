@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -45,26 +45,26 @@ gem 'docker-postgres-rails', '~> 0.0.1'
 
 gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
-gem 'active_model_serializers', '>= 0.10.10'
+gem 'active_model_serializers', '>= 0.10.11'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
+  gem 'rspec-rails', '~> 4.0', '>= 4.0.0'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.2.0'
+  gem 'factory_bot_rails', '>= 6.2.0'
   gem 'faker'
 end
 
 # https://github.com/rswag/rswag
-gem 'rswag-api', '>= 2.3.1'
-gem 'rswag-ui', '>= 2.3.1'
+gem 'rswag-api', '>= 2.3.2'
+gem 'rswag-ui', '>= 2.3.2'
 
 group :development, :test do
-  gem 'rswag-specs', '>= 2.3.1'
+  gem 'rswag-specs', '>= 2.3.2'
 end
 
-gem 'kaminari', '>= 1.1.1'
+gem 'kaminari', '>= 1.2.2'
 
-gem 'lograge', '>= 0.11.2'
+gem 'lograge', '>= 0.12.0'
 gem 'logstash-event'
 gem 'logstash-logger'
 
